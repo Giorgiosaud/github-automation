@@ -1,9 +1,0 @@
-{
-  "extends":"airbnb/base",
-  "ext":".ts",
-  "rules": {
-    "comma-dangle": ["error", "never"],
-    "semi":["error","never"],
-    "space-before-function-paren": ["error", { "anonymous": "ignore", "named": "always" }]
-    }
-  }

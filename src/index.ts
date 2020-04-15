@@ -1,36 +1,33 @@
 #!/usr/bin/env node
-const clear = require('clear');
-const figlet = require('figlet');
-const prog = require('caporal')
-const packageDetails = require('../package.json')
+import clear from 'clear';
+import figlet from 'figlet';
+import prog from 'caporal';
 import setSecret from'./commands/setSecret'
-import {setSecretOptions,setSecretArguments} from './intefaces/setSecret';
-import { deleteSecretArguments, deleteSecretOptions } from './intefaces/deleteSecret';
 import deleteSecret from './commands/deleteSecret';
 
 prog
-.version(packageDetails.version)
-.description(packageDetails.description)
+.version("1.0.0")
+.description("github automator")
 .command('set-secret', 'Get a Widget from catalog')
-.argument('[repositories...]', 'name of repositories to add secret', prog.Array)
+.argument('[repositories...]', 'name of repositories to add secret', prog.ARRAY)
 .option('--secret-name <secret-name>', 'name of secret', prog.STRING)
 .option('--secret-value <secret-value>', 'value of secret', prog.STRING)
-.action((args:setSecretArguments, options:setSecretOptions):void => {
+.action((args, options) => {
   clear();
   console.log(figlet.textSync('Giorgiosaud', {
-    font: 'contessa',
+    font: '4Max',
     horizontalLayout: 'default',
     verticalLayout: 'default'
   }));
   setSecret(args,options)
 })
 .command('delete-secret', 'Get a Widget from catalog')
-.argument('[repositories...]', 'name of repositories to add secret', prog.Array)
+.argument('[repositories...]', 'name of repositories to add secret', prog.ARRAY)
 .option('--secret-name <secret-name>', 'name of secret', prog.STRING)
-.action((args:deleteSecretArguments, options:deleteSecretOptions):void => {
+.action((args, options) => {
   clear();
   console.log(figlet.textSync('Giorgiosaud', {
-    font: 'larry3d',
+    font: '4Max',
     horizontalLayout: 'default',
     verticalLayout: 'default'
   }));

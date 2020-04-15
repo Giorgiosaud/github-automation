@@ -1,7 +1,7 @@
-export interface setSecretOptions{
-  secretName:string,
-  secretValue:string
+export interface SetSecretOptions{
+  secretName?: string;
+  secretValue?: string;
 }
-export  interface setSecretArguments{
-  repositories:Array<string>,
+export  interface SetSecretArguments{
+  repositories?: Array<string>;
 }

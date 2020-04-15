@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import tweetsodium from 'tweetsodium'
 import fetch from 'node-fetch'
 import getGithubToken from './getGithubToken'
 
-export default async(repo:string,value:string):Promise<{encrypted_value:string,key_id:string}>=>{
+export default async(repository: string,value: string): Promise<{encrypted_value: string;key_id: string}>=>{
   const GITHUB_TOKEN=await getGithubToken();
   const config={
     method:'GET',
@@ -10,7 +11,7 @@ export default async(repo:string,value:string):Promise<{encrypted_value:string,k
       Authorization:`Bearer ${GITHUB_TOKEN}`
     }
   }
-  const url=`https://api.github.com/repos/${repo}/actions/secrets/public-key`
+  const url=`https://api.github.com/repos/${repository}/actions/secrets/public-key`
   const response=await fetch(url,config)
   const {key,key_id}=await response.json()
   const messageBytes = Buffer.from(value);

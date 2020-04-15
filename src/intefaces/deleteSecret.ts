@@ -1,6 +1,6 @@
-export interface deleteSecretOptions{
-  secretName:string,
+export interface DeleteSecretOptions{
+  secretName?: string;
 }
-export  interface deleteSecretArguments{
-  repositories:Array<string>,
+export  interface DeleteSecretArguments{
+  repositories?: Array<string>;
 }

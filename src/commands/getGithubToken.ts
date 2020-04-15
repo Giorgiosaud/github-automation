@@ -3,10 +3,9 @@ import path from "path";
 import inquirer from "inquirer";
 import { homedir } from "os";
 
-export default async():Promise<string>=>{
-  try{
-    const {GITHUB_TOKEN}=await readEnv(path.resolve(homedir(),'.githubtoken'))
-    if(!GITHUB_TOKEN){
+export default async(): Promise<string>=>{
+    const SETTINGS=await readEnv(path.resolve(homedir(),'.githubtoken'))
+    if(!SETTINGS.GITHUB_TOKEN){
        const Answers = await inquirer.prompt([
         {
           name:'token',
@@ -18,8 +17,5 @@ export default async():Promise<string>=>{
       await writeFile(path.resolve(homedir(),'.githubtoken'),newEnv)
       return Answers.token;
     }
-    return GITHUB_TOKEN;
-  }catch(e){
-    throw e
-  }
+    return SETTINGS.GITHUB_TOKEN;
 }
