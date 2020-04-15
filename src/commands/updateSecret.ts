@@ -1,4 +1,4 @@
-import getGithubToken from "../helpers/getGithubToken";
+import getGithubToken from "./getGithubToken";
 import fetch from 'node-fetch'
 
 export default async(encrypted_value:string,key_id:string,repo:string,secretName:string):Promise<any>=>{

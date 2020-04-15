@@ -1,5 +1,5 @@
 import { ERROR,INFO } from '../helpers/logger';
-import getGithubToken from '../helpers/getGithubToken';
+import getGithubToken from './getGithubToken';
 import { deleteSecretArguments, deleteSecretOptions } from '../intefaces/deleteSecret';
 import fetch from 'node-fetch'
 

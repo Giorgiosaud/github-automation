@@ -1,6 +1,6 @@
 import tweetsodium from 'tweetsodium'
 import fetch from 'node-fetch'
-import getGithubToken from '../helpers/getGithubToken';
+import getGithubToken from './getGithubToken'
 
 export default async(repo:string,value:string):Promise<{encrypted_value:string,key_id:string}>=>{
   const GITHUB_TOKEN=await getGithubToken();
