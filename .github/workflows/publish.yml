@@ -12,7 +12,7 @@ jobs:
     - name: Setup Node.js 12.x
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '12.x'
         always-auth: true
     - name: Install dependencies with yarn
       run: yarn 
@@ -30,6 +30,6 @@ jobs:
           git config user.name "Giorgiosaud"
           yarn version --new-version  $TAG
     - name: Publish to NPM Package Registry
-      run: yarn publish --access public
+      run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc && yarn publish
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
