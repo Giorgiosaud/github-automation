@@ -1,5 +1,5 @@
 {
-  "name": "gitautomations",
+  "name": "git-automated-actions",
   "version": "1.0.0",
   "description": "github automator",
   "main": "./lib/index.js",
