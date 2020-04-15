@@ -1,6 +1,6 @@
 {
   "name": "git-automated-actions",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "github automator",
   "main": "./lib/index.js",
   "scripts": {
