@@ -31,6 +31,6 @@ jobs:
           git config user.name "Giorgiosaud"
           yarn version --new-version  $TAG
     - name: Publish to GitHub Package Registry
-      run: yarn publish
+      run: yarn publish --access public
       env:
-        NODE_AUTH_TOKEN: ${{github.token}}
+        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
