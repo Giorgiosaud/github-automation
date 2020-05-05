@@ -1,0 +1,35 @@
+  
+name: Publlish Repo
+
+on:
+  release:
+    types: [published]
+jobs:
+  publish-library:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+        always-auth: true
+    - name: Install dependencies with yarn
+      run: yarn 
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This gets generated automatically
+    - name: Build Library
+      run: yarn build
+    - name: Versioning
+      run : |
+          echo $GITHUB_REF
+          TAG=$(echo $GITHUB_REF | cut -c 11-)
+          echo $TAG
+          git config user.email "jorgelsaud@gmail.com"
+          git config user.name "Giorgiosaud"
+          yarn version --new-version  $TAG
+    - name: Publish to NPM Package Registry
+      run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc && yarn publish
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

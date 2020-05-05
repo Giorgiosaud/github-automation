@@ -1,5 +1,4 @@
 branches: [master]
 template: |
   ## What’s Changed
-
   $CHANGES

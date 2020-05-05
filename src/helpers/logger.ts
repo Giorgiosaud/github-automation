@@ -1,5 +1,4 @@
 import chalk from 'chalk'
-
 export const preProcessed = (message: string): string => chalk.bgBlue.whiteBright(message)
 export const info = (message: string): string => chalk.bgBlue.whiteBright(message)
 export const processed = (message: string): string => chalk.bgGreen.whiteBright(message)
