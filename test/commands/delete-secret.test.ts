@@ -7,7 +7,8 @@ describe('delete-secret command', () => {
   .catch(error => {
     expect(error.message).to.contain('Missing required flag:')
     expect(error.message).to.contain('-r, --repositories REPOSITORIES')
-    expect(error.message).to.contain('Can be multiples repositories with shape OWNER/REPO separated by space')
+    expect(error.message).to.contain('Can be multiples repositories with shape')
+    expect(error.message).to.contain('OWNER/REPO separated by space')
     expect(error.message).to.contain('See more help with --help')
   })
   .it('delete-secret fails if no flags are set asking for repo')
