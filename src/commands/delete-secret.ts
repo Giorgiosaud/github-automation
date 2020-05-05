@@ -54,7 +54,7 @@ export default class DeleteSecret extends Command {
         }, Promise.resolve())
       }, Promise.resolve())
     } catch (error) {
-      this.error(warning(error.message || error))
+      this.error(error.message || error)
     }
   }
 }
