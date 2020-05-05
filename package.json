@@ -3,6 +3,7 @@
   "description": "Git automation Tools",
   "version": "1.0.0",
   "author": "Jorge Saud @Giorgiosaud",
+  "preferGlobal": true,
   "bin": {
     "github-automation": "./bin/run"
   },
