@@ -1,7 +1,7 @@
 {
   "name": "github-automation",
   "description": "Git automation Tools",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Jorge Saud @Giorgiosaud",
   "preferGlobal": true,
   "bin": {

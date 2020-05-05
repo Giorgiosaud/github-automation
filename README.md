@@ -1,13 +1,18 @@
-git-automations
+github-automation
 ===============
 
 Git automations Tools
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/git-automations.svg)](https://npmjs.org/package/git-automations)
-[![Downloads/week](https://img.shields.io/npm/dw/git-automations.svg)](https://npmjs.org/package/git-automations)
-[![License](https://img.shields.io/npm/l/git-automations.svg)](https://github.com/Giorgiosaud/git-automations/blob/master/package.json)
+[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg?style=plastic)](https://oclif.io)
+[![release](https://img.shields.io/github/release-date/giorgiosaud/github-automation?style=plastic)](https://github.com/Giorgiosaud/github-automation/)
 
+[![Version](https://img.shields.io/npm/v/github-automation?style=plastic)](https://npmjs.org/package/github-automation)
+[![Downloads/week](https://img.shields.io/npm/dw/github-automation)](https://npmjs.org/package/github-automation)
+[![License](https://img.shields.io/npm/l/github-automation?style=plastic)](https://github.com/Giorgiosaud/github-automation/blob/master/package.json)
+[![Size](https://img.shields.io/bundlephobia/minzip/github-automation?style=plastic)](https://bundlephobia.com/result?p=github-automation@1.0.1)
+[![Issues](https://img.shields.io/github/issues/giorgiosaud/github-automation?style=plastic)](https://bundlephobia.com/result?p=github-automation@1.0.1)
+<img alt="GitHub stars" src="https://img.shields.io/github/stars/giorgiosaud/github-automation?style=social">
+<img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/giorgiosaud?style=social">
 <!-- toc -->
 * [Usage](#usage)
 * [Commands](#commands)
@@ -47,9 +52,9 @@ OPTIONS
 
 EXAMPLE
 
-       $ git-automations delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn --secret-name SECRET_NAME1 
+       $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn --secret-name SECRET_NAME1 
   SECRET_NAME2 ... SECRET_NAME_N
-       $ git-automations delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 
+       $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 
   SECRET_NAME2 ... SECRET_NAME_N
 ```
 
@@ -88,9 +93,9 @@ OPTIONS
 
 EXAMPLE
 
-       $ git-automations set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... 
+       $ github-automation set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... 
   SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
-       $ git-automations set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... 
+       $ github-automation set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... 
   SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
 ```
 

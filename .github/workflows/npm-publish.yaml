@@ -1,4 +1,4 @@
-name: Publishing Modyo Cli on NPM
+name: Publishing on NPM
 on:
   release:
     types: [published]

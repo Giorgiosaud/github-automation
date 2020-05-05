@@ -1,4 +1,4 @@
-name: Publishing Modyo Cli on Github
+name: Publishing on Github
 on:
   release:
     types: [published]
@@ -12,13 +12,12 @@ jobs:
       with:
         node-version: '12.x'
         registry-url: https://npm.pkg.github.com/
-        scope: '@modyo'
     - name: Install dependencies with yarn
       run: yarn 
       env:
         NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This gets generated automatically
     - name: Publish to GitHub Package Registry
-      run: yarn publish
+      run: yarn publish --registry=https://npm.pkg.github.com/
       env:
-        NODE_AUTH_TOKEN: ${{github.token}}
+        NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
