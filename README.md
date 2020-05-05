@@ -15,49 +15,53 @@ Git automations Tools
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g git-automations
-$ git-automations COMMAND
+$ npm install -g github-automation
+$ github-automation COMMAND
 running command...
-$ git-automations (-v|--version|version)
-git-automations/1.0.0 darwin-x64 node-v12.13.1
-$ git-automations --help [COMMAND]
+$ github-automation (-v|--version|version)
+github-automation/1.0.0 darwin-x64 node-v12.13.1
+$ github-automation --help [COMMAND]
 USAGE
-  $ git-automations COMMAND
+  $ github-automation COMMAND
 ...
 ```
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`git-automations hello [FILE]`](#git-automations-hello-file)
-* [`git-automations help [COMMAND]`](#git-automations-help-command)
+* [`github-automation set-secret -r REPOS -n NAMES`](#github-automation-set-secret--r-repos--n-names)
+* [`github-automation help [COMMAND]`](#github-automation-help-command)
+* [`github-automation set-secret -r REPOS -n NAMES -x VALUES`](#github-automation-set-secret--r-repos--n-names--x-values)
 
-## `git-automations hello [FILE]`
+## `github-automation set-secret -r REPOS -n NAMES`
 
-describe the command here
+Delete Secret from repo
 
 ```
 USAGE
-  $ git-automations hello [FILE]
+  $ github-automation set-secret -r REPOS -n NAMES
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -h, --help                       show CLI help
+  -n, --secret-name=secret-name    (required) Can be multiples secret names separated by space
+  -r, --repositories=repositories  (required) Can be multiples repositories with shape OWNER/REPO separated by space
 
 EXAMPLE
-  $ git-automations hello
-  hello world from ./src/hello.ts!
+
+       $ git-automations delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn --secret-name SECRET_NAME1 
+  SECRET_NAME2 ... SECRET_NAME_N
+       $ git-automations delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 
+  SECRET_NAME2 ... SECRET_NAME_N
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/Giorgiosaud/git-automations/blob/v1.0.0/src/commands/hello.ts)_
+_See code: [src/commands/delete-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v1.0.0/src/commands/delete-secret.ts)_
 
-## `git-automations help [COMMAND]`
+## `github-automation help [COMMAND]`
 
-display help for git-automations
+display help for github-automation
 
 ```
 USAGE
-  $ git-automations help [COMMAND]
+  $ github-automation help [COMMAND]
 
 ARGUMENTS
   COMMAND  command to show help for
@@ -66,5 +70,29 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.0.0/src/commands/help.ts)_
+
+## `github-automation set-secret -r REPOS -n NAMES -x VALUES`
+
+describe the command here
+
+```
+USAGE
+  $ github-automation set-secret -r REPOS -n NAMES -x VALUES
+
+OPTIONS
+  -h, --help                       show CLI help
+  -n, --secret-name=secret-name    (required) Can be multiples secret names separated by space
+  -r, --repositories=repositories  (required) Can be multiples repositories with shape OWNER/REPO separated by space
+  -x, --secret-value=secret-value  (required) Can be multiples secret values separated by space
+
+EXAMPLE
+
+       $ git-automations set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... 
+  SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
+       $ git-automations set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... 
+  SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
+```
+
+_See code: [src/commands/set-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v1.0.0/src/commands/set-secret.ts)_
 <!-- commandsstop -->
