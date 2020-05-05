@@ -9,7 +9,8 @@ describe('set-secret command', () => {
   .catch(error => {
     expect(error.message).to.contain('Missing required flag:')
     expect(error.message).to.contain('-r, --repositories REPOSITORIES')
-    expect(error.message).to.contain('Can be multiples repositories with shape OWNER/REPO separated by space')
+    expect(error.message).to.contain('Can be multiples repositories with shape')
+    expect(error.message).to.contain('OWNER/REPO separated by space')
     expect(error.message).to.contain('See more help with --help')
   })
   .it('set-secret fails if no flags are set asking for repo')
@@ -29,7 +30,8 @@ describe('set-secret command', () => {
   .catch(error => {
     expect(error.message).to.contain('Missing required flag:')
     expect(error.message).to.contain('-x, --secret-value SECRET-VALUE')
-    expect(error.message).to.contain('Can be multiples secret values separated by space')
+    expect(error.message).to.contain('Can be multiples secret values separated by')
+    expect(error.message).to.contain('space')
     expect(error.message).to.contain('See more help with --help')
   })
   .it('set-secret fails if  repo and name are set without values')
