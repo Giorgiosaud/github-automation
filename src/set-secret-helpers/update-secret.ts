@@ -1,8 +1,14 @@
-import getGithubToken from './get-github-token'
+import getGithubToken from '../helpers/get-github-token'
 import fetch from 'node-fetch'
-
-export default async (encrypted_value: string, key_id: string, repo: string, secretName: string): Promise<boolean> => {
-  const GITHUB_TOKEN = await getGithubToken()
+interface UpdateSecrets{
+  encrypted_value: string;
+  key_id: string;
+  name: string;
+  repo: string;
+  rcPath: string;
+}
+export default async ({encrypted_value, key_id, name, repo,  rcPath}: UpdateSecrets): Promise<boolean> => {
+  const GITHUB_TOKEN = await getGithubToken(rcPath, repo)
   const config = {
     method: 'PUT',
     headers: {
@@ -10,7 +16,7 @@ export default async (encrypted_value: string, key_id: string, repo: string, sec
     },
     body: JSON.stringify({encrypted_value, key_id}),
   }
-  const url = `https://api.github.com/repos/${repo}/actions/secrets/${secretName}`
+  const url = `https://api.github.com/repos/${repo}/actions/secrets/${name}`
   await fetch(url, config)
   return true
 }

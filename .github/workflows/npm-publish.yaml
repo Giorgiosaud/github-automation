@@ -1,0 +1,23 @@
+name: Publishing Modyo Cli on NPM
+on:
+  release:
+    types: [published]
+jobs:
+  publish-on-npm:
+    name: Releasing to NPM Registry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+            node-version: '12.x'
+      - name: Install dependencies with yarn
+        run: yarn 
+      - name: Publishing
+        env:
+          NPM_KEY: ${{ secrets.NPM_KEY }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_KEY }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_KEY" > ~/.npmrc
+          yarn publish        
+

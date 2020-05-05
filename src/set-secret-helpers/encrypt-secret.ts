@@ -1,9 +1,9 @@
 import * as tweetsodium from 'tweetsodium'
 import fetch from 'node-fetch'
-import getGithubToken from './get-github-token'
+import getGithubToken from '../helpers/get-github-token'
 
-export default async (repository: string, value: string): Promise<{encrypted_value: string;key_id: string}> => {
-  const GITHUB_TOKEN = await getGithubToken()
+export default async (repository: string, value: string, rcPath: string): Promise<{encrypted_value: string;key_id: string}> => {
+  const GITHUB_TOKEN = await getGithubToken(rcPath, repository)
   const config = {
     method: 'GET',
     headers: {
@@ -12,7 +12,9 @@ export default async (repository: string, value: string): Promise<{encrypted_val
   }
   const url = `https://api.github.com/repos/${repository}/actions/secrets/public-key`
   const response = await fetch(url, config)
+
   const {key, key_id} = await response.json()
+
   const messageBytes = Buffer.from(value)
   const keyBytes = Buffer.from(key, 'base64')
   const encryptedBytes = tweetsodium.seal(messageBytes, keyBytes)

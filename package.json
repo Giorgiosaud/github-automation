@@ -1,17 +1,21 @@
 {
-  "name": "git-automations",
-  "description": "Git automations Tools",
+  "name": "github-automation",
+  "description": "Git automation Tools",
   "version": "1.0.0",
   "author": "Jorge Saud @Giorgiosaud",
   "bin": {
-    "git-automations": "./bin/run"
+    "github-automation": "./bin/run"
   },
-  "bugs": "https://github.com/Giorgiosaud/git-automations/issues",
+  "bugs": "https://github.com/Giorgiosaud/github-automations/issues",
   "dependencies": {
     "@oclif/command": "^1",
-    "@oclif/config": "^1",
-    "@oclif/plugin-help": "^2",
-    "tslib": "^1"
+    "@oclif/config": "^1.15.1",
+    "@oclif/plugin-help": "^3.0.0",
+    "@types/fs-extra": "^8.1.0",
+    "dotenv": "^8.2.0",
+    "fs-extra": "^9.0.0",
+    "tslib": "^1",
+    "tweetsodium": "^0.0.5"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
@@ -25,7 +29,9 @@
     "eslint-config-oclif-typescript": "^0.1",
     "globby": "^10",
     "mocha": "^5",
+    "nock": "^12.0.3",
     "nyc": "^14",
+    "sinon": "^9.0.2",
     "ts-node": "^8",
     "typescript": "^3.3"
   },
@@ -38,7 +44,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/Giorgiosaud/git-automations",
+  "homepage": "https://github.com/Giorgiosaud/github-automation",
   "keywords": [
     "oclif"
   ],
@@ -46,12 +52,12 @@
   "main": "lib/index.js",
   "oclif": {
     "commands": "./lib/commands",
-    "bin": "git-automations",
+    "bin": "github-automation",
     "plugins": [
       "@oclif/plugin-help"
     ]
   },
-  "repository": "Giorgiosaud/git-automations",
+  "repository": "Giorgiosaud/github-automation",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "eslint . --ext .ts --config .eslintrc",
