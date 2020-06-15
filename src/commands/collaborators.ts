@@ -1,6 +1,5 @@
 import {Command, flags} from '@oclif/command'
 import {info} from '../helpers/logger'
-import removeSecret from '../delete-secret/remove-secret'
 import deleteUserPermissions from '../collaborators/delete-user-permissions'
 import addUserPermissions from '../collaborators/add-user-permissions'
 
@@ -9,6 +8,7 @@ export default class Collaborators extends Command {
 
   static examples = [
     `
+    you must have a personal github token to set the first time that uses this tool
     $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
     $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
     `,

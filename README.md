@@ -24,7 +24,7 @@ $ npm install -g github-automation
 $ github-automation COMMAND
 running command...
 $ github-automation (-v|--version|version)
-github-automation/1.0.0 darwin-x64 node-v12.13.1
+github-automation/1.0.3 darwin-x64 node-v12.13.1
 $ github-automation --help [COMMAND]
 USAGE
   $ github-automation COMMAND
@@ -33,9 +33,46 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`github-automation 
+  collaborators -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
+  collaborators -r GITHUBREPOS… -u GITHUBUSERS… --delete
+  `](#github-automation----collaborators--r-githubrepos--u-githubusers--p-pullpushadminmaintaintriage---collaborators--r-githubrepos--u-githubusers---delete)
 * [`github-automation set-secret -r REPOS -n NAMES`](#github-automation-set-secret--r-repos--n-names)
 * [`github-automation help [COMMAND]`](#github-automation-help-command)
 * [`github-automation set-secret -r REPOS -n NAMES -x VALUES`](#github-automation-set-secret--r-repos--n-names--x-values)
+
+## `github-automation 
+  collaborators -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
+  collaborators -r GITHUBREPOS… -u GITHUBUSERS… --delete
+  `
+
+Manage Repo collaborators
+
+```
+USAGE
+  $ github-automation 
+     collaborators -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
+     collaborators -r GITHUBREPOS… -u GITHUBUSERS… --delete
+
+OPTIONS
+  -d, --delete                                         delete user permission
+  -h, --help                                           show CLI help
+  -p, --permissions=(pull|push|admin|maintain|triage)  [default: push] Select Permission to add
+
+  -r, --repositories=repositories                      (required) Can be multiples repositories with shape OWNER/REPO
+                                                       separated by space
+
+  -u, --github-users=github-users                      (required) Can be multiples users
+
+EXAMPLE
+
+       $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn --secret-name 
+  SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
+       $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 
+  SECRET_NAME2 ... SECRET_NAME_N
+```
+
+_See code: [src/commands/collaborators.ts](https://github.com/Giorgiosaud/github-automation/blob/v1.0.3/src/commands/collaborators.ts)_
 
 ## `github-automation set-secret -r REPOS -n NAMES`
 
@@ -52,13 +89,13 @@ OPTIONS
 
 EXAMPLE
 
-       $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn --secret-name SECRET_NAME1 
-  SECRET_NAME2 ... SECRET_NAME_N
+       $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn --secret-name 
+  SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
        $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 
   SECRET_NAME2 ... SECRET_NAME_N
 ```
 
-_See code: [src/commands/delete-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v1.0.0/src/commands/delete-secret.ts)_
+_See code: [src/commands/delete-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v1.0.3/src/commands/delete-secret.ts)_
 
 ## `github-automation help [COMMAND]`
 
@@ -93,11 +130,11 @@ OPTIONS
 
 EXAMPLE
 
-       $ github-automation set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... 
-  SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
+       $ github-automation set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 
+  ... SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
        $ github-automation set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... 
   SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
 ```
 
-_See code: [src/commands/set-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v1.0.0/src/commands/set-secret.ts)_
+_See code: [src/commands/set-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v1.0.3/src/commands/set-secret.ts)_
 <!-- commandsstop -->
