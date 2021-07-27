@@ -14,11 +14,11 @@ describe('updateSecrets function', () => {
   .stub(tweetsodium, 'seal', () => {
     tweetsodiumSpy()
     return '123'
-  }
+  },
   )
   .nock('https://api.github.com/repos', api => api
   .put('/REPO/actions/secrets/NAME')
-  .reply(200, 'OK')
+  .reply(200, 'OK'),
   )
   .it('Work', async (ctx, done) => {
     const response = await updateSecrets({encrypted_value: 'CRYPTO_VAL', key_id: 'KEY_ID', name: 'NAME', repo: 'REPO',  rcPath: ' rcPath'})

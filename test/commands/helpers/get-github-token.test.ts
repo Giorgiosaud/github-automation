@@ -33,7 +33,7 @@ describe('getGithubToken function', () => {
   })
   .nock('https://api.github.com', api => api
   .get('/repos/REPO')
-  .reply(200, 'OK')
+  .reply(200, 'OK'),
   )
   .it('REALPATH called in exist if response is 200', async (ctx, done) => {
     await getGithubToken('RCPATH', 'REPO')
@@ -60,7 +60,7 @@ describe('getGithubToken function', () => {
   })
   .nock('https://api.github.com', api => api
   .get('/repos/REPO')
-  .reply(401, 'UNAUTHORIZED')
+  .reply(401, 'UNAUTHORIZED'),
   )
   .it('error is thrown if unauthorized', async (ctx, done) => {
     try {
