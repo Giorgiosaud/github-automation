@@ -67,5 +67,8 @@
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif-dev readme && git add README.md"
   },
+  "resolutions":{
+    "path-parse":"1.0.7"
+  },
   "types": "lib/index.d.ts"
 }
