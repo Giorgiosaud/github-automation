@@ -12,7 +12,7 @@ describe('removeSecret function', () => {
   })
   .nock('https://api.github.com', api => api
   .delete('/repos/REPO/actions/secrets/SECRET')
-  .reply(204, 'NO CONTENT')
+  .reply(204, 'NO CONTENT'),
   )
   .it('everything pass id response is 204', async (ctx, done) => {
     await removeSecret('REPO', 'SECRET', 'RCPATH')

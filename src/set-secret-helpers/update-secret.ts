@@ -8,7 +8,8 @@ interface UpdateSecrets{
   rcPath: string;
 }
 export default async ({encrypted_value, key_id, name, repo,  rcPath}: UpdateSecrets): Promise<boolean> => {
-  const GITHUB_TOKEN = await getGithubToken(rcPath, repo)
+  const organization = repo.split('/')[0]
+  const GITHUB_TOKEN = await getGithubToken(rcPath, organization)
   const config = {
     method: 'PUT',
     headers: {

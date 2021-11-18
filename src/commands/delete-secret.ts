@@ -12,7 +12,7 @@ export default class DeleteSecret extends Command {
     `,
   ]
 
-  static usage='set-secret -r REPOS -n NAMES'
+  static usage='delete-secret -r REPOS -n NAMES'
 
   static strict = false
 

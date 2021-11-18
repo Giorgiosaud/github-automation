@@ -2,7 +2,8 @@ import fetch from 'node-fetch'
 import getGithubToken from '../helpers/get-github-token'
 
 export default async (repo: string, secretName: string, rcPath: string) => {
-  const GITHUB_TOKEN = await getGithubToken(rcPath, repo)
+  const organization = repo.split('/')[0]
+  const GITHUB_TOKEN = await getGithubToken(rcPath, organization)
   const config = {
     method: 'DELETE',
     headers: {

@@ -8,8 +8,9 @@ export default class SetSecret extends Command {
 
   static examples = [
     `
-    $ github-automation set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
-    $ github-automation set-secret OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
+    you must have a personal github token to set the first time that uses this tool
+    $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
+    $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
     `,
   ]
 
@@ -46,7 +47,6 @@ export default class SetSecret extends Command {
   async run() {
     try {
       const {flags} = this.parse(SetSecret)
-
       if (flags['secret-name'].length !== flags['secret-value'].length) {
         throw new Error('Secrets and values must be the same length')
       }
