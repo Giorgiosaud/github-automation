@@ -40,7 +40,9 @@ export default class ListOrgRepositories extends Command {
       cli.log(info(`se consiguieron ${repositories.length} repos`))
       return repositories
     } catch (error) {
-      this.error(error.message || error)
+      if (typeof error  === 'string' || error instanceof Error) {
+        this.error(error)
+      }
     }
   }
 }

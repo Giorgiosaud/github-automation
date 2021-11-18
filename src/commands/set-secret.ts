@@ -67,7 +67,9 @@ export default class SetSecret extends Command {
         }, Promise.resolve())
       }, Promise.resolve())
     } catch (error) {
-      this.error(error.message || error)
+      if (typeof error  === 'string' || error instanceof Error) {
+        this.error(error)
+      }
     }
   }
 }

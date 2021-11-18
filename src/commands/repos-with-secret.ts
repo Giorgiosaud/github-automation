@@ -30,7 +30,9 @@ export default class ReposWithSecret extends Command {
       info('listing repos')
       return orgRepos
     } catch (error) {
-      this.error(error.message || error)
+      if (typeof error  === 'string' || error instanceof Error) {
+        this.error(error)
+      }
     }
   }
 }
