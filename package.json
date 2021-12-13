@@ -13,6 +13,7 @@
     "@oclif/plugin-help": "^3",
     "@types/fs-extra": "8.1.0",
     "@types/node-fetch": "^2.5.12",
+    "cli-ux": "^6.0.6",
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
     "fs-extra": "^10.0.0",
@@ -67,8 +68,8 @@
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif-dev readme && git add README.md"
   },
-  "resolutions":{
-    "path-parse":"1.0.7"
+  "resolutions": {
+    "path-parse": "1.0.7"
   },
   "types": "lib/index.d.ts"
 }
