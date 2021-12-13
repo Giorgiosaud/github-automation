@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+const chalk = require('chalk')
 
 export const preProcessed = (message: string): string => chalk.bgBlue.whiteBright(message)
 export const info = (message: string): string => chalk.bgBlue.whiteBright(message)
