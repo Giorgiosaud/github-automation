@@ -44,9 +44,12 @@ export default class DeleteSecret extends Command {
       if (!okRepoNames) {
         throw new Error('The repository string must be of type OWNER/NAME')
       }
+
       const rcPath = '.github-automation.rc'
+      // eslint-disable-next-line unicorn/no-array-reduce
       await flags.repositories.reduce(async (promise, repo) => {
         await promise
+        // eslint-disable-next-line unicorn/no-array-reduce
         await flags['secret-name'].reduce(async (promise, name) => {
           await promise
           await removeSecret(repo, name, rcPath)

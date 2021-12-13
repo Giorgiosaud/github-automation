@@ -21,7 +21,7 @@ describe('updateSecrets function', () => {
   .reply(200, 'OK'),
   )
   .it('Work', async (ctx, done) => {
-    const response = await updateSecrets({encrypted_value: 'CRYPTO_VAL', key_id: 'KEY_ID', name: 'NAME', repo: 'REPO',  rcPath: ' rcPath'})
+    const response = await updateSecrets({encryptedValue: 'CRYPTO_VAL', keyId: 'KEY_ID', name: 'NAME', repo: 'REPO',  rcPath: ' rcPath'})
     expect(response).to.be.equal(true)
     done()
   })

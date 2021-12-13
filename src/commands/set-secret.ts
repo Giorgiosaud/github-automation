@@ -50,19 +50,23 @@ export default class SetSecret extends Command {
       if (flags['secret-name'].length !== flags['secret-value'].length) {
         throw new Error('Secrets and values must be the same length')
       }
+
       const okRepoNames = flags.repositories.every((repo: string) => {
         return /.+\/.+/.test(repo)
       })
       if (!okRepoNames) {
         throw new Error('The repository string must be of type OWNER/NAME')
       }
+
       const rcPath = '.github-automation.rc'
+      // eslint-disable-next-line unicorn/no-array-reduce
       await flags.repositories.reduce(async (promise, repo) => {
         await promise
+        // eslint-disable-next-line unicorn/no-array-reduce
         await flags['secret-name'].reduce(async (promise, name, index: number) => {
           await promise
-          const {encrypted_value, key_id} = await encryptSecret(repo, flags['secret-value'][index], rcPath)
-          await updateSecret({encrypted_value, key_id, name, repo, rcPath})
+          const {encryptedValue, keyId} = await encryptSecret(repo, flags['secret-value'][index], rcPath)
+          await updateSecret({encryptedValue, keyId, name, repo, rcPath})
           this.log(info(`Updated secret ${name} with value ${flags['secret-value'][index]} in ${repo}`))
         }, Promise.resolve())
       }, Promise.resolve())

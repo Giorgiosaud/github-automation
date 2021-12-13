@@ -50,7 +50,7 @@ describe('set-secret command', () => {
   })
   .it('set-secret fails if  Repo name not match with repo structure name')
   test
-  .stub(encryptSecret, 'default', async () => ({encrypted_value: 'value', key_id: 'id'}))
+  .stub(encryptSecret, 'default', async () => ({encryptedValue: 'value', keyId: 'id'}))
   .stub(updateSecret, 'default', async () => ({}))
   .stdout()
   .command(['set-secret', '-r', 'OWNER/REPO', '-n', 'SECRET', '-x', 'VALUE'])

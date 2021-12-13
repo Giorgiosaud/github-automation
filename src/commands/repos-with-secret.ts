@@ -15,8 +15,7 @@ export default class ReposWithSecret extends Command {
 
   static strict = false
 
-  static flags = {
-  }
+  static flags = {}
 
   static args = [
     {name: 'organization'},

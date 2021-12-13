@@ -1,7 +1,7 @@
 import {fancy} from 'fancy-test'
 import {expect} from 'chai'
 import getGithubToken from '../../../src/helpers/get-github-token'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as fsExtra from 'fs-extra'
 import * as cli from 'cli-ux'
 import * as fileSystem from '../../../src/helpers/file-system'
@@ -53,8 +53,7 @@ describe('getGithubToken function', () => {
   })
   .stub(fileSystem, 'readEnv', async (...args) => {
     readEnvSpy(args)
-    return {
-    }
+    return {}
   })
   .stub(cli.ux, 'prompt', (...args) => {
     cliPromptToken(...args)
@@ -82,8 +81,7 @@ describe('getGithubToken function', () => {
   })
   .stub(fileSystem, 'readEnv', async (...args) => {
     readEnvSpy(args)
-    return {
-    }
+    return {}
   })
   .stub(cli.ux, 'prompt', (...args) => {
     cliPromptToken(...args)
@@ -113,8 +111,7 @@ describe('getGithubToken function', () => {
   })
   .stub(fileSystem, 'readEnv', async (...args) => {
     readEnvSpy(...args)
-    return {
-    }
+    return {}
   })
   .stub(cli.ux, 'prompt', (...args) => {
     cliPromptToken(...args)

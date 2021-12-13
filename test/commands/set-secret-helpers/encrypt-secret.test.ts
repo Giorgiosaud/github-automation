@@ -18,7 +18,7 @@ describe('encryptSecrets function', () => {
   .nock('https://api.github.com/repos/', api => api
   .get('/REPO/actions/secrets/public-key')
   .reply(200, {
-    key: '1', key_id: '2',
+    key: '1', keyId: '2',
   }),
   )
   .it('encryptSecrets work', async (ctx, done) => {

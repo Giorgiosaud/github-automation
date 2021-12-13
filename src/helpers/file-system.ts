@@ -3,9 +3,10 @@ import {readFile} from 'fs-extra'
 
 export const  buildEnvContent = (values: any): string => {
   let content = ''
-  Object.keys(values).forEach(key => {
+  for (const key of Object.keys(values)) {
     content += `${key}=${values[key]}\n`
-  })
+  }
+
   return content
 }
 

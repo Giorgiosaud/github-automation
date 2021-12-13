@@ -59,10 +59,13 @@ export default class Collaborators extends Command {
       if (!okRepoNames) {
         throw new Error('The repository string must be of type OWNER/NAME')
       }
+
       const rcPath = '.github-automation.rc'
       if (flags.delete) {
+        // eslint-disable-next-line unicorn/no-array-reduce
         return await flags.repositories.reduce(async (promise, repo) => {
           await promise
+          // eslint-disable-next-line unicorn/no-array-reduce
           await flags['github-users'].reduce(async (promise, name) => {
             await promise
             await deleteUserPermissions(repo, name, rcPath)
@@ -70,8 +73,11 @@ export default class Collaborators extends Command {
           }, Promise.resolve())
         }, Promise.resolve())
       }
+
+      // eslint-disable-next-line unicorn/no-array-reduce
       return await flags.repositories.reduce(async (promise, repo) => {
         await promise
+        // eslint-disable-next-line unicorn/no-array-reduce
         await flags['github-users'].reduce(async (promise, name) => {
           await promise
           await addUserPermissions(repo, name, flags.permissions, rcPath)

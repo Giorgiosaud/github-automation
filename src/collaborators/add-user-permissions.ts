@@ -1,4 +1,5 @@
 import getGithubToken from '../helpers/get-github-token'
+
 import fetch from 'node-fetch'
 
 export default async (repo: string, user: string, permission: string, rcPath: string): Promise<boolean> => {
