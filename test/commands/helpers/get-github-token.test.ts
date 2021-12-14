@@ -1,8 +1,10 @@
+/* eslint-disable unicorn/import-style */
+/* eslint-disable unicorn/prefer-node-protocol */
 import {fancy} from 'fancy-test'
 import {expect} from 'chai'
 import getGithubToken from '../../../src/helpers/get-github-token'
-import * as path from 'node:path'
-import * as fsExtra from 'fs-extra'
+import * as path from 'path'
+import fsExtra from 'fs-extra'
 import * as cli from 'cli-ux'
 import * as fileSystem from '../../../src/helpers/file-system'
 import * as sinon from 'sinon'

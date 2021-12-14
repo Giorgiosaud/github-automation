@@ -1,5 +1,7 @@
-import * as  path from 'node:path'
-import {homedir} from 'node:os'
+/* eslint-disable unicorn/import-style */
+/* eslint-disable unicorn/prefer-node-protocol */
+import * as  path from 'path'
+import {homedir} from 'os'
 import {readEnv, buildEnvContent} from './file-system'
 import {writeFile, existsSync} from 'fs-extra'
 import fetch from 'node-fetch'

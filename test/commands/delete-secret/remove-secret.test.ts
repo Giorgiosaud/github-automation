@@ -1,3 +1,4 @@
+/* eslint-disable node/no-missing-import */
 import {fancy} from 'fancy-test'
 import {expect} from 'chai'
 import removeSecret from '../../../src/delete-secret/remove-secret'
@@ -6,7 +7,6 @@ import * as sinon from 'sinon'
 const getGithubTokenSpy = sinon.spy()
 describe('removeSecret function', () => {
   fancy
-  .stdout()
   .stub(getGithubToken, 'default',  () => {
     getGithubTokenSpy()
   })

@@ -1,7 +1,8 @@
+/* eslint-disable node/no-extraneous-import */
 import {expect} from '@oclif/test'
 import {readEnv} from '../../src/helpers/file-system'
 import {fancy} from 'fancy-test'
-import * as fsExtra from 'fs-extra'
+import fsExtra from 'fs-extra'
 import * as sinon from 'sinon'
 
 const readFileSpy = sinon.spy()
