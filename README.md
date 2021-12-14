@@ -19,7 +19,7 @@ $ npm install -g github-automation
 $ github-automation COMMAND
 running command...
 $ github-automation (-v|--version|version)
-github-automation/2.0.1 darwin-x64 node-v14.18.1
+github-automation/2.0.2 darwin-x64 node-v14.18.1
 $ github-automation --help [COMMAND]
 USAGE
   $ github-automation COMMAND
@@ -70,7 +70,7 @@ EXAMPLE
   SECRET_NAME2 ... SECRET_NAME_N
 ```
 
-_See code: [src/commands/collaborators.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.1/src/commands/collaborators.ts)_
+_See code: [src/commands/collaborators.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.2/src/commands/collaborators.ts)_
 
 ## `github-automation delete-secret -r REPOS -n NAMES`
 
@@ -93,7 +93,7 @@ EXAMPLE
   SECRET_NAME2 ... SECRET_NAME_N
 ```
 
-_See code: [src/commands/delete-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.1/src/commands/delete-secret.ts)_
+_See code: [src/commands/delete-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.2/src/commands/delete-secret.ts)_
 
 ## `github-automation help [COMMAND]`
 
@@ -128,7 +128,7 @@ EXAMPLE
       $ github-automation list-org-repositories OWNER
 ```
 
-_See code: [src/commands/list-org-repositories.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.1/src/commands/list-org-repositories.ts)_
+_See code: [src/commands/list-org-repositories.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.2/src/commands/list-org-repositories.ts)_
 
 ## `github-automation repos-with-secret OWNER`
 
@@ -143,7 +143,7 @@ EXAMPLE
       $ github-automation repos-with-secret OWNER
 ```
 
-_See code: [src/commands/repos-with-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.1/src/commands/repos-with-secret.ts)_
+_See code: [src/commands/repos-with-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.2/src/commands/repos-with-secret.ts)_
 
 ## `github-automation set-secret -r REPOS -n NAMES -x VALUES`
 
@@ -168,5 +168,5 @@ EXAMPLE
   SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
 ```
 
-_See code: [src/commands/set-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.1/src/commands/set-secret.ts)_
+_See code: [src/commands/set-secret.ts](https://github.com/Giorgiosaud/github-automation/blob/v2.0.2/src/commands/set-secret.ts)_
 <!-- commandsstop -->
