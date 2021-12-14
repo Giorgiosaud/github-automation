@@ -11,7 +11,6 @@ interface UpdateSecrets{
 export default async ({encryptedValue, keyId, name, repo,  rcPath}: UpdateSecrets): Promise<boolean> => {
   const organization = repo.split('/')[0]
   const GITHUB_TOKEN = await getGithubToken(rcPath, organization)
-  console.log(encryptedValue, keyId, name, repo)
   const config = {
     method: 'PUT',
     headers: {
