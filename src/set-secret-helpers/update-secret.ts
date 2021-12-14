@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import getGithubToken from '../helpers/get-github-token'
 import fetch from 'node-fetch'
 interface UpdateSecrets{
@@ -10,12 +11,13 @@ interface UpdateSecrets{
 export default async ({encryptedValue, keyId, name, repo,  rcPath}: UpdateSecrets): Promise<boolean> => {
   const organization = repo.split('/')[0]
   const GITHUB_TOKEN = await getGithubToken(rcPath, organization)
+  console.log(encryptedValue, keyId, name, repo)
   const config = {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
     },
-    body: JSON.stringify({encryptedValue, keyId}),
+    body: JSON.stringify({encrypted_value: encryptedValue, key_id: keyId}),
   }
   const url = `https://api.github.com/repos/${repo}/actions/secrets/${name}`
   await fetch(url, config)
