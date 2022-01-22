@@ -19,7 +19,7 @@
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
     "fs-extra": "^10.0.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.1.1",
     "sinon": "^11.1.2",
     "tslib": "^1",
     "tweetsodium": "^0.0.5"
