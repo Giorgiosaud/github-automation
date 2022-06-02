@@ -1,18 +1,17 @@
-/* eslint-disable unicorn/import-style */
-/* eslint-disable unicorn/prefer-node-protocol */
 import {fancy} from 'fancy-test'
 import {expect} from 'chai'
 import getGithubToken from '../../../src/helpers/get-github-token'
-import * as path from 'path'
-import fsExtra from 'fs-extra'
+import path from 'node:path'
+import fsExtra, { read } from 'fs-extra'
 import {CliUx} from '@oclif/core'
 import * as fileSystem from '../../../src/helpers/file-system'
 import * as sinon from 'sinon'
-const existsSyncSpy = sinon.spy()
-const writeFileSpy = sinon.spy()
-const buildEnvContentSpy = sinon.spy()
-const readEnvSpy = sinon.spy()
-const cliPromptToken = sinon.spy()
+const existsSyncStub = sinon.stub()
+const pathStub = sinon.stub()
+const writeFileStub = sinon.stub()
+const buildEnvContentStub = sinon.stub()
+const readEnvStub = sinon.stub()
+const cliPromptToken = sinon.stub()
 
 describe('getGithubToken function', () => {
   beforeEach(() => {
@@ -20,75 +19,54 @@ describe('getGithubToken function', () => {
   })
   fancy
   .stub(fsExtra, 'existsSync', (...args) => {
-    existsSyncSpy(...args)
+    existsSyncStub(...args)
     return Promise.resolve(true)
   })
   .stub(fileSystem, 'readEnv', async (...args) => {
-    readEnvSpy(args)
+    readEnvStub(args)
     return {
       GITHUB_TOKEN: '123',
     }
   })
 
   .stub(fsExtra, 'writeFile', (...args) => {
-    writeFileSpy(...args)
+    writeFileStub(...args)
     return true
   })
 
   .it('REALPATH called in exist if response is 200', async (ctx, done) => {
     const token = await getGithubToken('RCPATH', 'organization')
     expect(token).equal('123')
-    expect(existsSyncSpy.calledOnce).to.be.true
-    expect(writeFileSpy.notCalled).to.be.true
-    expect(readEnvSpy.calledOnce).to.be.true
+    expect(existsSyncStub.calledOnce).to.be.true
+    expect(writeFileStub.notCalled).to.be.true
+    expect(readEnvStub.calledOnce).to.be.true
     done()
   })
   fancy
-  .stub(path, 'resolve', () => 'REALPATH')
-  .stub(fsExtra, 'existsSync', (...args) => {
-    existsSyncSpy(...args)
-    return Promise.resolve(false)
-  })
-  .stub(fsExtra, 'writeFile', (...args) => {
-    writeFileSpy(...args)
-    return true
-  })
-  .stub(fileSystem, 'readEnv', async (...args) => {
-    readEnvSpy(args)
-    return {}
-  })
-  .stub(CliUx.ux, 'prompt', (...args) => {
-    cliPromptToken(...args)
-    return async () => '123'
-  })
+  .stub(fsExtra, 'existsSync', ()=>existsSyncStub.resolves(false)())
+  .stub(fsExtra, 'writeFile', ()=>writeFileStub.resolves(true)())
+  .stub(path, 'resolve', ()=>pathStub.returns('REALPATH')())
+  .stub(fileSystem, 'readEnv', ()=>readEnvStub.returns({})())
+  .stub(CliUx.ux, 'prompt', () =>cliPromptToken.resolves('123'))
   .nock('https://api.github.com', api => api
   .get('/orgs/organization/repos?type=member')
   .reply(200, [{}]),
   )
   .it('prompts a token if not exist', async (ctx, done) => {
-    const token = await getGithubToken('RCPATH', 'organization')
+    try{
+      const token = await getGithubToken('RCPATH', 'organization')
     expect(token).equal('123')
     expect(cliPromptToken.calledOnce).to.be.true
-    done()
+    }finally{
+      done()
+    }
   })
   fancy
-  .stub(path, 'resolve', () => 'REALPATH')
-  .stub(fsExtra, 'existsSync', (...args) => {
-    existsSyncSpy(...args)
-    return Promise.resolve(false)
-  })
-  .stub(fsExtra, 'writeFile', (...args) => {
-    writeFileSpy(...args)
-    return true
-  })
-  .stub(fileSystem, 'readEnv', async (...args) => {
-    readEnvSpy(args)
-    return {}
-  })
-  .stub(CliUx.ux, 'prompt', (...args) => {
-    cliPromptToken(...args)
-    return async () => '123'
-  })
+  .stub(path, 'resolve', ()=>pathStub.returns('REALPATH')())
+  .stub(fsExtra, 'existsSync', ()=>existsSyncStub.resolves(false)())
+  .stub(fsExtra, 'writeFile', ()=>writeFileStub.resolves(true)())
+  .stub(fileSystem, 'readEnv', ()=>readEnvStub.returns({})())
+  .stub(CliUx.ux, 'prompt', () =>cliPromptToken.resolves('123'))
   .nock('https://api.github.com', api => api
   .get('/orgs/organization/repos?type=member')
   .reply(200, []),
@@ -100,22 +78,22 @@ describe('getGithubToken function', () => {
       if (error instanceof Error) {
         expect(error.message).to.contain('Invalid Modyo Token')
       }
-
-      done()
+    }finally{
+      done();
     }
   })
   fancy
   .stub(path, 'resolve', () => 'REALPATH')
   .stub(fsExtra, 'existsSync', (...args) => {
-    existsSyncSpy(...args)
+    existsSyncStub(...args)
     return Promise.resolve(false)
   })
   .stub(fsExtra, 'writeFile', (...args) => {
-    writeFileSpy(...args)
+    writeFileStub(...args)
     return true
   })
   .stub(fileSystem, 'readEnv', async (...args) => {
-    readEnvSpy(...args)
+    readEnvStub(...args)
     return {}
   })
   .stub(CliUx.ux, 'prompt', (...args) => {
@@ -123,7 +101,7 @@ describe('getGithubToken function', () => {
     return async () => '123'
   })
   .stub(fileSystem, 'buildEnvContent', (...args) => {
-    buildEnvContentSpy(...args)
+    buildEnvContentStub(...args)
     return {
       GITHUB_TOKEN: '123',
     }
@@ -137,8 +115,8 @@ describe('getGithubToken function', () => {
     const token = await getGithubToken('RCPATH', 'organization')
     expect(token).equal('123')
     expect(cliPromptToken.calledOnce).to.be.true
-    expect(buildEnvContentSpy.calledWith({GITHUB_TOKEN: '123'})).to.be.true
-    expect(buildEnvContentSpy.calledOnce).to.be.true
+    expect(buildEnvContentStub.calledWith({GITHUB_TOKEN: '123'})).to.be.true
+    expect(buildEnvContentStub.calledOnce).to.be.true
     done()
   })
 })

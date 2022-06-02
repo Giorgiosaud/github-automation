@@ -1,4 +1,5 @@
 import getGithubToken from '../helpers/get-github-token'
+import axios from 'axios';
 
 export default async (repo: string, secretName: string, rcPath: string) => {
   const organization = repo.split('/')[0]
@@ -10,5 +11,5 @@ export default async (repo: string, secretName: string, rcPath: string) => {
     },
   }
   const url = `https://api.github.com/repos/${repo}/actions/secrets/${secretName}`
-  await fetch(url, config)
+  await axios(url, config)
 }

@@ -7,13 +7,11 @@ import {CliUx} from '@oclif/core'
 export default async (rcPath: string, organization?: string): Promise<string> => {
   const testTokenUrl = `https://api.github.com/orgs/${organization}/repos?type=member`
   const rcRealPath = path.resolve(homedir(), rcPath)
-
   const SETTINGS_FILE_EXIST = await existsSync(rcRealPath)
 
   if (!SETTINGS_FILE_EXIST) {
     await writeFile(rcRealPath, '')
   }
-
   const SETTINGS = await readEnv(path.resolve(homedir(), rcPath))
   if (!SETTINGS.GITHUB_TOKEN) {
     const token = await CliUx.ux.prompt('Please add your repository token')
@@ -22,7 +20,6 @@ export default async (rcPath: string, organization?: string): Promise<string> =>
         Authorization: `Bearer ${token}`,
       },
     })
-
     const newEnv = buildEnvContent({GITHUB_TOKEN: token})
     await writeFile(path.resolve(homedir(), rcPath), newEnv)
     return token

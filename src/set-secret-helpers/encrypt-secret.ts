@@ -24,7 +24,8 @@ const encryptSecrets = async (repo: string, value: string, rcPath: string): Prom
     const messageBytes = Buffer.from(value)
 
     const keyBytes = Buffer.from(key, 'base64')
-
+    console.log(messageBytes,keyBytes)
+    console.log(sodium.crypto_box_seal)
     const encryptedBytes = sodium.crypto_box_seal(messageBytes, keyBytes)
 
     const encryptedValue = Buffer.from(encryptedBytes).toString('base64')
