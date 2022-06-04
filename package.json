@@ -17,21 +17,25 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
-    "@devtomio/sodium": "^0.3.0",
     "@oclif/core": "^1",
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.0.1",
+    "@types/libsodium-wrappers": "^0.7.9",
     "colorts": "^0.1.63",
+    "libsodium-wrappers": "^0.7.10",
     "node-fetch": "^3.2.4"
   },
   "devDependencies": {
+    "@jest/types": "^28.1.0",
     "@oclif/test": "^2",
     "@types/chai": "^4",
     "@types/fs-extra": "^9.0.13",
+    "@types/jest": "^28.1.0",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.9.4",
     "@types/sinon": "^10.0.11",
     "axios": "^0.27.2",
+    "axios-mock-adapter": "^1.21.1",
     "chai": "^4",
     "colors": "^1.4.0",
     "dotenv": "^16.0.1",
@@ -41,13 +45,15 @@
     "fancy-test": "^2.0.0",
     "fs-extra": "^10.1.0",
     "globby": "^11",
-    "libsodium": "^0.7.10",
+    "jest": "^28.1.0",
     "mocha": "^9",
     "oclif": "^3",
     "shx": "^0.3.3",
     "sinon": "^14.0.0",
+    "ts-jest": "^28.0.3",
     "ts-node": "^10.2.1",
     "tslib": "^2.3.1",
+    "tweetsodium": "^0.0.6",
     "typescript": "^4.4.3"
   },
   "oclif": {
@@ -72,6 +78,7 @@
     "posttest": "yarn lint",
     "prepack": "yarn build && oclif manifest && oclif readme",
     "test": "mocha --grep \"encryptSecrets function\" --forbid-only \"test/**/*.test.ts\"",
+    "jest": "jest",
     "version": "oclif readme && git add README.md"
   },
   "engines": {
