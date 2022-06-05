@@ -1,23 +1,15 @@
 /* eslint-disable node/no-extraneous-import */
-import {expect} from '@oclif/test'
 import {readEnv} from '../../src/helpers/file-system'
-import {fancy} from 'fancy-test'
 import fsExtra from 'fs-extra'
-import * as sinon from 'sinon'
 
-const readFileSpy = sinon.spy()
+const fileSystemReadEnvSpy = jest.spyOn(fsExtra, 'readFile')
 
 describe('function readEnv', () => {
-  fancy
-  .stub(fsExtra, 'readFile', (...args) => {
-    readFileSpy(...args)
+  test('reads env file', async () => {
     const str = 'GITHUB_TOKEN=token'
     const buff = Buffer.from(str, 'utf-8')
-    return buff
-  })
-  .it('reads env file', async (ctx, done) => {
+    fileSystemReadEnvSpy.mockResolvedValue(buff)
     const env = await readEnv('path')
-    expect(env).to.contains({GITHUB_TOKEN: 'token'})
-    done()
+    expect(env).toEqual({GITHUB_TOKEN: 'token'})
   })
 })

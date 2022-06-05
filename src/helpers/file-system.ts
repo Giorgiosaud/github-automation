@@ -12,7 +12,8 @@ export const  buildEnvContent = (values: any): string => {
 
 export const readEnv = async (path: string): Promise<any> => {
   let newObject: any = {}
-  const ret = dotenv.parse(Buffer.from(await readFile(path)))
+  const file = await readFile(path)
+  const ret = dotenv.parse(Buffer.from(file))
   newObject = Object.assign({}, ret)
   return newObject
 }
