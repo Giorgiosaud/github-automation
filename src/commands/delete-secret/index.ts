@@ -1,6 +1,6 @@
 import {Command, Flags} from '@oclif/core'
 import removeSecret from '../../delete-secret/remove-secret'
-import { info } from '../../helpers/logger'
+import {info} from '../../helpers/logger'
 
 export default class DeleteSecret extends Command {
   static description = 'Delete Secret from repo'

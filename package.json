@@ -22,6 +22,7 @@
     "@oclif/plugin-plugins": "^2.0.1",
     "@types/libsodium-wrappers": "^0.7.9",
     "colorts": "^0.1.63",
+    "jest-config": "^28.1.0",
     "libsodium-wrappers": "^0.7.10",
     "node-fetch": "^3.2.4"
   },
@@ -47,6 +48,7 @@
     "globby": "^11",
     "jest": "^28.1.0",
     "mocha": "^9",
+    "mock-stdin": "^1.0.0",
     "oclif": "^3",
     "shx": "^0.3.3",
     "sinon": "^14.0.0",
