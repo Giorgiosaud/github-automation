@@ -64,7 +64,6 @@ export default class SetSecret extends Command {
         await flags['secret-name'].reduce(async (promise, name, index: number) => {
           await promise
           const {encryptedValue, keyId} = await encryptSecret(repo, flags['secret-value'][index], rcPath)
-
           await updateSecret({encryptedValue, keyId, name, repo, rcPath})
           this.log(info(`Updated secret ${name} with value ${flags['secret-value'][index]} in ${repo}`))
         }, Promise.resolve())
