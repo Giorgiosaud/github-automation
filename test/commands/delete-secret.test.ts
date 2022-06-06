@@ -1,16 +1,15 @@
+import {Config} from '@oclif/core'
 import DeleteSecret from '../../src/commands/delete-secret'
-import removeSecret from '../../src/delete-secret/remove-secret'
+import removeSecret from '../../src/helpers/delete-secrets'
 import logger from '../../src/helpers/logger'
 
-jest.mock('../../src/delete-secret/remove-secret',
+jest.mock('../../src/helpers/delete-secrets',
   () => jest.fn()
   .mockImplementation(() => 'You have called a mocked method 1!')
   .mockReturnValue(true))
 jest.mock('../../src/helpers/logger',
   () => ({
-    info: jest.fn()
-    .mockImplementation(() => 'You have called a mocked method 1!')
-    .mockReturnValue(true),
+    info: jest.fn(),
   }))
 
 describe('delete-secret command', () => {
@@ -30,7 +29,7 @@ describe('delete-secret command', () => {
   test('delete-secret fails if only repo is set', async () => {
     try {
       const argv = []
-      argv.push('-r', 'REPO')
+      argv.push('--repositories', 'REPO')
       await DeleteSecret.run(argv)
     } catch (error) {
       if (error instanceof Error) {
@@ -41,10 +40,10 @@ describe('delete-secret command', () => {
       }
     }
   })
-  test('set-secret fails if  Repo name not match with repo structure name', async () => {
+  test('delete-secret fails if  Repo name not match with repo structure name', async () => {
     try {
       const argv = []
-      argv.push('-r', 'BadRepo', '-n', 'SECRET', 'SECRE2')
+      argv.push('--repositories', 'BadRepo', '--secret-name', 'SECRET', 'SECRE2')
       await DeleteSecret.run(argv)
     } catch (error) {
       if (error instanceof Error) {
@@ -52,12 +51,12 @@ describe('delete-secret command', () => {
       }
     }
   })
-  test('delete-secret works well', async () => {
+  test('delete-secret works', async () => {
     const argv = []
-    argv.push('-r', 'OWNER/REPO', 'OWNER/REPO2', '-n', 'SECRET')
+    argv.push('--repositories', 'OWNER/REPO', '--secret-name', 'SECRET', 'SECRET2')
     await DeleteSecret.run(argv)
     expect(removeSecret).toBeCalledTimes(2)
-    expect(logger.info).toBeCalledWith('Removed secret SECRET from repo: OWNER/REPO')
-    expect(logger.info).toBeCalledWith('Removed secret SECRET from repo: OWNER/REPO2')
+    expect(logger.info).toHaveBeenNthCalledWith(1,  'Removed secret SECRET from repo: OWNER/REPO')
+    expect(logger.info).toHaveBeenNthCalledWith(2, 'Removed secret SECRET2 from repo: OWNER/REPO')
   })
 })

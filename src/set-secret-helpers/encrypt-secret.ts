@@ -7,7 +7,6 @@ import libsodium from 'libsodium-wrappers'
 
 const encryptSecrets = async (repo: string, value: string, rcPath: string): Promise<{encryptedValue: string;keyId: string}> => {
   const organization = repo.split('/')[0]
-
   const GITHUB_TOKEN = await getGithubToken(rcPath, organization)
   const config = {
     headers: {
@@ -28,7 +27,7 @@ const encryptSecrets = async (repo: string, value: string, rcPath: string): Prom
     const encryptedValue = Buffer.from(encryptedBytes).toString('base64')
     return {encryptedValue, keyId}
   } catch (error) {
-    console.log(error)
+    console.error(error)
     await writeFile(path.resolve(homedir(), rcPath), '')
     return encryptSecrets(repo, value, rcPath)
   }

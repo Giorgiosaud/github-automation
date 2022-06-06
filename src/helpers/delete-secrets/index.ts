@@ -1,4 +1,4 @@
-import getGithubToken from '../helpers/get-github-token'
+import getGithubToken from '../get-github-token'
 import axios from 'axios'
 
 export default async (repo: string, secretName: string, rcPath: string):Promise<boolean> => {
@@ -13,7 +13,7 @@ export default async (repo: string, secretName: string, rcPath: string):Promise<
   try {
     await axios.delete(url, config)
     return true
-  } catch  {
+  } catch {
     return false
   }
 }

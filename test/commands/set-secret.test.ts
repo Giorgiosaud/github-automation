@@ -7,9 +7,7 @@ jest.mock('../../src/set-secret-helpers/encrypt-secret', () => jest.fn().mockRes
 jest.mock('../../src/set-secret-helpers/update-secret', () => jest.fn().mockResolvedValue(true))
 jest.mock('../../src/helpers/logger',
   () => ({
-    info: jest.fn()
-    .mockImplementation(() => 'You have called a mocked method 1!')
-    .mockReturnValue(true),
+    info: jest.fn(),
   }))
 describe('set-secret command', () => {
   test('set-secret fails if no flags are set asking for repo', async () => {
@@ -63,10 +61,10 @@ describe('set-secret command', () => {
   })
   test('set-secret works if everithing is set', async () => {
     const argv = []
-    argv.push('-r', 'OWNER/REPO', '-n', 'SECRET', 'SECRET2', '-x', 'VALUE', 'VALUE2')
+    argv.push('--repositories', 'OWNER/REPO', '-n', 'SECRET', 'SECRET2', '-x', 'VALUE', 'VALUE2')
     await SetSecret.run(argv)
     expect(encryptSecret).toBeCalledTimes(2)
     expect(updateSecret).toBeCalledTimes(2)
-    expect(logger.info).toBeCalledWith('Updated secret SECRET with value VALUE in OWNER/REPO')
+    expect(logger.info).toHaveBeenNthCalledWith(1, 'Updated secret SECRET with value VALUE in OWNER/REPO')
   })
 })

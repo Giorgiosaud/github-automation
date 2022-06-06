@@ -26,7 +26,7 @@ describe('getGithubToken function', () => {
     mock.onGet('https://api.github.com/orgs/organization/repos?type=member', undefined, {Accept: 'application/json, text/plain, */*', Authorization: 'Bearer 123'})
     .reply(200, [{}])
   })
-  test.only('REALPATH  200 setting file not exist and GITHUB_TOKEN not exist', async () => {
+  test('REALPATH  200 setting file not exist and GITHUB_TOKEN not exist', async () => {
     const rcPath = 'RCPATH'
     const org = 'organization'
     resolveSpy.mockReturnValueOnce('/fakepath')
@@ -36,7 +36,7 @@ describe('getGithubToken function', () => {
     expect(fsExtraWriteFileSpy).toBeCalledTimes(2)
     expect(token).toBe('123')
   })
-  test.only('REALPATH  200 setting file exist and GITHUB_TOKEN not exist', async () => {
+  test('REALPATH  200 setting file exist and GITHUB_TOKEN not exist', async () => {
     const rcPath = 'RCPATH'
     const org = 'organization'
     resolveSpy.mockReturnValueOnce('/fakepath')
@@ -46,7 +46,7 @@ describe('getGithubToken function', () => {
     expect(fsExtraWriteFileSpy).toBeCalledTimes(1)
     expect(token).toBe('123')
   })
-  test.only('REALPATH  200 setting file exist and GITHUB_TOKEN exist', async () => {
+  test('REALPATH  200 setting file exist and GITHUB_TOKEN exist', async () => {
     const rcPath = 'RCPATH'
     const org = 'organization'
     resolveSpy.mockReturnValueOnce('/fakepath')

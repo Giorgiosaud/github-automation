@@ -1,4 +1,4 @@
-import removeSecret from '../../../src/delete-secret/remove-secret'
+import removeSecret from '../../../src/helpers/delete-secrets'
 import * as getGithubToken from '../../../src/helpers/get-github-token'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'

@@ -1,5 +1,5 @@
 import {Command, Flags} from '@oclif/core'
-import removeSecret from '../../delete-secret/remove-secret'
+import removeSecret from '../../helpers/delete-secrets'
 import {info} from '../../helpers/logger'
 
 export default class DeleteSecret extends Command {
@@ -29,7 +29,6 @@ export default class DeleteSecret extends Command {
       required: true,
       multiple: true,
     }),
-    help: Flags.help({char: 'h'}),
   }
 
   static args = [
