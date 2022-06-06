@@ -4,16 +4,8 @@ import MockAdapter from 'axios-mock-adapter'
 import path from 'node:path'
 import fsExtra from 'fs-extra'
 import * as fileSystem from '../../../src/helpers/file-system'
-// fsExtra.read.mockReturnValue('prueba')
 const mock = new MockAdapter(axios, {delayResponse: 2000})
 
-// import * as sinon from 'sinon'
-// const existsSyncStub = sinon.stub()
-// const pathStub = sinon.stub()
-// const writeFileStub = sinon.stub()
-// const buildEnvContentStub = sinon.stub()
-// const readEnvStub = sinon.stub()
-// const cliPromptToken = sinon.stub()
 const resolveSpy = jest.spyOn(path, 'resolve')
 const fsExtraExistSpy = jest.spyOn(fsExtra, 'existsSync')
 const fsExtraWriteFileSpy = jest.spyOn(fsExtra, 'writeFile').mockImplementation(jest.fn)

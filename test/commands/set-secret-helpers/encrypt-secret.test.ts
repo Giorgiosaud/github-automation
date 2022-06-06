@@ -10,7 +10,6 @@ jest.mock('../../../src/helpers/get-github-token',
 
 const mock = new MockAdapter(axios)
 
-// const cliPromptToken = sinon.stub()
 describe('encryptSecrets function', () => {
   test.only('encryptSecrets work', async () => {
     await libsodium.ready
