@@ -1,38 +1,57 @@
-/* eslint-disable node/no-extraneous-import */
-/* eslint-disable camelcase */
 import encryptSecrets from '../../../src/set-secret-helpers/encrypt-secret'
-import {fancy} from 'fancy-test'
-import {expect} from 'chai'
 import * as getGithubToken from '../../../src/helpers/get-github-token'
-import * as sinon from 'sinon'
-import tweetsodium from 'tweetsodium'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+import libsodium from 'libsodium-wrappers'
+import fsExtra from 'fs-extra'
 
-const tweetsodiumSpy = sinon.spy()
+const getGithubTokenSpy = jest.spyOn(getGithubToken, 'default')
+const fsExtraWriteSpy = jest.spyOn(fsExtra, 'writeFile')
+jest.spyOn(global.console, 'error').mockImplementation()
+fsExtraWriteSpy.mockImplementation(() => jest.fn())
+
+const mock = new MockAdapter(axios)
 
 describe('encryptSecrets function', () => {
-  fancy
-  .stub(getGithubToken, 'default', async () => '123')
-  .stub(tweetsodium, 'seal', () => {
-    tweetsodiumSpy()
-    return '123'
-  },
-  )
-  .nock('https://api.github.com/repos/', api => api
-  .persist()
-  .get('/REPO/actions/secrets/public-key')
-  .matchHeader('authorization', 'Bearer 123')
-  .reply(200, {
-    key: '123123', key_id: '123123',
-  }),
-  )
-  .it('encryptSecrets work', async (ctx, done) => {
-    try {
-      await encryptSecrets('REPO', 'VALUE', 'RCPATH')
-      expect(tweetsodiumSpy.calledOnce).to.be.equal(true)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      done()
-    }
+  const data = {
+    // eslint-disable-next-line camelcase
+    key_id: 'test',
+    key: 'test',
+  }
+  beforeEach(() => {
+    mock.resetHandlers()
+    getGithubTokenSpy.mockReset()
+    mock.onGet('https://api.github.com/repos/REPO/actions/secrets/public-key', '', {Accept: 'application/json, text/plain, */*', Authorization: 'Bearer 123'})
+    .reply(200, {
+      ...data,
+    })
+  })
+  test('encryptSecrets work', async () => {
+    getGithubTokenSpy.mockResolvedValueOnce('123')
+    await libsodium.ready
+    const libsodiumSpy = jest.spyOn(libsodium, 'crypto_box_seal')
+    libsodiumSpy.mockReturnValue('criptoVal')
+    const value = 'VALUE'
+    const repo = 'REPO'
+    const path = 'RCPATH'
+    const result = await encryptSecrets(repo, value, path)
+    expect(result).toEqual({encryptedValue: 'Y3JpcHRvVmFs', keyId: 'test'})
+    expect(getGithubTokenSpy).toBeCalledWith(path, repo)
+    libsodiumSpy.mockReset()
+  })
+  test('if encryptSecrets fails remove rcpath content', async () => {
+    getGithubTokenSpy.mockResolvedValueOnce('124').mockResolvedValueOnce('123')
+    await libsodium.ready
+    const libsodiumSpy = jest.spyOn(libsodium, 'crypto_box_seal')
+    libsodiumSpy.mockReturnValue('criptoVal')
+    const value = 'VALUE'
+    const repo = 'REPO'
+    const path = 'RCPATH'
+    const result = await encryptSecrets(repo, value, path)
+    expect(result).toEqual({encryptedValue: 'Y3JpcHRvVmFs', keyId: 'test'})
+    expect(fsExtraWriteSpy).toBeCalledTimes(1)
+    expect(getGithubTokenSpy).toBeCalledTimes(2)
+    expect(libsodiumSpy).toBeCalledTimes(1)
+    libsodiumSpy.mockReset()
   })
 })

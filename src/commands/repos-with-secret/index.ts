@@ -1,6 +1,6 @@
-import {Command} from '@oclif/command'
-import {info} from '../helpers/logger'
-import listRepos from '../list-org-repositories.ts/list-repos'
+import {Command} from '@oclif/core'
+import {info} from '../../helpers/logger'
+import listRepos from '../../list-org-repositories.ts/list-repos'
 
 export default class ReposWithSecret extends Command {
   static description = 'List Org Repositories if have access'
@@ -21,13 +21,12 @@ export default class ReposWithSecret extends Command {
     {name: 'organization'},
   ]
 
-  async run() {
+  async run(): Promise<void> {
     try {
-      const {args} = this.parse(ReposWithSecret)
+      const {args} = await this.parse(ReposWithSecret)
       const rcPath = '.github-automation.rc'
-      const orgRepos = await listRepos(args.organization, rcPath)
+      await listRepos(args.organization, rcPath)
       info('listing repos')
-      return orgRepos
     } catch (error) {
       if (typeof error  === 'string' || error instanceof Error) {
         this.error(error)

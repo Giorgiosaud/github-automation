@@ -1,6 +1,6 @@
-import {Command, flags} from '@oclif/command'
-import {info} from '../helpers/logger'
-import removeSecret from '../delete-secret/remove-secret'
+import {Command, Flags} from '@oclif/core'
+import removeSecret from '../../helpers/delete-secrets'
+import {info} from '../../helpers/logger'
 
 export default class DeleteSecret extends Command {
   static description = 'Delete Secret from repo'
@@ -17,39 +17,36 @@ export default class DeleteSecret extends Command {
   static strict = false
 
   static flags = {
-    repositories: flags.string({
+    repositories: Flags.string({
       char: 'r',
       description: 'Can be multiples repositories with shape OWNER/REPO separated by space',
       required: true,
       multiple: true,
     }),
-    'secret-name': flags.string({
+    'secret-name': Flags.string({
       char: 'n',
       description: 'Can be multiples secret names separated by space',
       required: true,
       multiple: true,
     }),
-    help: flags.help({char: 'h'}),
   }
 
   static args = [
   ]
 
-  async run() {
+  async run(): Promise<void> {
     try {
-      const {flags} = this.parse(DeleteSecret)
+      const {flags} = await this.parse(DeleteSecret)
       const okRepoNames = flags.repositories.every((repo: string) => {
-        return /.+\/.+/.test(repo)
+        return /^.+\/$.+/.test(repo)
       })
       if (!okRepoNames) {
         throw new Error('The repository string must be of type OWNER/NAME')
       }
 
       const rcPath = '.github-automation.rc'
-      // eslint-disable-next-line unicorn/no-array-reduce
       await flags.repositories.reduce(async (promise, repo) => {
         await promise
-        // eslint-disable-next-line unicorn/no-array-reduce
         await flags['secret-name'].reduce(async (promise, name) => {
           await promise
           await removeSecret(repo, name, rcPath)

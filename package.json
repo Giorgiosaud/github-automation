@@ -1,79 +1,88 @@
 {
   "name": "github-automation",
-  "description": "a github automation toolbox",
-  "version": "2.0.4",
+  "version": "0.0.0",
+  "description": "an automation tool for github",
   "author": "Jorge Saud @Giorgiosaud",
-  "type": "commonjs",
   "bin": {
     "github-automation": "./bin/run"
   },
-  "bugs": "https://github.com/Giorgiosaud/github-automation/issues",
-  "dependencies": {
-    "@oclif/command": "^1",
-    "@oclif/config": "^1",
-    "@oclif/plugin-help": "^3",
-    "@types/fs-extra": "8.1.0",
-    "@types/node-fetch": "^2.5.12",
-    "cli-ux": "^6.0.6",
-    "colors": "^1.4.0",
-    "dotenv": "^10.0.0",
-    "fs": "^0.0.1-security",
-    "fs-extra": "^10.0.0",
-    "node-fetch": "^2.6.1",
-    "sinon": "^11.1.2",
-    "tslib": "^1",
-    "tweetsodium": "^0.0.5"
-  },
-  "devDependencies": {
-    "@oclif/dev-cli": "^1",
-    "@oclif/test": "^1",
-    "@types/chai": "^4",
-    "@types/mocha": "^5",
-    "@types/node": "^10",
-    "@typescript-eslint/eslint-plugin": "^5.7.0",
-    "chai": "^4",
-    "eslint": "^7.32.0",
-    "eslint-config-oclif": "^3.1.2",
-    "eslint-config-oclif-typescript": "^0.2.0",
-    "globby": "^10",
-    "mocha": "^5",
-    "nyc": "^14",
-    "ts-node": "^8",
-    "typescript": "^3.3"
-  },
-  "engines": {
-    "node": ">=8.0.0"
-  },
+  "homepage": "https://github.com/Giorgiosaud/hello-world",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": "Giorgiosaud/hello-world",
   "files": [
     "/bin",
-    "/lib",
+    "/dist",
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/Giorgiosaud/github-automation",
+  "dependencies": {
+    "@oclif/core": "^1",
+    "@oclif/plugin-help": "^5",
+    "@oclif/plugin-plugins": "^2.0.1",
+    "@types/libsodium-wrappers": "^0.7.9",
+    "colorts": "^0.1.63",
+    "jest-config": "^28.1.0",
+    "libsodium-wrappers": "^0.7.10",
+    "node-fetch": "^3.2.4"
+  },
+  "devDependencies": {
+    "@jest/types": "^28.1.0",
+    "@oclif/test": "^2",
+    "@types/fs-extra": "^9.0.13",
+    "@types/jest": "^28.1.0",
+    "@types/node": "^16.9.4",
+    "axios": "^0.27.2",
+    "axios-mock-adapter": "^1.21.1",
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-oclif": "^4",
+    "eslint-config-oclif-typescript": "^1.0.2",
+    "fs-extra": "^10.1.0",
+    "globby": "^11",
+    "jest": "^28.1.0",
+    "mock-stdin": "^1.0.0",
+    "oclif": "^3",
+    "shx": "^0.3.3",
+    "ts-jest": "^28.0.3",
+    "ts-node": "^10.2.1",
+    "tslib": "^2.3.1",
+    "tweetsodium": "^0.0.6",
+    "typescript": "^4.4.3"
+  },
+  "oclif": {
+    "bin": "github-automation",
+    "dirname": "github-automation",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": " ",
+    "topics": {
+      "hello": {
+        "description": "Say hello to the world and others"
+      }
+    }
+  },
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint . --ext .ts --config .eslintrc",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "posttest": "yarn lint",
+    "prepack": "yarn build && oclif manifest && oclif readme",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "version": "oclif readme && git add README.md"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "bugs": "https://github.com/Giorgiosaud/hello-world/issues",
   "keywords": [
     "oclif"
   ],
-  "license": "MIT",
-  "main": "lib/index.js",
-  "oclif": {
-    "commands": "./lib/commands",
-    "bin": "github-automation",
-    "plugins": [
-      "@oclif/plugin-help"
-    ]
-  },
-  "repository": "Giorgiosaud/github-automation",
-  "scripts": {
-    "postpack": "rm -f oclif.manifest.json",
-    "posttest": "eslint . --ext .ts --config .eslintrc",
-    "lint": "eslint . --ext .ts --config .eslintrc",
-    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif-dev readme && git add README.md"
-  },
-  "resolutions": {
-    "path-parse": "1.0.7"
-  },
-  "types": "lib/index.d.ts"
+  "types": "dist/index.d.ts"
 }

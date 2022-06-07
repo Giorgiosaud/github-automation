@@ -1,4 +1,3 @@
-import fetch from 'node-fetch'
 import getGithubToken from '../helpers/get-github-token'
 
 const getRepos = async (organization: string, token: string, page = 1, repoInitialization: string[]  = []): Promise<string[]> => {

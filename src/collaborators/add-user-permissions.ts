@@ -1,7 +1,5 @@
 import getGithubToken from '../helpers/get-github-token'
 
-import fetch from 'node-fetch'
-
 export default async (repo: string, user: string, permission: string, rcPath: string): Promise<boolean> => {
   const organization = repo.split('/')[0]
   const GITHUB_TOKEN = await getGithubToken(rcPath, organization)

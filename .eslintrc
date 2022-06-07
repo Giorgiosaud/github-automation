@@ -2,10 +2,5 @@
   "extends": [
     "oclif",
     "oclif-typescript"
-  ],
-  "root": true,
-  "rules": {
-    "node/no-missing-import": 1,
-    "node/no-extraneous-import":1
-  }
+  ]
 }

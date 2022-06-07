@@ -1,7 +1,7 @@
-import {Command, flags} from '@oclif/command'
-import {info} from '../helpers/logger'
-import updateSecret from '../set-secret-helpers/update-secret'
-import encryptSecret from '../set-secret-helpers/encrypt-secret'
+import {Command, Flags} from '@oclif/core'
+import {info} from '../../helpers/logger'
+import encryptSecret from '../../set-secret-helpers/encrypt-secret'
+import updateSecret from '../../set-secret-helpers/update-secret'
 
 export default class SetSecret extends Command {
   static description = 'describe the command here'
@@ -19,50 +19,48 @@ export default class SetSecret extends Command {
   static strict = false
 
   static flags = {
-    repositories: flags.string({
+    repositories: Flags.string({
       char: 'r',
       description: 'Can be multiples repositories with shape OWNER/REPO separated by space',
       required: true,
       multiple: true,
     }),
-    'secret-name': flags.string({
+    'secret-name': Flags.string({
       char: 'n',
       description: 'Can be multiples secret names separated by space',
       required: true,
       multiple: true,
     }),
-    'secret-value': flags.string({
+    'secret-value': Flags.string({
       required: true,
       description: 'Can be multiples secret values separated by space',
       char: 'x',
       multiple: true,
     }),
 
-    help: flags.help({char: 'h'}),
+    help: Flags.help({char: 'h'}),
   }
 
   static args = [
   ]
 
-  async run() {
+  async run(): Promise<void> {
     try {
-      const {flags} = this.parse(SetSecret)
+      const {flags} = await this.parse(SetSecret)
       if (flags['secret-name'].length !== flags['secret-value'].length) {
         throw new Error('Secrets and values must be the same length')
       }
 
       const okRepoNames = flags.repositories.every((repo: string) => {
-        return /.+\/.+/.test(repo)
+        return /^.+\/$.+/.test(repo)
       })
       if (!okRepoNames) {
         throw new Error('The repository string must be of type OWNER/NAME')
       }
 
       const rcPath = '.github-automation.rc'
-      // eslint-disable-next-line unicorn/no-array-reduce
       await flags.repositories.reduce(async (promise, repo) => {
         await promise
-        // eslint-disable-next-line unicorn/no-array-reduce
         await flags['secret-name'].reduce(async (promise, name, index: number) => {
           await promise
           const {encryptedValue, keyId} = await encryptSecret(repo, flags['secret-value'][index], rcPath)

@@ -1,7 +1,7 @@
-import {Command, flags} from '@oclif/command'
-import {info} from '../helpers/logger'
-import deleteUserPermissions from '../collaborators/delete-user-permissions'
-import addUserPermissions from '../collaborators/add-user-permissions'
+import {Command, Flags} from '@oclif/core'
+import addUserPermissions from '../../collaborators/add-user-permissions'
+import deleteUserPermissions from '../../collaborators/delete-user-permissions'
+import {info} from '../../helpers/logger'
 
 export default class Collaborators extends Command {
   static description = 'Manage Repo collaborators'
@@ -20,41 +20,37 @@ export default class Collaborators extends Command {
   `
 
   static strict = false
-
   static flags = {
-    repositories: flags.string({
+    repositories: Flags.string({
       char: 'r',
       description: 'Can be multiples repositories with shape OWNER/REPO separated by space',
       required: true,
       multiple: true,
     }),
-    'github-users': flags.string({
+    'github-users': Flags.string({
       char: 'u',
       description: 'Can be multiples users',
       required: true,
       multiple: true,
     }),
-    permissions: flags.enum({
+    permissions: Flags.enum({
       char: 'p',
       options: ['pull', 'push', 'admin', 'maintain', 'triage'],
       description: 'Select Permission to add',
       default: 'push',
     }),
-    delete: flags.boolean({
+    delete: Flags.boolean({
       char: 'd',
       description: 'delete user permission',
     }),
-    help: flags.help({char: 'h'}),
+    help: Flags.help({char: 'h'}),
   }
 
-  static args = [
-  ]
-
-  async run() {
+  async run(): Promise<void> {
     try {
-      const {flags} = this.parse(Collaborators)
+      const {flags} = await this.parse(Collaborators)
       const okRepoNames = flags.repositories.every((repo: string) => {
-        return /.+\/.+/.test(repo)
+        return /^.+\/$.+/.test(repo)
       })
       if (!okRepoNames) {
         throw new Error('The repository string must be of type OWNER/NAME')
@@ -62,10 +58,8 @@ export default class Collaborators extends Command {
 
       const rcPath = '.github-automation.rc'
       if (flags.delete) {
-        // eslint-disable-next-line unicorn/no-array-reduce
         return await flags.repositories.reduce(async (promise, repo) => {
           await promise
-          // eslint-disable-next-line unicorn/no-array-reduce
           await flags['github-users'].reduce(async (promise, name) => {
             await promise
             await deleteUserPermissions(repo, name, rcPath)
@@ -74,10 +68,8 @@ export default class Collaborators extends Command {
         }, Promise.resolve())
       }
 
-      // eslint-disable-next-line unicorn/no-array-reduce
       return await flags.repositories.reduce(async (promise, repo) => {
         await promise
-        // eslint-disable-next-line unicorn/no-array-reduce
         await flags['github-users'].reduce(async (promise, name) => {
           await promise
           await addUserPermissions(repo, name, flags.permissions, rcPath)

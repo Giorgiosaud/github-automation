@@ -1,7 +1,6 @@
-import {Command, flags} from '@oclif/command'
-import {info} from '../helpers/logger'
-import listRepos from '../list-org-repositories.ts/list-repos'
-import cli from 'cli-ux'
+import {Command, Flags, CliUx} from '@oclif/core'
+import {info} from '../../helpers/logger'
+import listRepos from '../../list-org-repositories.ts/list-repos'
 
 export default class ListOrgRepositories extends Command {
   static description = 'List Org Repositories if have access'
@@ -17,7 +16,7 @@ export default class ListOrgRepositories extends Command {
   static strict = false
 
   static flags = {
-    filter: flags.string({
+    filter: Flags.string({
       char: 'f',
       description: 'filter by name contains',
       default: '',
@@ -28,17 +27,16 @@ export default class ListOrgRepositories extends Command {
     {name: 'organization'},
   ]
 
-  async run() {
+  async run(): Promise<void> {
     try {
-      const {args, flags} = this.parse(ListOrgRepositories)
+      const {args, flags} = await this.parse(ListOrgRepositories)
       const rcPath = '.github-automation.rc'
       const repositories = await listRepos(args.organization, rcPath, flags.filter)
 
-      cli.styledObject({
+      CliUx.ux.styledObject({
         repositories,
       })
-      cli.log(info(`se consiguieron ${repositories.length} repos`))
-      return repositories
+      CliUx.ux.log(info(`se consiguieron ${repositories.length} repos`))
     } catch (error) {
       if (typeof error  === 'string' || error instanceof Error) {
         this.error(error)
