@@ -45,7 +45,7 @@
     "mock-stdin": "^1.0.0",
     "oclif": "^3",
     "shx": "^0.3.3",
-    "ts-jest": "^28.0.3",
+    "ts-jest": "^28.0.4",
     "ts-node": "^10.2.1",
     "tslib": "^2.3.1",
     "tweetsodium": "^0.0.6",
