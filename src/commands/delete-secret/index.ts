@@ -38,7 +38,7 @@ export default class DeleteSecret extends Command {
     try {
       const {flags} = await this.parse(DeleteSecret)
       const okRepoNames = flags.repositories.every((repo: string) => {
-        return /.+\/.+/.test(repo)
+        return /^.+\/$.+/.test(repo)
       })
       if (!okRepoNames) {
         throw new Error('The repository string must be of type OWNER/NAME')

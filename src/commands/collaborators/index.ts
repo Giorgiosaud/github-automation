@@ -50,7 +50,7 @@ export default class Collaborators extends Command {
     try {
       const {flags} = await this.parse(Collaborators)
       const okRepoNames = flags.repositories.every((repo: string) => {
-        return /.+\/.+/.test(repo)
+        return /^.+\/$.+/.test(repo)
       })
       if (!okRepoNames) {
         throw new Error('The repository string must be of type OWNER/NAME')
