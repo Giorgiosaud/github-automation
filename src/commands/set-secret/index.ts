@@ -52,7 +52,7 @@ export default class SetSecret extends Command {
       }
 
       const okRepoNames = flags.repositories.every((repo: string) => {
-        return /^.+\/$.+/.test(repo)
+        return /^([\w-])+\/([\w-])+$/.test(repo)
       })
       if (!okRepoNames) {
         throw new Error('The repository string must be of type OWNER/NAME')
