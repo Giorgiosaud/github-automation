@@ -19,7 +19,7 @@
   "dependencies": {
     "@oclif/core": "^1",
     "@oclif/plugin-help": "^5",
-    "@oclif/plugin-plugins": "^2.0.1",
+    "@oclif/plugin-plugins": "^2.1.0",
     "@types/libsodium-wrappers": "^0.7.9",
     "colorts": "^0.1.63",
     "jest-config": "^28.1.0",
