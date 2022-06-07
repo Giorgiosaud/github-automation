@@ -1,4 +1,3 @@
-import {Config} from '@oclif/core'
 import DeleteSecret from '../../src/commands/delete-secret'
 import removeSecret from '../../src/helpers/delete-secrets'
 import logger from '../../src/helpers/logger'
