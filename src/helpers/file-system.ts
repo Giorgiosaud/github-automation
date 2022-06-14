@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv'
-import {readFile} from 'fs-extra'
+import {readFileSync} from 'node:fs'
 
 export const  buildEnvContent = (values: any): string => {
   let content = ''
@@ -10,9 +10,9 @@ export const  buildEnvContent = (values: any): string => {
   return content
 }
 
-export const readEnv = async (path: string): Promise<any> => {
+export const readEnv = (path: string):any => {
   let newObject: any = {}
-  const file = await readFile(path)
+  const file = readFileSync(path)
   const ret = dotenv.parse(Buffer.from(file))
   newObject = Object.assign({}, ret)
   return newObject

@@ -5,16 +5,14 @@ import * as  path from 'node:path'
 import {homedir} from 'node:os'
 import libsodium from 'libsodium-wrappers'
 
-const encryptSecrets = async (repo: string, value: string, rcPath: string): Promise<{encryptedValue: string;keyId: string}> => {
-  const organization = repo.split('/')[0]
-  const GITHUB_TOKEN = await getGithubToken(rcPath, organization)
+const encryptSecrets = async (token:string, value: string, org: string, repo: string, name:string): Promise<{encryptedValue: string;keyId: string; name: string; value:string; org:string; repo: string}> => {
   const config = {
     headers: {
-      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
   }
   try {
-    const url = `https://api.github.com/repos/${repo}/actions/secrets/public-key`
+    const url = `https://api.github.com/repos/${org}/${repo}/actions/secrets/public-key`
 
     // eslint-disable-next-line camelcase
     const response:{data:{key:string; key_id:string}} = await axios.get(url, config)
@@ -25,11 +23,10 @@ const encryptSecrets = async (repo: string, value: string, rcPath: string): Prom
     await libsodium.ready
     const encryptedBytes = libsodium.crypto_box_seal(messageBytes, keyBytes)
     const encryptedValue = Buffer.from(encryptedBytes).toString('base64')
-    return {encryptedValue, keyId}
+    return {encryptedValue, keyId, name, value, org, repo}
   } catch (error) {
     console.error(error)
-    await writeFile(path.resolve(homedir(), rcPath), '')
-    return encryptSecrets(repo, value, rcPath)
+    return encryptSecrets(token, value, org, repo, name)
   }
 }
 

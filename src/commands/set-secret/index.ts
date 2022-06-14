@@ -1,8 +1,9 @@
 import {Command, Flags} from '@oclif/core'
+import getGithubToken from '../../helpers/get-github-token'
 import {info} from '../../helpers/logger'
-import encryptSecret from '../../set-secret-helpers/encrypt-secret'
 import updateSecret from '../../set-secret-helpers/update-secret'
-
+import encryptSecrets from '../../set-secret-helpers/encrypt-secret'
+import {rcPath} from '../../helpers/config'
 export default class SetSecret extends Command {
   static description = 'describe the command here'
 
@@ -21,9 +22,14 @@ export default class SetSecret extends Command {
   static flags = {
     repositories: Flags.string({
       char: 'r',
-      description: 'Can be multiples repositories with shape OWNER/REPO separated by space',
+      description: 'Can be multiples repositories names',
       required: true,
       multiple: true,
+    }),
+    organization: Flags.string({
+      char: 'o',
+      description: 'A single string containing the organization name',
+      required: true,
     }),
     'secret-name': Flags.string({
       char: 'n',
@@ -52,22 +58,27 @@ export default class SetSecret extends Command {
       }
 
       const okRepoNames = flags.repositories.every((repo: string) => {
-        return /^([\w-])+\/([\w-])+$/.test(repo)
+        return /^(([a-z]|[A-Z]|\d)+-?)*\w$/.test(repo)
       })
       if (!okRepoNames) {
-        throw new Error('The repository string must be of type OWNER/NAME')
+        throw new Error('The repository string must only contain numbers leters and dash')
       }
 
-      const rcPath = '.github-automation.rc'
-      await flags.repositories.reduce(async (promise, repo) => {
-        await promise
-        await flags['secret-name'].reduce(async (promise, name, index: number) => {
-          await promise
-          const {encryptedValue, keyId} = await encryptSecret(repo, flags['secret-value'][index], rcPath)
-          await updateSecret({encryptedValue, keyId, name, repo, rcPath})
-          this.log(info(`Updated secret ${name} with value ${flags['secret-value'][index]} in ${repo}`))
-        }, Promise.resolve())
-      }, Promise.resolve())
+      const token = await getGithubToken(rcPath, flags.organization)
+      const secretsToEncrypt = []
+      for (const repo of flags.repositories) {
+        for (const [index, secret] of flags['secret-value'].entries()) {
+          secretsToEncrypt.push(encryptSecrets(token, secret, flags.organization, repo, flags['secret-name'][index]))
+        }
+      }
+
+      const promisesEncrypted = await Promise.all(secretsToEncrypt)
+      console.log(promisesEncrypted)
+      const updateSecretsPromises = promisesEncrypted.map(encriptedData => updateSecret(encriptedData, token))
+      await Promise.all(updateSecretsPromises)
+      for (const promiseEncripted of promisesEncrypted) {
+        this.log(info(`Updated secret ${promiseEncripted.name} with value ${promiseEncripted.value} in org: ${promiseEncripted.org} in repo: ${promiseEncripted.repo}`))
+      }
     } catch (error) {
       if (typeof error  === 'string' || error instanceof Error) {
         this.error(error)
