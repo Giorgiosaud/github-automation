@@ -22,7 +22,7 @@ const getRepos = async (organization: string, token: string, page = 1, repoIniti
   return repos
 }
 
-export default async (organization: string, rcPath: string, filter = '') => {
+export default async (organization: string, rcPath: string, filter = ''):Promise<string[]> => {
   const GITHUB_TOKEN = await getGithubToken(rcPath, organization)
 
   let repositories: string[] = await getRepos(organization, GITHUB_TOKEN)

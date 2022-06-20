@@ -1,7 +1,9 @@
 import * as dotenv from 'dotenv'
 import {readFile} from 'fs-extra'
 
-export const  buildEnvContent = (values: any): string => {
+type ENV_TYPE = any
+
+export const  buildEnvContent = (values: ENV_TYPE): string => {
   let content = ''
   for (const key of Object.keys(values)) {
     content += `${key}=${values[key]}\n`

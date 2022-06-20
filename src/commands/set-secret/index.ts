@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-array-reduce */
 import {Command, Flags} from '@oclif/core'
 import {info} from '../../helpers/logger'
 import encryptSecret from '../../set-secret-helpers/encrypt-secret'

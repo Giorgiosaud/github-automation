@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-array-reduce */
 import {Command, Flags} from '@oclif/core'
 import addUserPermissions from '../../collaborators/add-user-permissions'
 import deleteUserPermissions from '../../collaborators/delete-user-permissions'
