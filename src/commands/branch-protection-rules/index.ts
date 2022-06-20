@@ -68,9 +68,7 @@ export default class BranchProtectionRules extends Command {
       }
 
       const branchesProtected = await Promise.all(branchesToProtectPromises)
-      console.log(branchesProtected)
     } catch (error) {
-      console.log(error)
       if (typeof error  === 'string' || error instanceof Error) {
         this.error(error)
       }

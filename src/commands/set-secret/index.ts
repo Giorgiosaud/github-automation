@@ -73,7 +73,6 @@ export default class SetSecret extends Command {
       }
 
       const promisesEncrypted = await Promise.all(secretsToEncrypt)
-      console.log(promisesEncrypted)
       const updateSecretsPromises = promisesEncrypted.map(encriptedData => updateSecret(encriptedData, token))
       await Promise.all(updateSecretsPromises)
       for (const promiseEncripted of promisesEncrypted) {
