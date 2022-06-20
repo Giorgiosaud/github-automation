@@ -1,6 +1,6 @@
 {
   "name": "github-automation",
-  "version": "0.0.0",
+  "version": "2.0.6",
   "description": "an automation tool for github",
   "author": "Jorge Saud @Giorgiosaud",
   "bin": {
@@ -43,6 +43,7 @@
     "fs-extra": "^10.1.0",
     "globby": "^11.1.0",
     "jest": "^28.1.1",
+    "jest-sonar-reporter": "^2.0.0",
     "mock-stdin": "^1.0.0",
     "oclif": "^3.0.1",
     "shx": "^0.3.4",
