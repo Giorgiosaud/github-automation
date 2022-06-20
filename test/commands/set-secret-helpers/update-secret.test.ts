@@ -15,32 +15,40 @@ describe('updateSecrets function', () => {
     const keyId = 'KEY_ID'
     const name = 'NAME'
     const repo = 'REPO'
-    const  rcPath = ' rcPath'
+    const token = 'token'
+    const  org = 'org'
     const putBody = {encrypted_value: encryptedValue, key_id: keyId}
-    mock.onPut('https://api.github.com/repos/REPO/actions/secrets/NAME', putBody, {
-      Accept: 'application/json, text/plain, */*',
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer 123',
+    mock.onPut('https://api.github.com/repos/org/REPO/actions/secrets/NAME', putBody, {
+      Accept: 'application/json, text/plain, */*', 'Content-Type': 'application/json', Authorization: 'Bearer token',
     })
     .reply(201)
-    const response = await updateSecrets({encryptedValue, keyId, name, repo,  rcPath})
-    expect(response).toBeTruthy()
+    try {
+      const a = await updateSecrets({encryptedValue, keyId, name, repo,  org}, token)
+      expect(a).toBeTruthy()
+    } catch (error) {
+      console.log(JSON.stringify(error))
+    }
   })
   test('updateSecrets fail well', async () => {
     const encryptedValue = 'CRYPTO_VAL'
     const keyId = 'KEY_ID'
     const name = 'NAME'
     const repo = 'REPO'
-    const  rcPath = ' rcPath'
+    const token = 'token'
+    const  org = 'org'
     const putBody = {encrypted_value: encryptedValue, key_id: keyId}
-    mock.onPut('https://api.github.com/repos/REPO/actions/secrets/NAME', putBody, {
+    mock.onPut('https://api.github.com/repos/org/REPO/actions/secrets/NAME', putBody, {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
       Authorization: 'Bearer 123',
     })
     .reply(404)
-    await expect(updateSecrets({encryptedValue, keyId, name, repo,  rcPath}))
-    .rejects
-    .toThrowError('error en put a github Error: Request failed with status code 404')
+    try {
+      const a = await updateSecrets({encryptedValue, keyId, name, repo,  org}, token)
+      expect(a).toBeTruthy()
+    } catch (error) {
+      if (error instanceof  Error)
+        expect(error.message).toContain('error en put a github Error: Request failed with status code 404')
+    }
   })
 })

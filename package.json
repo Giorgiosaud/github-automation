@@ -1,6 +1,6 @@
 {
   "name": "github-automation",
-  "version": "0.0.0",
+  "version": "2.0.6",
   "description": "an automation tool for github",
   "author": "Jorge Saud @Giorgiosaud",
   "bin": {
@@ -20,6 +20,8 @@
     "@oclif/core": "^1.9.0",
     "@oclif/plugin-help": "^5.1.12",
     "@oclif/plugin-plugins": "^2.1.0",
+    "@octokit/core": "^3.6.0",
+    "@octokit/types": "^6.34.0",
     "@types/libsodium-wrappers": "^0.7.9",
     "colorts": "^0.1.63",
     "jest-config": "^28.1.1",
@@ -41,13 +43,13 @@
     "fs-extra": "^10.1.0",
     "globby": "^11.1.0",
     "jest": "^28.1.1",
+    "jest-sonar-reporter": "^2.0.0",
     "mock-stdin": "^1.0.0",
     "oclif": "^3.0.1",
     "shx": "^0.3.4",
     "ts-jest": "^28.0.4",
     "ts-node": "^10.8.1",
     "tslib": "^2.4.0",
-    "tweetsodium": "^0.0.6",
     "typescript": "^4.7.3"
   },
   "oclif": {
@@ -83,5 +85,10 @@
   "keywords": [
     "oclif"
   ],
+  "jestSonar": {
+    "reportPath": "coverage",
+    "reportFile": "sonar-cloud-reporter.xml",
+    "indent": 4
+  },
   "types": "dist/index.d.ts"
 }
