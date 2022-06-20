@@ -1,0 +1,44 @@
+name: Publishing Modyo Cli on Github
+on:
+  release:
+    types: [published]
+jobs:
+  publish-on-github:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node.js 16.x LTS to work with NPM
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+        registry-url: https://registry.npmjs.org
+    - name: Install dependencies with npm
+      run: npm install
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This gets generated automatically
+    - name: Versioning
+      run : |
+          echo $GITHUB_REF
+          TAG=$(echo $GITHUB_REF | cut -c 11-)
+          echo $TAG
+          git config user.email echo $EMAIL
+          git config user.name echo $NAME
+          yarn version --new-version  $TAG
+      env:
+        EMAIL: ${{ secrets.EMAIL }}
+        NAME: ${{ secrets.NAME }}
+    - name: Publish on NPM
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - name: Setup Node.js 16.x LTS to work with Github Package Registry
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+        registry-url: 'https://npm.pkg.github.com'
+    - name: Publish on Github Package Registry
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+© 2022 GitHub, Inc.
+Terms
