@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-array-reduce */
 import {Command, Flags} from '@oclif/core'
 import addUserPermissions from '../../collaborators/add-user-permissions'
 import deleteUserPermissions from '../../collaborators/delete-user-permissions'
@@ -60,8 +61,8 @@ export default class Collaborators extends Command {
       if (flags.delete) {
         return await flags.repositories.reduce(async (promise, repo) => {
           await promise
-          await flags['github-users'].reduce(async (promise, name) => {
-            await promise
+          await flags['github-users'].reduce(async (promiseI, name) => {
+            await promiseI
             await deleteUserPermissions(repo, name, rcPath)
             this.log(info(`Removed user ${name} from repo: ${repo}`))
           }, Promise.resolve())
@@ -70,8 +71,8 @@ export default class Collaborators extends Command {
 
       return await flags.repositories.reduce(async (promise, repo) => {
         await promise
-        await flags['github-users'].reduce(async (promise, name) => {
-          await promise
+        await flags['github-users'].reduce(async (promiseI, name) => {
+          await promiseI
           await addUserPermissions(repo, name, flags.permissions, rcPath)
           this.log(info(`Add user ${name} to repo: ${repo} with: ${flags.permissions}`))
         }, Promise.resolve())

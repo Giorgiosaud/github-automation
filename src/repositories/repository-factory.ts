@@ -1,4 +1,4 @@
-import {octokitRepository,octokitRepositoryInterface} from './octokit-repository'
+import {octokitRepository, octokitRepositoryInterface} from './octokit-repository'
 
 export default {
   get(repository:'octocat'):octokitRepositoryInterface|null {

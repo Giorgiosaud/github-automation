@@ -7,5 +7,14 @@ const config: Config.InitialOptions = {
   moduleDirectories: [...defaults.moduleDirectories, 'node_modules/.pnpm'],
   preset: 'ts-jest',
   testEnvironment: 'node',
+  coverageReporters: [
+    'html',
+    'json',
+    'text',
+    'text-summary',
+    'lcov',
+  ],
+  testResultsProcessor: 'jest-sonar-reporter',
+  collectCoverage: true,
 }
 export default config

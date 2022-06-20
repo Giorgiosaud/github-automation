@@ -1,10 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import getGithubToken from '../../helpers/get-github-token'
-import {info} from '../../helpers/logger'
-import updateSecret from '../../set-secret-helpers/update-secret'
-import encryptSecrets from '../../set-secret-helpers/encrypt-secret'
 import {rcPath} from '../../helpers/config'
-import protectBranch from '../../branch-protection-rules-helpers/protectBranch'
+import protectBranch from '../../branch-protection-rules-helpers/protect-branch'
 export default class BranchProtectionRules extends Command {
   static description = 'describe the command here'
 
@@ -67,7 +64,7 @@ export default class BranchProtectionRules extends Command {
         }
       }
 
-      const branchesProtected = await Promise.all(branchesToProtectPromises)
+      await Promise.all(branchesToProtectPromises)
     } catch (error) {
       if (typeof error  === 'string' || error instanceof Error) {
         this.error(error)

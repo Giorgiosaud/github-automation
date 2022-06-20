@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-array-reduce */
 import {Command, Flags} from '@oclif/core'
 import removeSecret from '../../helpers/delete-secrets'
 import {info} from '../../helpers/logger'
@@ -47,8 +48,8 @@ export default class DeleteSecret extends Command {
       const rcPath = '.github-automation.rc'
       await flags.repositories.reduce(async (promise, repo) => {
         await promise
-        await flags['secret-name'].reduce(async (promise, name) => {
-          await promise
+        await flags['secret-name'].reduce(async (promiseI, name) => {
+          await promiseI
           await removeSecret(repo, name, rcPath)
           this.log(info(`Removed secret ${name} from repo: ${repo}`))
         }, Promise.resolve())

@@ -20,17 +20,18 @@ export default class SetSecret extends Command {
   static strict = false
 
   static flags = {
+    organization: Flags.string({
+      char: 'o',
+      description: 'A single string containing the organization name',
+      required: true,
+    }),
     repositories: Flags.string({
       char: 'r',
       description: 'Can be multiples repositories names',
       required: true,
       multiple: true,
     }),
-    organization: Flags.string({
-      char: 'o',
-      description: 'A single string containing the organization name',
-      required: true,
-    }),
+
     'secret-name': Flags.string({
       char: 'n',
       description: 'Can be multiples secret names separated by space',
@@ -68,15 +69,17 @@ export default class SetSecret extends Command {
       const secretsToEncrypt = []
       for (const repo of flags.repositories) {
         for (const [index, secret] of flags['secret-value'].entries()) {
-          secretsToEncrypt.push(encryptSecrets(token, secret, flags.organization, repo, flags['secret-name'][index]))
+          secretsToEncrypt.push(encryptSecrets({token, value: secret, org: flags.organization, repo, name: flags['secret-name'][index]}))
         }
       }
 
       const promisesEncrypted = await Promise.all(secretsToEncrypt)
       const updateSecretsPromises = promisesEncrypted.map(encriptedData => updateSecret(encriptedData, token))
       await Promise.all(updateSecretsPromises)
-      for (const promiseEncripted of promisesEncrypted) {
-        this.log(info(`Updated secret ${promiseEncripted.name} with value ${promiseEncripted.value} in org: ${promiseEncripted.org} in repo: ${promiseEncripted.repo}`))
+      for (const repo of flags.repositories) {
+        for (const [index, secret] of flags['secret-value'].entries()) {
+          this.log(info(`Updated secret ${flags['secret-name'][index]} with value ${secret} in org: ${flags.organization} in repo: ${repo}`))
+        }
       }
     } catch (error) {
       if (typeof error  === 'string' || error instanceof Error) {

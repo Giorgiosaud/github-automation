@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret-helpers/update-secret.test.ts">
+    <testCase name="updateSecrets function updateSecrets works" duration="18"/>
+    <testCase name="updateSecrets function updateSecrets fail well" duration="1"/>
+  </file>
+  <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret-helpers/encrypt-secret.test.ts">
+    <testCase name="encryptSecrets function encryptSecrets work" duration="161"/>
+    <testCase name="encryptSecrets function if encryptSecrets fails remove rcpath content" duration="2"/>
+  </file>
+  <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/helpers/delete-secret.test.ts">
+    <testCase name="getGithubToken function deleteSecrets works and return true if is successfully called the removed" duration="65"/>
+    <testCase name="getGithubToken function deleteSecrets works and return fañse if is called the removed and fails" duration="2"/>
+  </file>
+  <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/delete-secret/remove-secret.test.ts">
+    <testCase name="removeSecret function everything pass id response is 204" duration="2013"/>
+  </file>
+  <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/delete-secret.test.ts">
+    <testCase name="delete-secret command delete-secret fails if no flags are set asking for repo" duration="1530"/>
+    <testCase name="delete-secret command delete-secret fails if only repo is set" duration="32"/>
+    <testCase name="delete-secret command delete-secret fails if  Repo name not match with repo structure name" duration="21"/>
+    <testCase name="delete-secret command delete-secret works" duration="28"/>
+  </file>
+  <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret.test.ts">
+    <testCase name="set-secret command set-secret fails if no flags are set asking for repo" duration="1228"/>
+    <testCase name="set-secret command set-secret fails if only org is set" duration="28"/>
+    <testCase name="set-secret command set-secret fails if org and repo is set" duration="24"/>
+    <testCase name="set-secret command set-secret fails if names and secret count not match" duration="22"/>
+    <testCase name="set-secret command set-secret works if everithing is set" duration="28"/>
+  </file>
+  <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/helpers/get-github-token.test.ts">
+    <testCase name="getGithubToken function REALPATH  200 setting file not exist and GITHUB_TOKEN not exist" duration="2012"/>
+    <testCase name="getGithubToken function REALPATH  200 setting file exist and GITHUB_TOKEN not exist" duration="2002"/>
+    <testCase name="getGithubToken function REALPATH  200 setting file exist and GITHUB_TOKEN exist" duration="1"/>
+  </file>
+</testExecutions>
