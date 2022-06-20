@@ -82,6 +82,8 @@ export default class SetSecret extends Command {
           this.log(info(`Updated secret ${flags['secret-name'][index]} with value ${secret} in org: ${flags.organization} in repo: ${repo}`))
         }
       }
+
+      console.log('end end')
     } catch (error) {
       if (typeof error  === 'string' || error instanceof Error) {
         this.error(error)
