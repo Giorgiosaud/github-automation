@@ -136,9 +136,9 @@ jobs:
       - name: fix code coverage paths
         working-directory: ./coverage
         run: |
-          MODYO_WIDGET_NAME=$(echo $GITHUB_REPOSITORY| sed -e 's/modyo\///')
-          MODYO_WIDGET_PATH=$MODYO_WIDGET_NAME/$MODYO_WIDGET_NAME
-          REPLACE_REGEX="s/\/home\/runner\/work\/"$(echo $MODYO_WIDGET_PATH| sed -e 's/\//\\\//')"\///g"
+          WIDGET_NAME=$(echo $GITHUB_REPOSITORY| sed -e 's/Giorgiosaud\///')
+          WIDGET_PATH=$WIDGET_NAME/$WIDGET_NAME
+          REPLACE_REGEX="s/\/home\/runner\/work\/"$(echo $WIDGET_PATH| sed -e 's/\//\\\//')"\///g"
           echo $REPLACE_REGEX
           cat sonar-cloud-reporter.xml
           sed -i $REPLACE_REGEX lcov.info
