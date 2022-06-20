@@ -4,7 +4,6 @@ import MockAdapter from 'axios-mock-adapter'
 import libsodium from 'libsodium-wrappers'
 
 jest.spyOn(global.console, 'error').mockImplementation()
-jest.setTimeout(1000)
 const mock = new MockAdapter(axios)
 
 describe('encryptSecrets function', () => {
