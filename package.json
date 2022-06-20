@@ -85,5 +85,10 @@
   "keywords": [
     "oclif"
   ],
+  "jestSonar": {
+    "reportPath": "coverage",
+    "reportFile": "sonar-cloud-reporter.xml",
+    "indent": 4
+  },
   "types": "dist/index.d.ts"
 }
