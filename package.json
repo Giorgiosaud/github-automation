@@ -79,7 +79,7 @@
     "version": "oclif readme && git add README.md"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "bugs": "https://github.com/Giorgiosaud/hello-world/issues",
   "keywords": [

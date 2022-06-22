@@ -23,10 +23,12 @@ jobs:
           echo $TAG
           git config user.email echo $EMAIL
           git config user.name echo $NAME
-          yarn version --new-version  $TAG
+          npm version $TAG
       env:
         EMAIL: ${{ secrets.EMAIL }}
         NAME: ${{ secrets.NAME }}
+    - name: Commit to my branch
+      uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
     - name: Publish on NPM
       run: npm publish
       env:
