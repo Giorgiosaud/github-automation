@@ -99,7 +99,14 @@ jobs:
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
+      - name: Cache test results
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-test-results
+        with:
+          path: ./coverage
+          key: coverage-${{ github.sha }}-fixed
+          restore-keys: coverage-${{ github.sha }}
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
