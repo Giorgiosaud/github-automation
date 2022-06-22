@@ -145,7 +145,7 @@ jobs:
           sed -i $REPLACE_REGEX sonar-cloud-reporter.xml
           cat sonar-cloud-reporter.xml
   run-sonar-push:
-    name: Sonar Cloud push data
+    name: Sonar Cloud Analisys
     runs-on: ubuntu-latest
     needs: run-fix-paths
     steps:
