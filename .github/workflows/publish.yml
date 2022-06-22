@@ -3,42 +3,130 @@ on:
   release:
     types: [published]
 jobs:
-  publish-on-github:
+  cache-install-and-version:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Node.js 16.x LTS to work with NPM
-      uses: actions/setup-node@v1
-      with:
-        node-version: '16.x'
-        registry-url: https://registry.npmjs.org
-    - name: Install dependencies with npm
-      run: npm install
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This gets generated automatically
-    - name: Versioning
-      run : |
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - uses: actions/cache@v3
+        name: Cache package.json
+        with:
+          path: package.json
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-package-json-
+      - name: Commit Changes to version
+        uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+      - name: Install dependencies
+        run: pnpm install
+      - name: Versioning
+        run : |
           echo $GITHUB_REF
           TAG=$(echo $GITHUB_REF | cut -c 11-)
           echo $TAG
           git config user.email echo $EMAIL
           git config user.name echo $NAME
-          npm version $TAG
-      env:
-        EMAIL: ${{ secrets.EMAIL }}
-        NAME: ${{ secrets.NAME }}
-    - name: Commit to my branch
-      uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
-    - name: Publish on NPM
-      run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    - name: Setup Node.js 16.x LTS to work with Github Package Registry
-      uses: actions/setup-node@v1
-      with:
-        node-version: '16.x'
-        registry-url: 'https://npm.pkg.github.com'
-    - name: Publish on Github Package Registry
-      run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
+          pnpm version $TAG
+  push-to-npm:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    needs: cache-install-and-version
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - uses: actions/cache@v3
+        name: Cache package.json
+        with:
+          path: package.json
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-package-json-
+      - name: publish to npm
+        run: pnpm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  push-to-github-registry:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    needs: cache-install-and-version
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: 'https://npm.pkg.github.com'
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - uses: actions/cache@v3
+        name: Cache package.json
+        with:
+          path: package.json
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-package-json-
+      - name: publish to npm
+        run: pnpm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
