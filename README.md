@@ -20,7 +20,7 @@ $ npm install -g github-automation
 $ github-automation COMMAND
 running command...
 $ github-automation (--version)
-github-automation/3.1.11 darwin-x64 node-v16.15.1
+github-automation/3.1.12 darwin-x64 node-v16.15.1
 $ github-automation --help [COMMAND]
 USAGE
   $ github-automation COMMAND
@@ -72,7 +72,7 @@ EXAMPLES
       $ github-automation branch-protection-rules -r NAME1 NAME2 ... NAMEn -o ORG -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
 ```
 
-_See code: [dist/commands/branch-protection-rules/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.11/dist/commands/branch-protection-rules/index.ts)_
+_See code: [dist/commands/branch-protection-rules/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.12/dist/commands/branch-protection-rules/index.ts)_
 
 ## `github-automation 
   collaborators -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
@@ -105,7 +105,7 @@ EXAMPLES
       $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
 ```
 
-_See code: [dist/commands/collaborators/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.11/dist/commands/collaborators/index.ts)_
+_See code: [dist/commands/collaborators/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.12/dist/commands/collaborators/index.ts)_
 
 ## `github-automation delete-secret -r REPOS -n NAMES`
 
@@ -127,7 +127,7 @@ EXAMPLES
       $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
 ```
 
-_See code: [dist/commands/delete-secret/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.11/dist/commands/delete-secret/index.ts)_
+_See code: [dist/commands/delete-secret/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.12/dist/commands/delete-secret/index.ts)_
 
 ## `github-automation help [COMMAND]`
 
@@ -167,7 +167,7 @@ EXAMPLES
       $ github-automation list-org-repositories OWNER
 ```
 
-_See code: [dist/commands/list-org-repositories/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.11/dist/commands/list-org-repositories/index.ts)_
+_See code: [dist/commands/list-org-repositories/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.12/dist/commands/list-org-repositories/index.ts)_
 
 ## `github-automation plugins`
 
@@ -414,7 +414,7 @@ EXAMPLES
       $ github-automation repos-with-secret OWNER
 ```
 
-_See code: [dist/commands/repos-with-secret/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.11/dist/commands/repos-with-secret/index.ts)_
+_See code: [dist/commands/repos-with-secret/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.12/dist/commands/repos-with-secret/index.ts)_
 
 ## `github-automation set-secret -r REPOS -n NAMES -x VALUES`
 
@@ -440,5 +440,5 @@ EXAMPLES
       $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
 ```
 
-_See code: [dist/commands/set-secret/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.11/dist/commands/set-secret/index.ts)_
+_See code: [dist/commands/set-secret/index.ts](https://github.com/Giorgiosaud/hello-world/blob/v3.1.12/dist/commands/set-secret/index.ts)_
 <!-- commandsstop -->
