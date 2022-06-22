@@ -86,7 +86,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-package-json-
       - name: publish to npm
-        run: pnpm publish
+        run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   push-to-github-registry:
@@ -127,6 +127,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-package-json-
       - name: publish to npm
-        run: pnpm publish
+        run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
