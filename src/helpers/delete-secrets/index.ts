@@ -1,15 +1,17 @@
-import getGithubToken from '../get-github-token'
 import axios from 'axios'
-
-export default async (repo: string, secretName: string, rcPath: string):Promise<boolean> => {
-  const organization = repo.split('/')[0]
-  const GITHUB_TOKEN = await getGithubToken(rcPath, organization)
+interface deleteSecretsParams{
+  repo: string;
+  organization: string;
+  name: string;
+  token: string;
+}
+export default async ({repo, name, token, organization}:deleteSecretsParams):Promise<boolean> => {
   const config = {
     headers: {
-      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
   }
-  const url = `https://api.github.com/repos/${repo}/actions/secrets/${secretName}`
+  const url = `https://api.github.com/repos/${organization}/${repo}/actions/secrets/${name}`
   try {
     await axios.delete(url, config)
     return true
