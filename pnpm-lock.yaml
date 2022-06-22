@@ -24,6 +24,7 @@ specifiers:
   globby: ^11.1.0
   jest: ^28.1.1
   jest-config: ^28.1.1
+  jest-sonar-reporter: ^2.0.0
   libsodium-wrappers: ^0.7.10
   mock-stdin: ^1.0.0
   oclif: ^3.0.1
@@ -31,7 +32,6 @@ specifiers:
   ts-jest: ^28.0.4
   ts-node: ^10.8.1
   tslib: ^2.4.0
-  tweetsodium: ^0.0.6
   typescript: ^4.7.3
 
 dependencies:
@@ -61,13 +61,13 @@ devDependencies:
   fs-extra: 10.1.0
   globby: 11.1.0
   jest: 28.1.1_rinng5olcru3mhp5hgf2mjy33y
+  jest-sonar-reporter: 2.0.0
   mock-stdin: 1.0.0
   oclif: 3.0.1
   shx: 0.3.4
   ts-jest: 28.0.4_vz6zla63wvofljfl6elifyg77e
   ts-node: 10.8.1_xrrid5ahylip6fa4hrbwh6apl4
   tslib: 2.4.0
-  tweetsodium: 0.0.6
   typescript: 4.7.3
 
 packages:
@@ -1658,10 +1658,6 @@ packages:
       buffer: 5.7.1
       inherits: 2.0.4
       readable-stream: 3.6.0
-    dev: true
-
-  /blakejs/1.2.1:
-    resolution: {integrity: sha512-QXUSXI3QVc/gJME0dBpXrag1kbzOqCjCX8/b54ntNyW6sjtoqxqRk3LTmXzaJoh71zMsDCjM+47jS7XiwN/+fQ==}
     dev: true
 
   /brace-expansion/1.1.11:
@@ -3730,6 +3726,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /jest-sonar-reporter/2.0.0:
+    resolution: {integrity: sha512-ZervDCgEX5gdUbdtWsjdipLN3bKJwpxbvhkYNXTAYvAckCihobSLr9OT/IuyNIRT1EZMDDwR6DroWtrq+IL64w==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      xml: 1.0.1
+    dev: true
+
   /jest-util/28.1.1:
     resolution: {integrity: sha512-FktOu7ca1DZSyhPAxgxB6hfh2+9zMoJ7aEQA759Z6p45NuO8mWcqujH+UdHlCm/V6JTWwDztM2ITCzU1ijJAfw==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -5601,18 +5604,6 @@ packages:
     dependencies:
       safe-buffer: 5.2.1
 
-  /tweetnacl/1.0.3:
-    resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}
-    dev: true
-
-  /tweetsodium/0.0.6:
-    resolution: {integrity: sha512-vMglGijHoottUKHWaEFjgzHias6Rl+2h/qljRoebJH9GXjBmB5/C+rttmFo8bw6F0aokguV9QTWTR4P2m5vUvg==}
-    deprecated: 'tweetsodium is deprecated and unmaintained. Please consider using libsodium.js, maintained by the same author as libsodium: https://github.com/jedisct1/libsodium.js'
-    dependencies:
-      blakejs: 1.2.1
-      tweetnacl: 1.0.3
-    dev: true
-
   /type-check/0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -5869,6 +5860,10 @@ packages:
       make-dir: 3.1.0
       sort-keys: 4.2.0
       write-file-atomic: 3.0.3
+    dev: true
+
+  /xml/1.0.1:
+    resolution: {integrity: sha512-huCv9IH9Tcf95zuYCsQraZtWnJvBtLVE0QHMOs8bWyZAFZNDcYjsPq1nEx8jKA9y+Beo9v+7OBPRisQTjinQMw==}
     dev: true
 
   /xml2js/0.4.19:
