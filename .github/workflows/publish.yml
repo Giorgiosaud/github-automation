@@ -90,7 +90,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
       - name: publish to npm
-        run: pnpm publish --no-git-checks
+        run: |
+          echo "//registry.npmjs.org/:_authToken==${NODE_AUTH_TOKEN}">.npmrc
+          pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   push-to-github-registry:
@@ -135,6 +137,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
       - name: publish to github registry
-        run: pnpm publish --no-git-checks
+        run: |
+          echo "//registry.npmjs.org/:_authToken==${NODE_AUTH_TOKEN}">.npmrc
+          echo "registry=https://npm.pkg.github.com">>.npmrc
+          pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
