@@ -73,7 +73,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
         run: pnpm install
-      - name: run lint
+      - name: Runing linter
         run: pnpm lint
   run-tests:
     name: Runingn test coverage
@@ -109,7 +109,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
         run: pnpm install
-      - name: Install dependencies
+      - name: Runing Coverage
         run: pnpm test:coverage
   run-fix-paths:
     name: Fix paths for SonarCloud
