@@ -1,6 +1,6 @@
 {
-  "name": "@giorgiosaud/github-automation",
-  "version": "3.1.6",
+  "name": "github-automation",
+  "version": "3.1.1",
   "description": "an automation tool for github",
   "author": "Jorge Saud @Giorgiosaud",
   "bin": {
