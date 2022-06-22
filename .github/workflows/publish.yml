@@ -37,8 +37,6 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-package-json-
-      - name: Commit Changes to version
-        uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
       - name: Install dependencies
         run: pnpm install
       - name: Versioning
@@ -49,6 +47,8 @@ jobs:
           git config user.email echo $EMAIL
           git config user.name echo $NAME
           pnpm version $TAG
+      - name: Commit Changes to version
+        uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
   push-to-npm:
     name: Publish to npm
     runs-on: ubuntu-latest
@@ -85,6 +85,10 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-package-json-
+      - name: Install dependencies
+        run: pnpm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
       - name: publish to npm
         run: pnpm publish --no-git-checks
         env:
@@ -126,7 +130,11 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-package-json-
-      - name: publish to npm
+      - name: Install dependencies
+        run: pnpm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
+      - name: publish to github registry
         run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
