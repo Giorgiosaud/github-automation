@@ -134,7 +134,7 @@ jobs:
         run: pnpm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
-      - name: publish to npm
+      - name: publish to github registry
         run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN_REG }}
