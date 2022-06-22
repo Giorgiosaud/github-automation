@@ -1,5 +1,5 @@
 {
-  "name": "github-automation",
+  "name": "@giorgiosaud/github-automation",
   "version": "3.1.1",
   "description": "an automation tool for github",
   "author": "Jorge Saud @Giorgiosaud",
