@@ -37,7 +37,6 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-
       - name: Install dependencies
         run: pnpm install
   lint-ts:
@@ -72,6 +71,8 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install
       - name: run lint
         run: pnpm lint
   run-tests:
@@ -106,7 +107,8 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-
+      - name: Install dependencies
+        run: pnpm install
       - name: Install dependencies
         run: pnpm test:coverage
   run-fix-paths:
