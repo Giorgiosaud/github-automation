@@ -24,7 +24,7 @@
     "@octokit/types": "^6.34.0",
     "@types/libsodium-wrappers": "^0.7.9",
     "colorts": "^0.1.63",
-    "jest-config": "^28.1.1",
+    "jest-config": "^28.1.2",
     "fs-extra": "^10.1.0",
     "dotenv": "^16.0.1",
     "axios": "^0.27.2",
