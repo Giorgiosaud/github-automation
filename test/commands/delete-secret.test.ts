@@ -18,18 +18,28 @@ describe('delete-secret command', () => {
     } catch (error) {
       if (error instanceof Error) {
         expect(error.message).toContain('Missing required flag:')
+        expect(error.message).toContain('-o, --organization ORGANIZATION')
+        expect(error.message).toContain('a single sting with the name of org')
+        expect(error.message).toContain('See more help with --help')
+      }
+    }
+  })
+  test('delete-secret fails if only org is set', async () => {
+    try {
+      await DeleteSecret.run(['-o', 'org'])
+    } catch (error) {
+      if (error instanceof Error) {
+        expect(error.message).toContain('Missing required flag:')
         expect(error.message).toContain('-r, --repositories REPOSITORIES')
-        expect(error.message).toContain('Can be multiples repositories with shape')
-        expect(error.message).toContain('OWNER/REPO separated by space')
+        expect(error.message).toContain('Can be multiples repositories with shape REPO')
+        expect(error.message).toContain('separated by space')
         expect(error.message).toContain('See more help with --help')
       }
     }
   })
   test('delete-secret fails if only repo is set', async () => {
     try {
-      const argv = []
-      argv.push('--repositories', 'REPO')
-      await DeleteSecret.run(argv)
+      await DeleteSecret.run(['-o', 'org', '-r', 'REPO'])
     } catch (error) {
       if (error instanceof Error) {
         expect(error.message).toContain('Missing required flag:')
@@ -41,21 +51,17 @@ describe('delete-secret command', () => {
   })
   test('delete-secret fails if  Repo name not match with repo structure name', async () => {
     try {
-      const argv = []
-      argv.push('--repositories', 'BadRepo', '--secret-name', 'SECRET', 'SECRE2')
-      await DeleteSecret.run(argv)
+      await DeleteSecret.run(['-o', 'org', '-r', 'BadRepo%%', '--secret-name', 'SECRET', 'SECRE2'])
     } catch (error) {
       if (error instanceof Error) {
-        expect(error.message).toContain('The repository string must be of type OWNER/NAME')
+        expect(error.message).toContain('The repository string must only contain numbers leters and dash')
       }
     }
   })
   test('delete-secret works', async () => {
-    const argv = []
-    argv.push('--repositories', 'OWNER/REPO', '--secret-name', 'SECRET', 'SECRET2')
-    await DeleteSecret.run(argv)
+    await DeleteSecret.run(['-o', 'org', '-r', 'repo', '--secret-name', 'SECRET', 'SECRE2'])
     expect(removeSecret).toBeCalledTimes(2)
-    expect(logger.info).toHaveBeenNthCalledWith(1,  'Removed secret SECRET from repo: OWNER/REPO')
-    expect(logger.info).toHaveBeenNthCalledWith(2, 'Removed secret SECRET2 from repo: OWNER/REPO')
+    expect(logger.info).toHaveBeenNthCalledWith(1,  'Removed secret SECRET from repo: repo in org')
+    expect(logger.info).toHaveBeenNthCalledWith(2, 'Removed secret SECRE2 from repo: repo in org')
   })
 })

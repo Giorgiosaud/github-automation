@@ -4,6 +4,7 @@ import {info} from '../../helpers/logger'
 import updateSecret from '../../set-secret-helpers/update-secret'
 import encryptSecrets from '../../set-secret-helpers/encrypt-secret'
 import {rcPath} from '../../helpers/config'
+import {validateEqualLengths, validateRepoNames} from '../../helpers/validations'
 export default class SetSecret extends Command {
   static description = 'describe the command here'
 
@@ -54,16 +55,9 @@ export default class SetSecret extends Command {
   async run(): Promise<void> {
     try {
       const {flags} = await this.parse(SetSecret)
-      if (flags['secret-name'].length !== flags['secret-value'].length) {
-        throw new Error('Secrets and values must be the same length')
-      }
+      validateEqualLengths(flags['secret-name'], flags['secret-value'])
 
-      const okRepoNames = flags.repositories.every((repo: string) => {
-        return /^(([a-z]|[A-Z]|\d)+-?)*\w$/.test(repo)
-      })
-      if (!okRepoNames) {
-        throw new Error('The repository string must only contain numbers leters and dash')
-      }
+      validateRepoNames(flags.repositories)
 
       const token = await getGithubToken(rcPath, flags.organization)
       const secretsToEncrypt = []
