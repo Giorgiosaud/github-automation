@@ -82,6 +82,7 @@ export default class SetSecret extends Command {
         }
       }
     } catch (error) {
+      console.log(error)
       if (typeof error  === 'string' || error instanceof Error) {
         this.error(error)
       }
