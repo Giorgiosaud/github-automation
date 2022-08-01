@@ -34,7 +34,7 @@
     "@jest/types": "^28.1.1",
     "@oclif/test": "^2.1.0",
     "@types/fs-extra": "^9.0.13",
-    "@types/jest": "^28.1.1",
+    "@types/jest": "^28.1.6",
     "@types/node": "^16.11.38",
     "axios-mock-adapter": "^1.21.1",
     "eslint": "^7.32.0",
