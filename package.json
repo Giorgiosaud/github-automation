@@ -44,7 +44,7 @@
     "jest": "^28.1.1",
     "jest-sonar-reporter": "^2.0.0",
     "mock-stdin": "^1.0.0",
-    "oclif": "^3.0.1",
+    "oclif": "^3.2.12",
     "shx": "^0.3.4",
     "ts-jest": "^28.0.4",
     "ts-node": "^10.8.1",
