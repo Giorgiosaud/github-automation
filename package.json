@@ -26,7 +26,7 @@
     "colorts": "^0.1.63",
     "jest-config": "^28.1.1",
     "fs-extra": "^10.1.0",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.3",
     "axios": "^0.27.2",
     "libsodium-wrappers": "^0.7.10"
   },
