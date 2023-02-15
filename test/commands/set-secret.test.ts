@@ -1,25 +1,30 @@
-import encryptSecret from '../../src/set-secret-helpers/encrypt-secret'
-import updateSecret from '../../src/set-secret-helpers/update-secret'
+import * as encryptSecret from '../../src/set-secret-helpers/encrypt-secret'
+import * as updateSecret from '../../src/set-secret-helpers/update-secret'
 import SetSecret from '../../src/commands/set-secret'
-import logger from '../../src/helpers/logger'
+import * as logger from '../../src/helpers/logger'
+import * as getGithubToken from '../../src/helpers/get-github-token'
 
-jest.mock('../../src/set-secret-helpers/encrypt-secret', () => jest.fn().mockResolvedValue({encryptedValue: 's', keyId: 'd'}))
-jest.mock('../../src/set-secret-helpers/update-secret', () => jest.fn().mockResolvedValue(true))
-jest.mock('../../src/helpers/logger',
-  () => ({
-    info: jest.fn(),
-  }))
+const spyGetGithubToken = jest.spyOn(getGithubToken, 'default')
+const spyEncryptSectet = jest.spyOn(encryptSecret, 'default')
+const spyUpdateSecret = jest.spyOn(updateSecret, 'default')
+const spyLogger = jest.spyOn(logger, 'info')
+spyGetGithubToken.mockResolvedValue('MY_TOKEN')
+spyEncryptSectet.mockImplementation(({value, org, repo, name}) => Promise.resolve({encryptedValue: 'sxxx', keyId: 'dssss', name, value, org, repo}))
+spyUpdateSecret.mockResolvedValue(true)
 describe('set-secret command', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
   test('set-secret fails if no flags are set asking for repo', async () => {
     try {
       await SetSecret.run([])
     } catch (error) {
       if (error instanceof Error) {
-        expect(error.message).toContain('Missing required flag:')
-        expect(error.message).toContain('-o, --organization ORGANIZATION')
-        expect(error.message).toContain('A single string containing the organization')
-        expect(error.message).toContain('name')
-        expect(error.message).toContain('See more help with --help')
+        expect(error.message).toContain('Missing required flag organization')
+        // expect(error.message).toContain('-o, --organization ORGANIZATION')
+        // expect(error.message).toContain('A single string containing the organization')
+        // expect(error.message).toContain('name')
+        // expect(error.message).toContain('See more help with --help')
       }
     }
   })
@@ -29,10 +34,7 @@ describe('set-secret command', () => {
       await SetSecret.run(argv)
     } catch (error) {
       if (error instanceof Error) {
-        expect(error.message).toContain('Missing required flag:')
-        expect(error.message).toContain('-r, --repositories REPOSITORIES')
-        expect(error.message).toContain('Can be multiples repositories names')
-        expect(error.message).toContain('See more help with --help')
+        expect(error.message).toContain('Missing required flag repositories')
       }
     }
   })
@@ -42,10 +44,7 @@ describe('set-secret command', () => {
       await SetSecret.run(argv)
     } catch (error) {
       if (error instanceof Error) {
-        expect(error.message).toContain('Missing required flag:')
-        expect(error.message).toContain('-n, --secret-name SECRET-NAME')
-        expect(error.message).toContain('Can be multiples secret names separated by space')
-        expect(error.message).toContain('See more help with --help')
+        expect(error.message).toContain('Missing required flag secret-name')
       }
     }
   })
@@ -61,11 +60,21 @@ describe('set-secret command', () => {
     }
   })
   test('set-secret works if everithing is set', async () => {
-    const argv = ['-o', 'ORG', '-r', 'REPO', '-n', 'SECRET', 'SECRE2', '-x', ' VALUE ', 'Value2']
+    const argv = ['-o', 'ORG', '-r', 'REPO', '-n', 'SECRET', 'SECRE2', '-x', 'VALUE', 'Value2']
     await SetSecret.run(argv)
-    expect(encryptSecret).toBeCalledTimes(2)
-    expect(updateSecret).toBeCalledTimes(2)
-    expect(logger.info).toHaveBeenNthCalledWith(1, 'Updated secret SECRET with value  VALUE  in org: ORG in repo: REPO')
-    expect(logger.info).toHaveBeenNthCalledWith(2, 'Updated secret SECRE2 with value Value2 in org: ORG in repo: REPO')
+    expect(spyEncryptSectet).toBeCalledTimes(2)
+    expect(spyUpdateSecret).toBeCalledTimes(2)
+    expect(spyLogger).toBeCalledTimes(2)
+    expect(spyLogger).toHaveBeenNthCalledWith(1, 'Updated secret SECRET with value VALUE in org: ORG in repo: REPO')
+    expect(spyLogger).toHaveBeenNthCalledWith(2, 'Updated secret SECRE2 with value Value2 in org: ORG in repo: REPO')
+  })
+  test('set-secret works env is set', async () => {
+    const argv = ['-o', 'ORG', '-r', 'REPO',  '-e', 'develop', '-n', 'SECRET', 'SECRE2', '-x', 'VALUE', 'Value2']
+    await SetSecret.run(argv)
+    expect(spyEncryptSectet).toBeCalledTimes(2)
+    expect(spyUpdateSecret).toBeCalledTimes(2)
+    expect(spyLogger).toBeCalledTimes(2)
+    expect(spyLogger).toHaveBeenNthCalledWith(1, 'Updated secret SECRET with value VALUE in org: ORG in repo: REPO')
+    expect(spyLogger).toHaveBeenNthCalledWith(2, 'Updated secret SECRE2 with value Value2 in org: ORG in repo: REPO')
   })
 })

@@ -4,7 +4,7 @@ import {rcPath} from '../../helpers/config'
 import removeSecret from '../../helpers/delete-secrets'
 import getGithubToken from '../../helpers/get-github-token'
 import {info} from '../../helpers/logger'
-import { validateRepoNames } from '../../helpers/validations'
+import {validateRepoNames} from '../../helpers/validations'
 
 export default class DeleteSecret extends Command {
   static description = 'Delete Secret from repo'
@@ -40,15 +40,11 @@ export default class DeleteSecret extends Command {
     }),
   }
 
-  static args = [
-  ]
-
   async run(): Promise<void> {
     try {
       const {flags} = await this.parse(DeleteSecret)
 
       validateRepoNames(flags.repositories)
-
 
       const organization = flags.organization
       const token = await getGithubToken(rcPath, organization)

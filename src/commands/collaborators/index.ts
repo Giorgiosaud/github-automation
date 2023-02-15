@@ -34,7 +34,8 @@ export default class Collaborators extends Command {
       required: true,
       multiple: true,
     }),
-    permissions: Flags.enum({
+
+    permissions: Flags.string({
       char: 'p',
       options: ['pull', 'push', 'admin', 'maintain', 'triage'],
       description: 'Select Permission to add',

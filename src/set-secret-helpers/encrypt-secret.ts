@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios'
-import libsodium from 'libsodium-wrappers'
+import * as libsodium from 'libsodium-wrappers'
 interface encryptSecretsArgs{
   token:string;
   value: string;

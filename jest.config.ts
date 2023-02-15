@@ -14,7 +14,7 @@ const config: Config.InitialOptions = {
     'text-summary',
     'lcov',
   ],
-  testResultsProcessor: 'jest-sonar-reporter',
+  // testResultsProcessor: 'jest-sonar-reporter',
   collectCoverage: true,
 }
 export default config

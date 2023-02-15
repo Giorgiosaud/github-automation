@@ -5,6 +5,7 @@ import updateSecret from '../../set-secret-helpers/update-secret'
 import encryptSecrets from '../../set-secret-helpers/encrypt-secret'
 import {rcPath} from '../../helpers/config'
 import {validateEqualLengths, validateRepoNames} from '../../helpers/validations'
+
 export default class SetSecret extends Command {
   static description = 'describe the command here'
 
@@ -53,9 +54,6 @@ export default class SetSecret extends Command {
     help: Flags.help({char: 'h'}),
   }
 
-  static args = [
-  ]
-
   async run(): Promise<void> {
     try {
       const {flags} = await this.parse(SetSecret)
@@ -64,10 +62,10 @@ export default class SetSecret extends Command {
       validateRepoNames(flags.repositories)
 
       const token = await getGithubToken(rcPath, flags.organization)
-      if (flags.environment) {
-        const checkEnvironment = await checkEnvironments(flags.environment)
-      }
-
+      console.log(token)
+      // if (flags.environment) {
+      //   const checkEnvironment = await checkEnvironments(flags.environment)
+      // }
       const secretsToEncrypt = []
       for (const repo of flags.repositories) {
         for (const [index, secret] of flags['secret-value'].entries()) {
@@ -84,7 +82,6 @@ export default class SetSecret extends Command {
         }
       }
     } catch (error) {
-      console.log(error)
       if (typeof error  === 'string' || error instanceof Error) {
         this.error(error)
       }

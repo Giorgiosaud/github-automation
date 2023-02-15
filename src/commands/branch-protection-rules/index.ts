@@ -38,14 +38,6 @@ export default class BranchProtectionRules extends Command {
     help: Flags.help({char: 'h'}),
   }
 
-  static args = [
-    // {
-    //   name: 'permissions',               // name of arg to show in help and reference with args[name]
-    //   required: true,            // make the arg required with `required: true`
-    //   description: 'branch permissions body', // help description
-    // },
-  ]
-
   async run(): Promise<void> {
     try {
       const {flags} = await this.parse(BranchProtectionRules)

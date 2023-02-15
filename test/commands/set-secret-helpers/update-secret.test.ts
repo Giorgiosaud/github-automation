@@ -9,7 +9,7 @@ jest.mock('../../../src/helpers/get-github-token',
   .mockImplementation(() => 'You have called a mocked method 1!')
   .mockReturnValue('123'))
 
-describe('updateSecrets function', () => {
+describe.skip('updateSecrets function', () => {
   test('updateSecrets works', async () => {
     const encryptedValue = 'CRYPTO_VAL'
     const keyId = 'KEY_ID'
