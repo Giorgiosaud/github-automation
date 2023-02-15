@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+    <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/helpers/delete-secret.test.ts">
+        <testCase name="getGithubToken function deleteSecrets works and return true if is successfully called the removed" duration="37">
+            <failure message="Error: expect(received).toBeTruthy()"><![CDATA[Error: expect(received).toBeTruthy()
+
+Received: false
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/helpers/delete-secret.test.ts:31:21)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)]]></failure>
+        </testCase>
+        <testCase name="getGithubToken function deleteSecrets works and return false if is called the removed and fails" duration="1"/>
+    </file>
+    <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret-helpers/update-secret.test.ts">
+        <testCase name="updateSecrets function updateSecrets works" duration="63"/>
+        <testCase name="updateSecrets function updateSecrets fail well" duration="2">
+            <failure message="Error: expect(received).toContain(expected) // indexOf"><![CDATA[Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: "error en put a github Error: Request failed with status code 404"
+Received string:    "Request failed with status code 404"
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret-helpers/update-secret.test.ts:51:31)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)]]></failure>
+        </testCase>
+    </file>
+    <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret-helpers/encrypt-secret.test.ts">
+        <testCase name="encryptSecrets function encryptSecrets work" duration="148">
+            <failure message="Error: Request failed with status code 404"><![CDATA[Error: Request failed with status code 404
+    at Function.Object.<anonymous>.AxiosError.from (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/AxiosError.js:89:14)
+    at createAxiosError (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/utils.js:139:29)
+    at Object.settle (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/utils.js:127:7)
+    at handleRequest (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/handle_request.js:127:15)
+    at /Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/index.js:23:7
+    at new Promise (<anonymous>)
+    at MockAdapter.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/index.js:22:12)
+    at Axios.dispatchRequest (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/dispatchRequest.js:51:10)
+    at Axios.request (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/Axios.js:142:33)
+    at Axios.<computed> [as get] (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/Axios.js:168:17)]]></failure>
+        </testCase>
+        <testCase name="encryptSecrets function if encryptSecrets fails remove rcpath content" duration="1">
+            <failure message="Error: Request failed with status code 404"><![CDATA[Error: Request failed with status code 404
+    at Function.Object.<anonymous>.AxiosError.from (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/AxiosError.js:89:14)
+    at createAxiosError (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/utils.js:139:29)
+    at Object.settle (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/utils.js:127:7)
+    at handleRequest (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/handle_request.js:127:15)
+    at /Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/index.js:23:7
+    at new Promise (<anonymous>)
+    at MockAdapter.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/index.js:22:12)
+    at Axios.dispatchRequest (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/dispatchRequest.js:51:10)
+    at Axios.request (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/Axios.js:142:33)
+    at Axios.<computed> [as get] (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/Axios.js:168:17)]]></failure>
+        </testCase>
+    </file>
+    <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/delete-secret/remove-secret.test.ts">
+        <testCase name="removeSecret function everything pass id response is 204" duration="2031"/>
+    </file>
+    <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/helpers/get-github-token.test.ts">
+        <testCase name="getGithubToken function REALPATH  200 setting file not exist and GITHUB_TOKEN not exist" duration="2016">
+            <failure message="Error: Request failed with status code 404"><![CDATA[Error: Request failed with status code 404
+    at Function.Object.<anonymous>.AxiosError.from (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/AxiosError.js:89:14)
+    at createAxiosError (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/utils.js:139:29)
+    at Timeout.settle [as _onTimeout] (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/utils.js:127:7)
+    at listOnTimeout (node:internal/timers:561:11)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+        </testCase>
+        <testCase name="getGithubToken function REALPATH  200 setting file exist and GITHUB_TOKEN not exist" duration="2003">
+            <failure message="Error: Request failed with status code 404"><![CDATA[Error: Request failed with status code 404
+    at Function.Object.<anonymous>.AxiosError.from (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios@1.2.0/node_modules/axios/lib/core/AxiosError.js:89:14)
+    at createAxiosError (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/utils.js:139:29)
+    at Timeout.settle [as _onTimeout] (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/axios-mock-adapter@1.21.2_axios@1.2.0/node_modules/axios-mock-adapter/src/utils.js:127:7)
+    at listOnTimeout (node:internal/timers:561:11)
+    at processTimers (node:internal/timers:502:7)]]></failure>
+        </testCase>
+        <testCase name="getGithubToken function REALPATH  200 setting file exist and GITHUB_TOKEN exist" duration="5"/>
+    </file>
+    <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/delete-secret.test.ts">
+        <testCase name="delete-secret command delete-secret fails if no flags are set asking for repo" duration="411">
+            <failure message="Error: expect(received).toContain(expected) // indexOf"><![CDATA[Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: "Missing required flag:"
+Received string:    "The following errors occurred:
+  Missing required flag organization
+  Missing required flag repositories
+  Missing required flag secret-name
+See more help with --help"
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/delete-secret.test.ts:20:31)]]></failure>
+        </testCase>
+        <testCase name="delete-secret command delete-secret fails if only org is set" duration="9">
+            <failure message="Error: expect(received).toContain(expected) // indexOf"><![CDATA[Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: "Missing required flag:"
+Received string:    "The following errors occurred:
+  Missing required flag repositories
+  Missing required flag secret-name
+See more help with --help"
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/delete-secret.test.ts:32:31)]]></failure>
+        </testCase>
+        <testCase name="delete-secret command delete-secret fails if only repo is set" duration="10">
+            <failure message="Error: expect(received).toContain(expected) // indexOf"><![CDATA[Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: "Missing required flag:"
+Received string:    "The following error occurred:
+  Missing required flag secret-name
+See more help with --help"
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/delete-secret.test.ts:45:31)]]></failure>
+        </testCase>
+        <testCase name="delete-secret command delete-secret fails if  Repo name not match with repo structure name" duration="8"/>
+        <testCase name="delete-secret command delete-secret works" duration="5001">
+            <failure message="Error: thrown: &quot;Exceeded timeout of 5000 ms for a test."><![CDATA[Error: thrown: "Exceeded timeout of 5000 ms for a test.
+Use jest.setTimeout(newTimeout) to increase the timeout value, if this is a long-running test."
+    at /Users/giorgiosaud/Projects/Personal/github-automation/test/commands/delete-secret.test.ts:61:3
+    at _dispatchDescribe (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-circus@28.1.3/node_modules/jest-circus/build/index.js:105:26)
+    at describe (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-circus@28.1.3/node_modules/jest-circus/build/index.js:60:5)
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/delete-secret.test.ts:14:1)
+    at Runtime._execModule (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-runtime@28.1.3/node_modules/jest-runtime/build/index.js:1714:24)
+    at Runtime._loadModule (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-runtime@28.1.3/node_modules/jest-runtime/build/index.js:1223:12)
+    at Runtime.requireModule (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-runtime@28.1.3/node_modules/jest-runtime/build/index.js:1047:12)
+    at jestAdapter (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-circus@28.1.3/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:89:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at runTestInternal (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-runner@28.1.3/node_modules/jest-runner/build/runTest.js:411:16)]]></failure>
+        </testCase>
+    </file>
+    <file path="/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret.test.ts">
+        <testCase name="set-secret command set-secret fails if no flags are set asking for repo" duration="443">
+            <failure message="Error: expect(received).toContain(expected) // indexOf"><![CDATA[Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: "Missing required flag:"
+Received string:    "The following errors occurred:
+  Missing required flag organization
+  Missing required flag repositories
+  Missing required flag secret-name
+  Missing required flag secret-value
+See more help with --help"
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret.test.ts:18:31)]]></failure>
+        </testCase>
+        <testCase name="set-secret command set-secret fails if only org is set" duration="10">
+            <failure message="Error: expect(received).toContain(expected) // indexOf"><![CDATA[Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: "Missing required flag:"
+Received string:    "The following errors occurred:
+  Missing required flag repositories
+  Missing required flag secret-name
+  Missing required flag secret-value
+See more help with --help"
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret.test.ts:32:31)]]></failure>
+        </testCase>
+        <testCase name="set-secret command set-secret fails if org and repo is set" duration="8">
+            <failure message="Error: expect(received).toContain(expected) // indexOf"><![CDATA[Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: "Missing required flag:"
+Received string:    "The following errors occurred:
+  Missing required flag secret-name
+  Missing required flag secret-value
+See more help with --help"
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret.test.ts:45:31)]]></failure>
+        </testCase>
+        <testCase name="set-secret command set-secret fails if names and secret count not match" duration="9"/>
+        <testCase name="set-secret command set-secret works if everithing is set" duration="5001">
+            <failure message="Error: thrown: &quot;Exceeded timeout of 5000 ms for a test."><![CDATA[Error: thrown: "Exceeded timeout of 5000 ms for a test.
+Use jest.setTimeout(newTimeout) to increase the timeout value, if this is a long-running test."
+    at /Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret.test.ts:63:3
+    at _dispatchDescribe (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-circus@28.1.3/node_modules/jest-circus/build/index.js:105:26)
+    at describe (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-circus@28.1.3/node_modules/jest-circus/build/index.js:60:5)
+    at Object.<anonymous> (/Users/giorgiosaud/Projects/Personal/github-automation/test/commands/set-secret.test.ts:12:1)
+    at Runtime._execModule (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-runtime@28.1.3/node_modules/jest-runtime/build/index.js:1714:24)
+    at Runtime._loadModule (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-runtime@28.1.3/node_modules/jest-runtime/build/index.js:1223:12)
+    at Runtime.requireModule (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-runtime@28.1.3/node_modules/jest-runtime/build/index.js:1047:12)
+    at jestAdapter (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-circus@28.1.3/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:89:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at runTestInternal (/Users/giorgiosaud/Projects/Personal/github-automation/node_modules/.pnpm/jest-runner@28.1.3/node_modules/jest-runner/build/runTest.js:411:16)]]></failure>
+        </testCase>
+    </file>
+</testExecutions>

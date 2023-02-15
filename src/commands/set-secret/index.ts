@@ -32,7 +32,11 @@ export default class SetSecret extends Command {
       required: true,
       multiple: true,
     }),
-
+    environment: Flags.string({
+      char: 'e',
+      description: 'If is set the env should be activated in the specified environment and create it if not exist',
+      required: false,
+    }),
     'secret-name': Flags.string({
       char: 'n',
       description: 'Can be multiples secret names separated by space',
@@ -60,6 +64,10 @@ export default class SetSecret extends Command {
       validateRepoNames(flags.repositories)
 
       const token = await getGithubToken(rcPath, flags.organization)
+      if (flags.environment) {
+        const checkEnvironment = await checkEnvironments(flags.environment)
+      }
+
       const secretsToEncrypt = []
       for (const repo of flags.repositories) {
         for (const [index, secret] of flags['secret-value'].entries()) {
