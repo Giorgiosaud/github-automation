@@ -1,6 +1,5 @@
 /* eslint-disable unicorn/no-array-reduce */
 import {Command, Flags} from '@oclif/core'
-import {rcPath} from '../../helpers/config'
 import removeSecret from '../../helpers/delete-secrets'
 import getGithubToken from '../../helpers/get-github-token'
 import {info} from '../../helpers/logger'
@@ -47,7 +46,7 @@ export default class DeleteSecret extends Command {
       validateRepoNames(flags.repositories)
 
       const organization = flags.organization
-      const token = await getGithubToken(rcPath, organization)
+      const token = await getGithubToken(organization)
       const secretsToRemove = []
 
       for (const repo of flags.repositories) {

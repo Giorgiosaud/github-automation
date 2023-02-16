@@ -22,9 +22,8 @@ export default class ReposWithSecret extends Command {
   async run(): Promise<void> {
     try {
       const {args} = await this.parse(ReposWithSecret)
-      const rcPath = '.github-automation.rc'
       if (args.organization) {
-        await listRepos(args.organization, rcPath)
+        await listRepos(args.organization)
       }
 
       info('listing repos')

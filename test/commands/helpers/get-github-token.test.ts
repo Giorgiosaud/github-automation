@@ -1,39 +1,33 @@
 import getGithubToken from '../../../src/helpers/get-github-token'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
 import * as path from 'node:path'
 import * as nodeOS from 'node:os'
 import * as fs from 'node:fs'
 import * as fileSystem from '../../../src/helpers/file-system'
+import * as promptToken from '../../../src/helpers/prompt-token'
 
 const spyNodeOS = jest.spyOn(nodeOS, 'homedir')
+const spyPromptToken = jest.spyOn(promptToken, 'promptToken')
 const spyPath = jest.spyOn(path, 'resolve')
-const fsExtraExistSpy = jest.spyOn(fs, 'existsSync')
-// const fsWriteFileSpy = jest.spyOn(fs, 'writeFileSync').mockImplementation(() => jest.fn())
-const fileSystemReadEnvSpy = jest.spyOn(fileSystem, 'readEnv')
-// const mock = new MockAdapter(axios, {delayResponse: 2000})
+const SpyFsExtraExist = jest.spyOn(fs, 'existsSync')
+const SpyFsWriteFile = jest.spyOn(fs, 'writeFileSync').mockImplementation(() => jest.fn())
+const SpyFileSystemReadEnv = jest.spyOn(fileSystem, 'readEnv')
+const tokenSet = 'NEW_TOKEN'
+spyPromptToken.mockResolvedValue(tokenSet)
 
-// const resolveSpy = jest.spyOn(path, 'resolve')
-// jest.mock('@oclif/core',
-//   () => ({
-//     ux: {
-//       prompt: jest.fn()
-//       .mockImplementation(() => 'You have called a mocked method 1!')
-//       .mockResolvedValue('123'),
-//     },
-//   }))
 describe('getGithubToken function', () => {
   const rcPath = 'RCPATH'
-  const org = 'organization'
+  const org = 'akamai'
   beforeEach(() => {
     jest.clearAllMocks()
   })
-  test.only('homeDir exist', async () => {
+  test('ask for a token when "rcPath" has no files', async () => {
     spyPath.mockReturnValueOnce('test_path')
     spyNodeOS.mockReturnValue('my_mac')
-    fsExtraExistSpy.mockReturnValueOnce(false)
-    fileSystemReadEnvSpy.mockReturnValue({})
+    SpyFsExtraExist.mockReturnValueOnce(false)
+    SpyFileSystemReadEnv.mockReturnValue({})
     const token = await getGithubToken(rcPath, org)
+    expect(SpyFsWriteFile).toHaveBeenCalledTimes(2)
+    expect(token).toBe(tokenSet)
   })
   // test(
   //   'REALPATH  200 setting file not exist and GITHUB_TOKEN not exist',

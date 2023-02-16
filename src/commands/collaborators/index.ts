@@ -58,13 +58,12 @@ export default class Collaborators extends Command {
         throw new Error('The repository string must be of type OWNER/NAME')
       }
 
-      const rcPath = '.github-automation.rc'
       if (flags.delete) {
         return await flags.repositories.reduce(async (promise, repo) => {
           await promise
           await flags['github-users'].reduce(async (promiseI, name) => {
             await promiseI
-            await deleteUserPermissions(repo, name, rcPath)
+            await deleteUserPermissions(repo, name)
             this.log(info(`Removed user ${name} from repo: ${repo}`))
           }, Promise.resolve())
         }, Promise.resolve())
@@ -74,7 +73,7 @@ export default class Collaborators extends Command {
         await promise
         await flags['github-users'].reduce(async (promiseI, name) => {
           await promiseI
-          await addUserPermissions(repo, name, flags.permissions, rcPath)
+          await addUserPermissions(repo, name, flags.permissions)
           this.log(info(`Add user ${name} to repo: ${repo} with: ${flags.permissions}`))
         }, Promise.resolve())
       }, Promise.resolve())

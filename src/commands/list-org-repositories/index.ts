@@ -30,8 +30,7 @@ export default class ListOrgRepositories extends Command {
   async run(): Promise<void> {
     try {
       const {args, flags} = await this.parse(ListOrgRepositories)
-      const rcPath = '.github-automation.rc'
-      const repositories = args.organization ? await listRepos(args.organization, rcPath, flags.filter) : []
+      const repositories = args.organization ? await listRepos(args.organization, flags.filter) : []
 
       ux.styledObject({
         repositories,

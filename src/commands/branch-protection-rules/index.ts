@@ -48,7 +48,7 @@ export default class BranchProtectionRules extends Command {
         throw new Error('The repository string must only contain numbers leters and dash')
       }
 
-      const token = await getGithubToken(rcPath, flags.organization)
+      const token = await getGithubToken(flags.organization)
       const branchesToProtectPromises = []
       for (const repo of flags.repositories) {
         for (const branch of flags.branches) {

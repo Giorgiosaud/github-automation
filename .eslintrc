@@ -3,6 +3,9 @@
     "oclif",
     "oclif-typescript"
   ],
+  "rules": {
+    "camelcase": "off"
+  },
   "overrides": [
     {
       "files": [
