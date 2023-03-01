@@ -28,7 +28,7 @@
     "fs-extra": "^10.1.0",
     "dotenv": "^16.0.1",
     "axios": "^0.27.2",
-    "libsodium-wrappers": "^0.7.10"
+    "libsodium-wrappers": "^0.7.11"
   },
   "devDependencies": {
     "@jest/types": "^28.1.1",
