@@ -59,9 +59,6 @@ export default class SetSecret extends Command {
     validateRepoNames(flags.repositories)
 
     const token = await getGithubToken(flags.organization)
-    // if (flags.environment) {
-    //   const checkEnvironment = await checkEnvironments(flags.environment)
-    // }
     const secretsToEncrypt = []
     for (const repo of flags.repositories) {
       for (const [index, secret] of flags['secret-value'].entries()) {
