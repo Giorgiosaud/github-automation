@@ -5,7 +5,6 @@ export default {
     const orgData = await octokit.request('GET /orgs/{org}', {
       org,
     })
-    console.log(orgData)
     return Boolean(orgData.data)
   },
 }

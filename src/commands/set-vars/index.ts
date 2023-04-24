@@ -34,7 +34,7 @@ export default class SetVars extends Command {
     environment: Flags.string({
       char: 'e',
       description: 'If is set the env should be activated in the specified environment and create it if not exist',
-      required: true,
+      required: false,
     }),
     'secret-name': Flags.string({
       char: 'n',

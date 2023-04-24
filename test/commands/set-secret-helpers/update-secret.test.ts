@@ -25,9 +25,7 @@ describe.skip('updateSecrets function', () => {
     try {
       const a = await updateSecrets({encryptedValue, keyId, name, repo,  org}, token)
       expect(a).toBeTruthy()
-    } catch (error) {
-      console.log(JSON.stringify(error))
-    }
+    } catch {}
   })
   test('updateSecrets fail well', async () => {
     const encryptedValue = 'CRYPTO_VAL'

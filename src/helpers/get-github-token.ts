@@ -15,16 +15,16 @@ export default async (org: string): Promise<string> => {
   } else {
     writeFileSync(rcRealPath, 'utf8')
     const token = await promptToken({org})
-    buildEnvContent(rcRealPath, {
+    const data = {
       [org]: {
         GITHUB_TOKEN: token,
-      }},
-    )
+      }}
+    buildEnvContent(rcRealPath, data)
+
     SETTINGS = readEnv(rcRealPath)
   }
 
   const auth = SETTINGS[0][org].GITHUB_TOKEN
-  const isValidToken = await octokitRepository.tokenIsValid({org, auth})
-  console.log(isValidToken)
+  await octokitRepository.tokenIsValid({org, auth})
   return auth
 }

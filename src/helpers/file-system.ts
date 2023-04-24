@@ -5,7 +5,6 @@ type ENV_VARS = any
 
 export const  buildEnvContent = (path:string, values: ENV_VARS): void => {
   const yamlStr = jsyaml.dump(values)
-  console.log(yamlStr)
   writeFileSync(path.replace('.rc', '.yml'), yamlStr, 'utf8')
 }
 

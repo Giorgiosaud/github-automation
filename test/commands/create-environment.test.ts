@@ -1,5 +1,9 @@
 import CreateEnvironment from '../../src/commands/create-environment'
+import * as getGithubToken from '../../src/helpers/get-github-token'
+
 describe('create-environment command', () => {
+  const spyGetGithubToken = jest.spyOn(getGithubToken, 'default')
+
   afterEach(() => {
     jest.clearAllMocks()
   })
@@ -44,6 +48,7 @@ describe('create-environment command', () => {
   test('create-environment fails repo is bad formed', async () => {
     try {
       const argv = ['-o', 'ORG', '-r', 'REPO A C 99', '-e', 'DEVELOP']
+      spyGetGithubToken.mockResolvedValueOnce('TOKEN')
       await CreateEnvironment.run(argv)
     } catch (error) {
       if (error instanceof Error) {

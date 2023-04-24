@@ -76,6 +76,7 @@
     "posttest": "yarn lint",
     "prepack": "yarn build && oclif manifest && oclif readme",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "version": "oclif readme && git add README.md"
   },
   "engines": {

@@ -5,7 +5,7 @@ interface encryptSecretsArgs{
   owner: string;
   repo: string;
   name:string;
-  environment_name:string;
+  environment_name?:string;
 }
 const updateVars = async ({token, value, owner, repo, name, environment_name}:encryptSecretsArgs): Promise<boolean> => {
   try {
