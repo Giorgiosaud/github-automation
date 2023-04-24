@@ -1,8 +1,9 @@
-import {Command, Flags} from '@oclif/core'
+import {Command} from '@oclif/core'
 import getGithubToken from '../../helpers/get-github-token'
 import {info} from '../../helpers/logger'
 import {validateEqualLengths, validateRepoNames} from '../../helpers/validations'
 import updateVars from '../../helpers/set-vars-helpers/update-vars'
+import secretVarsFlags from '../../helpers/set-vars-helpers/secret-vars-flags'
 
 export default class SetVars extends Command {
   static description = 'describe the command here'
@@ -19,39 +20,7 @@ export default class SetVars extends Command {
 
   static strict = false
 
-  static flags = {
-    organization: Flags.string({
-      char: 'o',
-      description: 'A single string containing the organization name',
-      required: true,
-    }),
-    repositories: Flags.string({
-      char: 'r',
-      description: 'Can be multiples repositories names',
-      required: true,
-      multiple: true,
-    }),
-    environment: Flags.string({
-      char: 'e',
-      description: 'If is set the env should be activated in the specified environment and create it if not exist',
-      required: false,
-    }),
-    'secret-name': Flags.string({
-      char: 'n',
-      description: 'Can be multiples secret names separated by space',
-      required: true,
-      multiple: true,
-    }),
-    'secret-value': Flags.string({
-      required: true,
-      description: 'Can be multiples secret values separated by space',
-      char: 'x',
-      multiple: true,
-    }),
-
-    help: Flags.help({char: 'h'}),
-  }
-
+  static flags = secretVarsFlags
   async run(): Promise<void> {
     const {flags} = await this.parse(SetVars)
     validateEqualLengths(flags['secret-name'], flags['secret-value'])
