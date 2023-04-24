@@ -20,17 +20,11 @@ export default class ReposWithSecret extends Command {
   }
 
   async run(): Promise<void> {
-    try {
-      const {args} = await this.parse(ReposWithSecret)
-      if (args.organization) {
-        await listRepos(args.organization)
-      }
-
-      info('listing repos')
-    } catch (error) {
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
-      }
+    const {args} = await this.parse(ReposWithSecret)
+    if (args.organization) {
+      await listRepos(args.organization)
     }
+
+    info('listing repos')
   }
 }

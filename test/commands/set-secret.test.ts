@@ -15,6 +15,7 @@ describe('set-secret command', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
+
   test('set-secret fails if no flags are set asking for repo', async () => {
     try {
       await SetSecret.run([])

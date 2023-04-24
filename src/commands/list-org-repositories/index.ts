@@ -28,18 +28,12 @@ export default class ListOrgRepositories extends Command {
   }
 
   async run(): Promise<void> {
-    try {
-      const {args, flags} = await this.parse(ListOrgRepositories)
-      const repositories = args.organization ? await listRepos(args.organization, flags.filter) : []
+    const {args, flags} = await this.parse(ListOrgRepositories)
+    const repositories = args.organization ? await listRepos(args.organization, flags.filter) : []
 
-      ux.styledObject({
-        repositories,
-      })
-      ux.log(info(`se consiguieron ${repositories.length} repos`))
-    } catch (error) {
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
-      }
-    }
+    ux.styledObject({
+      repositories,
+    })
+    ux.log(info(`se consiguieron ${repositories.length} repos`))
   }
 }

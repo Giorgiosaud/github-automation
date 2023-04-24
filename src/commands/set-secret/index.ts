@@ -38,16 +38,10 @@ export default class SetSecret extends Command {
 
     const promisesEncrypted = await Promise.all(secretsToEncrypt)
     const updateSecretsPromises = flags.environment ? promisesEncrypted.map(encriptedData => updateSecret({...encriptedData, env: flags.environment}, token)) : promisesEncrypted.map(encriptedData => updateSecret(encriptedData, token))
-    try {
-      await Promise.all(updateSecretsPromises)
-      for (const repo of flags.repositories) {
-        for (const [index, secret] of flags['secret-value'].entries()) {
-          this.log(info(`Updated secret ${flags['secret-name'][index]} with value ${secret} in org: ${flags.organization} in repo: ${repo}`))
-        }
-      }
-    } catch (error) {
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
+    await Promise.all(updateSecretsPromises)
+    for (const repo of flags.repositories) {
+      for (const [index, secret] of flags['secret-value'].entries()) {
+        this.log(info(`Updated secret ${flags['secret-name'][index]} with value ${secret} in org: ${flags.organization} in repo: ${repo}`))
       }
     }
   }

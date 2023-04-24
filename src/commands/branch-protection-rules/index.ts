@@ -39,28 +39,22 @@ export default class BranchProtectionRules extends Command {
   }
 
   async run(): Promise<void> {
-    try {
-      const {flags} = await this.parse(BranchProtectionRules)
-      const okRepoNames = flags.repositories.every((repo: string) => {
-        return /^(([a-z]|[A-Z]|\d)+-?)*\w$/.test(repo)
-      })
-      if (!okRepoNames) {
-        throw new Error('The repository string must only contain numbers leters and dash')
-      }
+    const {flags} = await this.parse(BranchProtectionRules)
+    const okRepoNames = flags.repositories.every((repo: string) => {
+      return /^(([a-z]|[A-Z]|\d)+-?)*\w$/.test(repo)
+    })
+    if (!okRepoNames) {
+      throw new Error('The repository string must only contain numbers leters and dash')
+    }
 
-      const token = await getGithubToken(flags.organization)
-      const branchesToProtectPromises = []
-      for (const repo of flags.repositories) {
-        for (const branch of flags.branches) {
-          branchesToProtectPromises.push(protectBranch(token, flags.organization, repo, branch))
-        }
-      }
-
-      await Promise.all(branchesToProtectPromises)
-    } catch (error) {
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
+    const token = await getGithubToken(flags.organization)
+    const branchesToProtectPromises = []
+    for (const repo of flags.repositories) {
+      for (const branch of flags.branches) {
+        branchesToProtectPromises.push(protectBranch(token, flags.organization, repo, branch))
       }
     }
+
+    await Promise.all(branchesToProtectPromises)
   }
 }

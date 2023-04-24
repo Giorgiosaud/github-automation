@@ -35,16 +35,10 @@ export default class SetVars extends Command {
       }
     }
 
-    try {
-      await Promise.all(varsToSet)
-      for (const repo of flags.repositories) {
-        for (const [index, secret] of flags['secret-value'].entries()) {
-          this.log(info(`Updated var ${flags['secret-name'][index]} with value ${secret} in org: ${flags.organization} in repo: ${repo}`))
-        }
-      }
-    } catch (error) {
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
+    await Promise.all(varsToSet)
+    for (const repo of flags.repositories) {
+      for (const [index, secret] of flags['secret-value'].entries()) {
+        this.log(info(`Updated var ${flags['secret-name'][index]} with value ${secret} in org: ${flags.organization} in repo: ${repo}`))
       }
     }
   }

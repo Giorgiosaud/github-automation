@@ -40,30 +40,24 @@ export default class DeleteSecret extends Command {
   }
 
   async run(): Promise<void> {
-    try {
-      const {flags} = await this.parse(DeleteSecret)
+    const {flags} = await this.parse(DeleteSecret)
 
-      validateRepoNames(flags.repositories)
+    validateRepoNames(flags.repositories)
 
-      const organization = flags.organization
-      const token = await getGithubToken(organization)
-      const secretsToRemove = []
+    const organization = flags.organization
+    const token = await getGithubToken(organization)
+    const secretsToRemove = []
 
-      for (const repo of flags.repositories) {
-        for (const name of flags['secret-name']) {
-          secretsToRemove.push(removeSecret({repo, organization, name, token}))
-        }
+    for (const repo of flags.repositories) {
+      for (const name of flags['secret-name']) {
+        secretsToRemove.push(removeSecret({repo, organization, name, token}))
       }
+    }
 
-      await Promise.all(secretsToRemove)
-      for (const repo of flags.repositories) {
-        for (const name of flags['secret-name']) {
-          this.log(info(`Removed secret ${name} from repo: ${repo} in ${organization}`))
-        }
-      }
-    } catch (error) {
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
+    await Promise.all(secretsToRemove)
+    for (const repo of flags.repositories) {
+      for (const name of flags['secret-name']) {
+        this.log(info(`Removed secret ${name} from repo: ${repo} in ${organization}`))
       }
     }
   }

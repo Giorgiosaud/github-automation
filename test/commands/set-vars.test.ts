@@ -17,6 +17,7 @@ describe('set-vars command', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
+
   test('set-vars fails if no flags are set asking for repo', async () => {
     try {
       await SetVars.run([])

@@ -4,7 +4,7 @@ import {defaults} from 'jest-config'
 const config: Config.InitialOptions = {
   verbose: true,
   moduleFileExtensions: [...defaults.moduleFileExtensions],
-  moduleDirectories: [...defaults.moduleDirectories, 'node_modules/.pnpm'],
+  moduleDirectories: [...defaults.moduleDirectories, 'node_modules'],
   preset: 'ts-jest',
   testEnvironment: 'node',
   coverageReporters: [
