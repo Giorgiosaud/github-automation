@@ -46,7 +46,7 @@ jobs:
           path: ./node_modules
           key: ${{ hashFiles('**/package-lock.json') }}-node-modules
       - name: Runing linter
-        run: npm lint
+        run: npm run lint
   run-tests:
     name: Runingn test coverage
     runs-on: ubuntu-latest
@@ -78,7 +78,7 @@ jobs:
           key: coverage-${{ github.sha }}-fixed
           restore-keys: coverage-${{ github.sha }}
       - name: Runing Coverage
-        run: npm test:coverage
+        run: npm run test:coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
