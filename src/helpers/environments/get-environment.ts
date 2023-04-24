@@ -7,6 +7,9 @@ const getEnvironment = async (token:string, organization:string, repository:stri
   const req = await octokit.request('GET /repos/{owner}/{repo}/environments', {
     owner: organization,
     repo: repository,
+    headers: {
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
   })
   return req.data.environments
 }

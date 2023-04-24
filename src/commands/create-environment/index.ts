@@ -58,6 +58,8 @@ export default class CreateEnvironment extends Command {
       const actionToCreate = repoEnvsToCreate.map(repo => {
         return createEnvironment(token, flags.organization, repo, flags.environment)
       })
+      console.log(actionToCreate)
+
       await Promise.all(actionToCreate)
     } catch (error) {
       if (typeof error  === 'string' || error instanceof Error) {
