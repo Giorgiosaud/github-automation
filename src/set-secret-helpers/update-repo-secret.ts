@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
+
 import {Octokit} from 'octokit'
 
-// eslint-disable-next-line camelcase
 export const updateRepoSecrets = async ({token, organization, repository, name, encryptedValue, keyId}: { token: string; organization: string; repository: string; name: string; encryptedValue: string; keyId: string }):Promise<boolean> => {
   try {
     const octokit = new Octokit({

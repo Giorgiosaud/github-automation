@@ -7,7 +7,7 @@ const createEnvironment = async (token:string, organization:string, repository:s
   const response = await octokit.request('PUT /repos/{owner}/{repo}/environments/{environment_name}', {
     owner: organization,
     repo: repository,
-    // eslint-disable-next-line camelcase
+
     environment_name: environment,
     // wait_timer: 30,
     // reviewers: [

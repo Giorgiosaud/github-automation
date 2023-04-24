@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+
 import updateSecrets from '../../../src/set-secret-helpers/update-secret'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'

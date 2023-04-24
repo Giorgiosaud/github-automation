@@ -1,6 +1,5 @@
 import {Command, Flags} from '@oclif/core'
 import getGithubToken from '../../helpers/get-github-token'
-import {info} from '../../helpers/logger'
 import {validateRepoNames} from '../../helpers/validations'
 import getEnvironment from '../../helpers/environments/get-environment'
 import createEnvironment from '../../helpers/environments/create-environment'

@@ -8,7 +8,7 @@ const mock = new MockAdapter(axios)
 
 describe.skip('encryptSecrets function', () => {
   const data = {
-    // eslint-disable-next-line camelcase
+
     key_id: 'test',
     key: 'test',
   }

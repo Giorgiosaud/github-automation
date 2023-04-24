@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/no-array-reduce */
+
 import {Command, Flags} from '@oclif/core'
 import removeSecret from '../../helpers/delete-secrets'
 import getGithubToken from '../../helpers/get-github-token'

@@ -1,6 +1,5 @@
 import axios, {AxiosResponse} from 'axios'
 
-/* eslint-disable camelcase */
 interface StatusChecks{
   context:string;
   app_id?: string;

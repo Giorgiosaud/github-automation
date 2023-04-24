@@ -1,6 +1,5 @@
 import {Octokit} from 'octokit'
 
-// eslint-disable-next-line camelcase
 export const getPublicKey = async (token:string, organization:string, repository:string):Promise<{key: string, key_id:string}> => {
   const octokit = new Octokit({
     auth: token,

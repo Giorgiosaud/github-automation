@@ -16,20 +16,16 @@ const SpyReadEnv = jest.spyOn(fileSystem, 'readEnv')
 const SpyPathResolve = jest.spyOn(path, 'resolve')
 const tokenSet = 'NEW_TOKEN'
 const homedir = 'my_test_os'
-const org = 'my_org'
 
 describe('getGithubToken function', () => {
   const org = 'Prueba'
   beforeEach(() => {
     jest.resetAllMocks()
   })
-  test('if token is invalid prompt it',async ()=>{
+  test('if token is invalid prompt it', async () => {
     const fullPath = homedir + '/' + rcPath
     SpyPathResolve.mockReturnValueOnce(fullPath)
     SpyFsExtraExist.mockReturnValueOnce(true)
-
-    const token = await getGithubToken(org)
-
   })
   test('ask for a token when "rcPath" has no files', async () => {
     const fullPath = homedir + '/' + rcPath
@@ -46,7 +42,7 @@ describe('getGithubToken function', () => {
     const token = await getGithubToken(org)
     expect(SpyPathResolve).toBeCalledWith(homedir, rcPath)
     expect(SpyFsExtraExist).toBeCalledWith(fullPath)
-    expect(SpyFsWriteFile).toHaveBeenNthCalledWith(1, fullPath.replace('.rc', '.yml'), 'utf-8')
+    expect(SpyFsWriteFile).toHaveBeenNthCalledWith(1, fullPath.replace('.rc', '.yml'), 'utf8')
     expect(SpyReadEnv).toHaveBeenCalledTimes(1)
     // expect(SpyFsWriteFile).toHaveBeenCalledTimes(2)
     // expect(SpyFsReadFile).toHaveBeenCalledTimes(1)
@@ -60,20 +56,12 @@ describe('getGithubToken function', () => {
     SpyFsExtraExist.mockReturnValueOnce(true)
     spyNodeOS.mockReturnValueOnce(homedir)
     spyPromptToken.mockResolvedValueOnce(tokenSet)
-    SpyFsReadFile.mockImplementation(()=>org+'='+tokenSet)
-    // SpyFsReadFile.mockReturnValueOnce(jsyaml.dump({
-    //   [org]: {
-    //     GITHUB_TOKEN: tokenSet,
-    //   }}))
-    // SpyFileSystemReadEnv.mockReturnValue({})
+    SpyFsReadFile.mockImplementation(() => org + '=' + tokenSet)
     const token = await getGithubToken(org)
     expect(SpyPathResolve).toBeCalledWith(homedir, rcPath)
     expect(SpyFsExtraExist).toBeCalledWith(fullPath)
-    expect(SpyFsWriteFile).toHaveBeenNthCalledWith(1, fullPath.replace('.rc', '.yml'), 'utf-8')
+    expect(SpyFsWriteFile).toHaveBeenNthCalledWith(1, fullPath.replace('.rc', '.yml'), 'utf8')
     expect(SpyReadEnv).toHaveBeenCalledTimes(1)
-    // expect(SpyFsWriteFile).toHaveBeenCalledTimes(2)
-    // expect(SpyFsReadFile).toHaveBeenCalledTimes(1)
     expect(token).toBe(tokenSet)
   })
- 
 })

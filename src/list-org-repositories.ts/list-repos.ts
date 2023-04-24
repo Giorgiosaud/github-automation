@@ -10,7 +10,7 @@ const getRepos = async (organization: string, token: string, page = 1, repoIniti
   }
   const url = `https://api.github.com/orgs/${organization}/repos?type=member&page=${page}`
   const response = await fetch(url, config)
-  // eslint-disable-next-line camelcase
+
   const data: [{full_name: string}] = await response.json()
   if (data.length > 0) {
     data.map(repo => {

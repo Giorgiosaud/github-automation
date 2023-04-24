@@ -1,7 +1,6 @@
 import {Command, Flags} from '@oclif/core'
 import getGithubToken from '../../helpers/get-github-token'
 import protectBranch from '../../branch-protection-rules-helpers/protect-branch'
-import { exec } from 'child_process'
 
 export default class BranchProtectionRules extends Command {
   static description = 'describe the command here'
@@ -56,7 +55,7 @@ export default class BranchProtectionRules extends Command {
           branchesToProtectPromises.push(protectBranch(token, flags.organization, repo, branch))
         }
       }
-      
+
       await Promise.all(branchesToProtectPromises)
     } catch (error) {
       if (typeof error  === 'string' || error instanceof Error) {
