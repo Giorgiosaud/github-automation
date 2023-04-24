@@ -1,4 +1,4 @@
-name: Publishing Modyo Cli on Github
+name: Publishing Modyo Github Automation on Npm
 on:
   release:
     types: [published]
