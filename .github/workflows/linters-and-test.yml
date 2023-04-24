@@ -24,7 +24,7 @@ jobs:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ./node_modules
           key: ${{ hashFiles('**/package-lock.json') }}-node-modules
-    - name: Install dependencies
+      - name: Install dependencies
         run: npm install
   lint-ts:
     name: Lint Ts code
@@ -69,7 +69,7 @@ jobs:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ./node_modules
           key: ${{ hashFiles('**/package-lock.json') }}-node-modules
-     - name: Cache test results
+      - name: Cache test results
         uses: actions/cache@v2
         env:
           cache-name: cache-test-results
