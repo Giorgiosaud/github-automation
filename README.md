@@ -1,11 +1,23 @@
-oclif-hello-world
+github automation
 =================
+
 
 oclif example Hello World CLI
 
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world)
-[![CircleCI](https://circleci.com/gh/oclif/hello-world/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/hello-world/tree/main)
 [![Downloads/week](https://img.shields.io/npm/dw/oclif-hello-world.svg)](https://npmjs.org/package/oclif-hello-world)
 [![License](https://img.shields.io/npm/l/oclif-hello-world.svg)](https://github.com/oclif/hello-world/blob/main/package.json)
 
