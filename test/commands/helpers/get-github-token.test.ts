@@ -1,74 +1,79 @@
 import getGithubToken from '../../../src/helpers/get-github-token'
-import * as path from 'node:path'
 import * as nodeOS from 'node:os'
 import * as fs from 'node:fs'
 import * as fileSystem from '../../../src/helpers/file-system'
 import * as promptToken from '../../../src/helpers/prompt-token'
+import {rcPath} from '../../../src/helpers/config'
+import * as path from 'node:path'
+import * as jsyaml from 'js-yaml'
 
 const spyNodeOS = jest.spyOn(nodeOS, 'homedir')
 const spyPromptToken = jest.spyOn(promptToken, 'promptToken')
-const spyPath = jest.spyOn(path, 'resolve')
 const SpyFsExtraExist = jest.spyOn(fs, 'existsSync')
 const SpyFsWriteFile = jest.spyOn(fs, 'writeFileSync').mockImplementation(() => jest.fn())
-const SpyFileSystemReadEnv = jest.spyOn(fileSystem, 'readEnv')
+const SpyFsReadFile = jest.spyOn(fs, 'readFileSync')
+const SpyReadEnv = jest.spyOn(fileSystem, 'readEnv')
+const SpyPathResolve = jest.spyOn(path, 'resolve')
 const tokenSet = 'NEW_TOKEN'
-spyPromptToken.mockResolvedValue(tokenSet)
+const homedir = 'my_test_os'
+const org = 'my_org'
 
 describe('getGithubToken function', () => {
-  const rcPath = 'RCPATH'
-  const org = 'akamai'
+  const org = 'Prueba'
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
+  })
+  test('if token is invalid prompt it',async ()=>{
+    const fullPath = homedir + '/' + rcPath
+    SpyPathResolve.mockReturnValueOnce(fullPath)
+    SpyFsExtraExist.mockReturnValueOnce(true)
+
+    const token = await getGithubToken(org)
+
   })
   test('ask for a token when "rcPath" has no files', async () => {
-    spyPath.mockReturnValueOnce('test_path')
-    spyNodeOS.mockReturnValue('my_mac')
+    const fullPath = homedir + '/' + rcPath
+    SpyPathResolve.mockReturnValueOnce(fullPath)
+    SpyFsWriteFile.mockImplementation(() => jest.fn())
     SpyFsExtraExist.mockReturnValueOnce(false)
-    SpyFileSystemReadEnv.mockReturnValue({})
-    const token = await getGithubToken(rcPath, org)
-    expect(SpyFsWriteFile).toHaveBeenCalledTimes(2)
+    spyNodeOS.mockReturnValueOnce(homedir)
+    spyPromptToken.mockResolvedValueOnce(tokenSet)
+    SpyFsReadFile.mockReturnValueOnce(jsyaml.dump({
+      [org]: {
+        GITHUB_TOKEN: tokenSet,
+      }}))
+    // SpyFileSystemReadEnv.mockReturnValue({})
+    const token = await getGithubToken(org)
+    expect(SpyPathResolve).toBeCalledWith(homedir, rcPath)
+    expect(SpyFsExtraExist).toBeCalledWith(fullPath)
+    expect(SpyFsWriteFile).toHaveBeenNthCalledWith(1, fullPath.replace('.rc', '.yml'), 'utf-8')
+    expect(SpyReadEnv).toHaveBeenCalledTimes(1)
+    // expect(SpyFsWriteFile).toHaveBeenCalledTimes(2)
+    // expect(SpyFsReadFile).toHaveBeenCalledTimes(1)
     expect(token).toBe(tokenSet)
   })
-  // test(
-  //   'REALPATH  200 setting file not exist and GITHUB_TOKEN not exist',
-  //   async () => {
-  //     mock.onGet('https://api.github.com/orgs/organization/repos?type=member', undefined, {Accept: 'application/json, text/plain, */*', Authorization: 'Bearer 123'})
-  //     .reply(200, [{}])
-  //     const rcPath = 'RCPATH'
-  //     const org = 'organization'
-  //     resolveSpy.mockReturnValueOnce('/fakepath')
-  //     fsExtraExistSpy.mockReturnValueOnce(false)
-  //     fileSystemReadEnvSpy.mockResolvedValueOnce({})
-  //     const token = await getGithubToken(rcPath, org)
-  //     expect(fsWriteFileSpy).toBeCalledTimes(2)
-  //     expect(token).toBe('123')
-  //   },
-  // )
-  // test(
-  //   'REALPATH  200 setting file exist and GITHUB_TOKEN not exist',
-  //   async () => {
-  //     mock.onGet('https://api.github.com/orgs/organization/repos?type=member', undefined, {Accept: 'application/json, text/plain, */*', Authorization: 'Bearer 123'})
-  //     .reply(200, [{}])
-  //     const rcPath = 'RCPATH'
-  //     const org = 'organization'
-  //     resolveSpy.mockReturnValueOnce('/fakepath')
-  //     fsExtraExistSpy.mockReturnValueOnce(true)
-  //     fileSystemReadEnvSpy.mockResolvedValueOnce({})
-  //     const token = await getGithubToken(rcPath, org)
-  //     expect(fsWriteFileSpy).toBeCalledTimes(1)
-  //     expect(token).toBe('123')
-  //   },
-  // )
-  // test('REALPATH  200 setting file exist and GITHUB_TOKEN exist', async () => {
-  //   mock.onGet('https://api.github.com/orgs/organization/repos?type=member', undefined, {Accept: 'application/json, text/plain, */*', Authorization: 'Bearer 123'})
-  //   .reply(200, [{}])
-  //   const rcPath = 'RCPATH'
-  //   const org = 'organization'
-  //   resolveSpy.mockReturnValueOnce('/fakepath')
-  //   fsExtraExistSpy.mockReturnValueOnce(true)
-  //   fileSystemReadEnvSpy.mockResolvedValueOnce({GITHUB_TOKEN: '123'})
-  //   const token = await getGithubToken(rcPath, org)
-  //   expect(fsWriteFileSpy).toBeCalledTimes(0)
-  //   expect(token).toBe('123')
-  // })
+  test('migrate from old "rcPath"', async () => {
+    const fullPath = homedir + '/' + rcPath
+    SpyPathResolve.mockReturnValueOnce(fullPath)
+    SpyFsWriteFile.mockImplementation(() => jest.fn())
+    SpyFsExtraExist.mockReturnValueOnce(false)
+    SpyFsExtraExist.mockReturnValueOnce(true)
+    spyNodeOS.mockReturnValueOnce(homedir)
+    spyPromptToken.mockResolvedValueOnce(tokenSet)
+    SpyFsReadFile.mockImplementation(()=>org+'='+tokenSet)
+    // SpyFsReadFile.mockReturnValueOnce(jsyaml.dump({
+    //   [org]: {
+    //     GITHUB_TOKEN: tokenSet,
+    //   }}))
+    // SpyFileSystemReadEnv.mockReturnValue({})
+    const token = await getGithubToken(org)
+    expect(SpyPathResolve).toBeCalledWith(homedir, rcPath)
+    expect(SpyFsExtraExist).toBeCalledWith(fullPath)
+    expect(SpyFsWriteFile).toHaveBeenNthCalledWith(1, fullPath.replace('.rc', '.yml'), 'utf-8')
+    expect(SpyReadEnv).toHaveBeenCalledTimes(1)
+    // expect(SpyFsWriteFile).toHaveBeenCalledTimes(2)
+    // expect(SpyFsReadFile).toHaveBeenCalledTimes(1)
+    expect(token).toBe(tokenSet)
+  })
+ 
 })
