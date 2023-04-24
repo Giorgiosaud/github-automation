@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import getGithubToken from '../../helpers/get-github-token'
-import {rcPath} from '../../helpers/config'
 import protectBranch from '../../branch-protection-rules-helpers/protect-branch'
+
 export default class BranchProtectionRules extends Command {
   static description = 'describe the command here'
 
@@ -38,37 +38,23 @@ export default class BranchProtectionRules extends Command {
     help: Flags.help({char: 'h'}),
   }
 
-  static args = [
-    // {
-    //   name: 'permissions',               // name of arg to show in help and reference with args[name]
-    //   required: true,            // make the arg required with `required: true`
-    //   description: 'branch permissions body', // help description
-    // },
-  ]
-
   async run(): Promise<void> {
-    try {
-      const {flags} = await this.parse(BranchProtectionRules)
-      const okRepoNames = flags.repositories.every((repo: string) => {
-        return /^(([a-z]|[A-Z]|\d)+-?)*\w$/.test(repo)
-      })
-      if (!okRepoNames) {
-        throw new Error('The repository string must only contain numbers leters and dash')
-      }
+    const {flags} = await this.parse(BranchProtectionRules)
+    const okRepoNames = flags.repositories.every((repo: string) => {
+      return /^(([a-z]|[A-Z]|\d)+-?)*\w$/.test(repo)
+    })
+    if (!okRepoNames) {
+      throw new Error('The repository string must only contain numbers leters and dash')
+    }
 
-      const token = await getGithubToken(rcPath, flags.organization)
-      const branchesToProtectPromises = []
-      for (const repo of flags.repositories) {
-        for (const branch of flags.branches) {
-          branchesToProtectPromises.push(protectBranch(token, flags.organization, repo, branch))
-        }
-      }
-
-      await Promise.all(branchesToProtectPromises)
-    } catch (error) {
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
+    const token = await getGithubToken(flags.organization)
+    const branchesToProtectPromises = []
+    for (const repo of flags.repositories) {
+      for (const branch of flags.branches) {
+        branchesToProtectPromises.push(protectBranch(token, flags.organization, repo, branch))
       }
     }
+
+    await Promise.all(branchesToProtectPromises)
   }
 }

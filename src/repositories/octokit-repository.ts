@@ -1,10 +1,10 @@
-import {octokit} from './clients/octokit'
-import {OctokitResponse} from '@octokit/types'
-export interface octokitRepositoryInterface{
-  getRepo:()=>Promise<OctokitResponse<any, number>>
-}
-export const octokitRepository:octokitRepositoryInterface = {
-  getRepo() {
-    return octokit.request('GET asd')
+import octokitClient from './clients/octokit-client'
+export default {
+  async tokenIsValid({org, auth}:{org:string, auth:string}):Promise<boolean> {
+    const octokit = octokitClient({auth})
+    const orgData = await octokit.request('GET /orgs/{org}', {
+      org,
+    })
+    return Boolean(orgData.data)
   },
 }

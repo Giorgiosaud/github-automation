@@ -1,25 +1,18 @@
-import * as dotenv from 'dotenv'
-import {readFileSync} from 'node:fs'
+import {readFileSync, writeFileSync} from 'node:fs'
+import * as jsyaml from 'js-yaml'
 
 type ENV_VARS = any
 
-export const  buildEnvContent = (values: ENV_VARS): string => {
-  let content = ''
-  for (const key of Object.keys(values)) {
-    content += `${key}=${values[key]}\n`
-  }
-
-  return content
+export const  buildEnvContent = (path:string, values: ENV_VARS): void => {
+  const yamlStr = jsyaml.dump(values)
+  writeFileSync(path.replace('.rc', '.yml'), yamlStr, 'utf8')
 }
 
 export const readEnv = (path: string):any => {
-  try {
-    let newObject: any = {}
-    const file = readFileSync(path)
-    const ret = dotenv.parse(Buffer.from(file))
-    newObject = Object.assign({}, ret)
-    return newObject
-  } catch (error) {
-    console.log(error)
+  const file = readFileSync(path, 'utf8')
+  if (path.includes('.rc')) {
+    return file
   }
+
+  return jsyaml.loadAll(file)
 }

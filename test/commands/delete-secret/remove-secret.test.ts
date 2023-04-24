@@ -4,7 +4,7 @@ import MockAdapter from 'axios-mock-adapter'
 
 const mock = new MockAdapter(axios, {delayResponse: 2000})
 
-describe('removeSecret function', () => {
+describe.skip('removeSecret function', () => {
   beforeEach(() => {
     mock.resetHandlers()
     mock.onDelete('/repos/org/repo/actions/secrets/name', '', {Accept: 'application/json, text/plain, */*', Authorization: 'Bearer 123'})

@@ -1,10 +1,11 @@
-import {Command, Flags} from '@oclif/core'
+import {Command} from '@oclif/core'
 import getGithubToken from '../../helpers/get-github-token'
 import {info} from '../../helpers/logger'
 import updateSecret from '../../set-secret-helpers/update-secret'
 import encryptSecrets from '../../set-secret-helpers/encrypt-secret'
-import {rcPath} from '../../helpers/config'
 import {validateEqualLengths, validateRepoNames} from '../../helpers/validations'
+import secretVarsFlags from '../../helpers/set-vars-helpers/secret-vars-flags'
+
 export default class SetSecret extends Command {
   static description = 'describe the command here'
 
@@ -20,65 +21,27 @@ export default class SetSecret extends Command {
 
   static strict = false
 
-  static flags = {
-    organization: Flags.string({
-      char: 'o',
-      description: 'A single string containing the organization name',
-      required: true,
-    }),
-    repositories: Flags.string({
-      char: 'r',
-      description: 'Can be multiples repositories names',
-      required: true,
-      multiple: true,
-    }),
-
-    'secret-name': Flags.string({
-      char: 'n',
-      description: 'Can be multiples secret names separated by space',
-      required: true,
-      multiple: true,
-    }),
-    'secret-value': Flags.string({
-      required: true,
-      description: 'Can be multiples secret values separated by space',
-      char: 'x',
-      multiple: true,
-    }),
-
-    help: Flags.help({char: 'h'}),
-  }
-
-  static args = [
-  ]
+  static flags = secretVarsFlags
 
   async run(): Promise<void> {
-    try {
-      const {flags} = await this.parse(SetSecret)
-      validateEqualLengths(flags['secret-name'], flags['secret-value'])
+    const {flags} = await this.parse(SetSecret)
+    validateEqualLengths(flags['secret-name'], flags['secret-value'])
+    validateRepoNames(flags.repositories)
 
-      validateRepoNames(flags.repositories)
-
-      const token = await getGithubToken(rcPath, flags.organization)
-      const secretsToEncrypt = []
-      for (const repo of flags.repositories) {
-        for (const [index, secret] of flags['secret-value'].entries()) {
-          secretsToEncrypt.push(encryptSecrets({token, value: secret, org: flags.organization, repo, name: flags['secret-name'][index]}))
-        }
+    const token = await getGithubToken(flags.organization)
+    const secretsToEncrypt = []
+    for (const repo of flags.repositories) {
+      for (const [index, secret] of flags['secret-value'].entries()) {
+        secretsToEncrypt.push(encryptSecrets({token, value: secret, org: flags.organization, repo, name: flags['secret-name'][index], environment: flags.environment}))
       }
+    }
 
-      const promisesEncrypted = await Promise.all(secretsToEncrypt)
-      const updateSecretsPromises = promisesEncrypted.map(encriptedData => updateSecret(encriptedData, token))
-      await Promise.all(updateSecretsPromises)
-      for (const repo of flags.repositories) {
-        for (const [index, secret] of flags['secret-value'].entries()) {
-          this.log(info(`Updated secret ${flags['secret-name'][index]} with value ${secret} in org: ${flags.organization} in repo: ${repo}`))
-        }
-      }
-    } catch (error) {
-      console.log(error)
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
+    const promisesEncrypted = await Promise.all(secretsToEncrypt)
+    const updateSecretsPromises = flags.environment ? promisesEncrypted.map(encriptedData => updateSecret({...encriptedData, env: flags.environment}, token)) : promisesEncrypted.map(encriptedData => updateSecret(encriptedData, token))
+    await Promise.all(updateSecretsPromises)
+    for (const repo of flags.repositories) {
+      for (const [index, secret] of flags['secret-value'].entries()) {
+        this.log(info(`Updated secret ${flags['secret-name'][index]} with value ${secret} in org: ${flags.organization} in repo: ${repo}`))
       }
     }
   }

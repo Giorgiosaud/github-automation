@@ -1,4 +1,4 @@
-import {Command, Flags, CliUx} from '@oclif/core'
+import {Command, Flags, ux, Args} from '@oclif/core'
 import {info} from '../../helpers/logger'
 import listRepos from '../../list-org-repositories.ts/list-repos'
 
@@ -23,24 +23,17 @@ export default class ListOrgRepositories extends Command {
     }),
   }
 
-  static args = [
-    {name: 'organization'},
-  ]
+  static args = {
+    organization: Args.string(),
+  }
 
   async run(): Promise<void> {
-    try {
-      const {args, flags} = await this.parse(ListOrgRepositories)
-      const rcPath = '.github-automation.rc'
-      const repositories = await listRepos(args.organization, rcPath, flags.filter)
+    const {args, flags} = await this.parse(ListOrgRepositories)
+    const repositories = args.organization ? await listRepos(args.organization, flags.filter) : []
 
-      CliUx.ux.styledObject({
-        repositories,
-      })
-      CliUx.ux.log(info(`se consiguieron ${repositories.length} repos`))
-    } catch (error) {
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
-      }
-    }
+    ux.styledObject({
+      repositories,
+    })
+    ux.log(info(`se consiguieron ${repositories.length} repos`))
   }
 }

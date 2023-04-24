@@ -1,8 +1,8 @@
 import getGithubToken from '../helpers/get-github-token'
 
-export default async (repo: string, user: string, permission: string, rcPath: string): Promise<boolean> => {
+export default async (repo: string, user: string, permission: string): Promise<boolean> => {
   const organization = repo.split('/')[0]
-  const GITHUB_TOKEN = await getGithubToken(rcPath, organization)
+  const GITHUB_TOKEN = await getGithubToken(organization)
   const config = {
     method: 'PUT',
     headers: {

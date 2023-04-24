@@ -34,7 +34,8 @@ export default class Collaborators extends Command {
       required: true,
       multiple: true,
     }),
-    permissions: Flags.enum({
+
+    permissions: Flags.string({
       char: 'p',
       options: ['pull', 'push', 'admin', 'maintain', 'triage'],
       description: 'Select Permission to add',
@@ -48,39 +49,32 @@ export default class Collaborators extends Command {
   }
 
   async run(): Promise<void> {
-    try {
-      const {flags} = await this.parse(Collaborators)
-      const okRepoNames = flags.repositories.every((repo: string) => {
-        return /^([\w-])+\/([\w-])+$/.test(repo)
-      })
-      if (!okRepoNames) {
-        throw new Error('The repository string must be of type OWNER/NAME')
-      }
+    const {flags} = await this.parse(Collaborators)
+    const okRepoNames = flags.repositories.every((repo: string) => {
+      return /^([\w-])+\/([\w-])+$/.test(repo)
+    })
+    if (!okRepoNames) {
+      throw new Error('The repository string must be of type OWNER/NAME')
+    }
 
-      const rcPath = '.github-automation.rc'
-      if (flags.delete) {
-        return await flags.repositories.reduce(async (promise, repo) => {
-          await promise
-          await flags['github-users'].reduce(async (promiseI, name) => {
-            await promiseI
-            await deleteUserPermissions(repo, name, rcPath)
-            this.log(info(`Removed user ${name} from repo: ${repo}`))
-          }, Promise.resolve())
-        }, Promise.resolve())
-      }
-
-      return await flags.repositories.reduce(async (promise, repo) => {
+    if (flags.delete) {
+      return flags.repositories.reduce(async (promise, repo) => {
         await promise
         await flags['github-users'].reduce(async (promiseI, name) => {
           await promiseI
-          await addUserPermissions(repo, name, flags.permissions, rcPath)
-          this.log(info(`Add user ${name} to repo: ${repo} with: ${flags.permissions}`))
+          await deleteUserPermissions(repo, name)
+          this.log(info(`Removed user ${name} from repo: ${repo}`))
         }, Promise.resolve())
       }, Promise.resolve())
-    } catch (error) {
-      if (typeof error  === 'string' || error instanceof Error) {
-        this.error(error)
-      }
     }
+
+    return flags.repositories.reduce(async (promise, repo) => {
+      await promise
+      await flags['github-users'].reduce(async (promiseI, name) => {
+        await promiseI
+        await addUserPermissions(repo, name, flags.permissions)
+        this.log(info(`Add user ${name} to repo: ${repo} with: ${flags.permissions}`))
+      }, Promise.resolve())
+    }, Promise.resolve())
   }
 }
