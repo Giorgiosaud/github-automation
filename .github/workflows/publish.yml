@@ -38,11 +38,10 @@ jobs:
             git commit -m "fix: bump package version [skip actions]"
             git status
             git push --set-upstream origin fix/bump-package-version
-            gh pr create -B master --title "fix: bump self version" --body "Bump Version"
-            gh pr merge --merge --delete-branch
+            gh pr create --title "fix: bump self version" --body "Bump Version"
         env:
           GH_TOKEN: ${{ github.token }}
-      - name: Publish to GitHub Package Registry
+      - name: Publish to NPM Package Registry
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
