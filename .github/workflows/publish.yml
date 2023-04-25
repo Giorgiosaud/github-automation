@@ -32,6 +32,7 @@ jobs:
           git config user.name echo $NAME
           npm version $TAG --allow-same-version --no-git-tag-version
           git checkout -b fix/bump-package-version
+          git branch --set-upstream-to=origin/fix/bump-package-version fix/bump-package-version
           git pull
           git add .
           git commit -m "fix: bump package version"
