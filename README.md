@@ -28,96 +28,57 @@ oclif example Hello World CLI
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g oclif-hello-world
-$ oex COMMAND
+$ npm install -g github-automation
+$ github-automation COMMAND
 running command...
-$ oex (--version)
-oclif-hello-world/0.0.0 darwin-x64 node-v16.13.1
-$ oex --help [COMMAND]
+$ github-automation (--version)
+github-automation/3.2.5 linux-x64 node-v16.20.0
+$ github-automation --help [COMMAND]
 USAGE
-  $ oex COMMAND
+  $ github-automation COMMAND
 ...
 ```
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`oex hello PERSON`](#oex-hello-person)
-* [`oex hello world`](#oex-hello-world)
-* [`oex help [COMMAND]`](#oex-help-command)
-* [`oex plugins`](#oex-plugins)
-* [`oex plugins:inspect PLUGIN...`](#oex-pluginsinspect-plugin)
-* [`oex plugins:install PLUGIN...`](#oex-pluginsinstall-plugin)
-* [`oex plugins:link PLUGIN`](#oex-pluginslink-plugin)
-* [`oex plugins:uninstall PLUGIN...`](#oex-pluginsuninstall-plugin)
-* [`oex plugins update`](#oex-plugins-update)
+* [`github-automation help [COMMANDS]`](#github-automation-help-commands)
+* [`github-automation plugins`](#github-automation-plugins)
+* [`github-automation plugins:install PLUGIN...`](#github-automation-pluginsinstall-plugin)
+* [`github-automation plugins:inspect PLUGIN...`](#github-automation-pluginsinspect-plugin)
+* [`github-automation plugins:install PLUGIN...`](#github-automation-pluginsinstall-plugin-1)
+* [`github-automation plugins:link PLUGIN`](#github-automation-pluginslink-plugin)
+* [`github-automation plugins:uninstall PLUGIN...`](#github-automation-pluginsuninstall-plugin)
+* [`github-automation plugins:uninstall PLUGIN...`](#github-automation-pluginsuninstall-plugin-1)
+* [`github-automation plugins:uninstall PLUGIN...`](#github-automation-pluginsuninstall-plugin-2)
+* [`github-automation plugins update`](#github-automation-plugins-update)
 
-## `oex hello PERSON`
+## `github-automation help [COMMANDS]`
 
-Say hello
+Display help for github-automation.
 
 ```
 USAGE
-  $ oex hello [PERSON] -f <value>
+  $ github-automation help [COMMANDS] [-n]
 
 ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Who is saying hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ oex hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
-```
-
-_See code: [dist/commands/hello/index.ts](https://github.com/oclif/hello-world/blob/v0.0.0/dist/commands/hello/index.ts)_
-
-## `oex hello world`
-
-Say hello world
-
-```
-USAGE
-  $ oex hello world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ oex hello world
-  hello world! (./src/commands/hello/world.ts)
-```
-
-## `oex help [COMMAND]`
-
-Display help for oex.
-
-```
-USAGE
-  $ oex help [COMMAND] [-n]
-
-ARGUMENTS
-  COMMAND  Command to show help for.
+  COMMANDS  Command to show help for.
 
 FLAGS
   -n, --nested-commands  Include all nested commands in the output.
 
 DESCRIPTION
-  Display help for oex.
+  Display help for github-automation.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.10/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.9/src/commands/help.ts)_
 
-## `oex plugins`
+## `github-automation plugins`
 
 List installed plugins.
 
 ```
 USAGE
-  $ oex plugins [--core]
+  $ github-automation plugins [--core]
 
 FLAGS
   --core  Show core plugins.
@@ -126,40 +87,18 @@ DESCRIPTION
   List installed plugins.
 
 EXAMPLES
-  $ oex plugins
+  $ github-automation plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.0.11/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/index.ts)_
 
-## `oex plugins:inspect PLUGIN...`
-
-Displays installation properties of a plugin.
-
-```
-USAGE
-  $ oex plugins:inspect PLUGIN...
-
-ARGUMENTS
-  PLUGIN  [default: .] Plugin to inspect.
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Displays installation properties of a plugin.
-
-EXAMPLES
-  $ oex plugins:inspect myplugin
-```
-
-## `oex plugins:install PLUGIN...`
+## `github-automation plugins:install PLUGIN...`
 
 Installs a plugin into the CLI.
 
 ```
 USAGE
-  $ oex plugins:install PLUGIN...
+  $ github-automation plugins:install PLUGIN...
 
 ARGUMENTS
   PLUGIN  Plugin to install.
@@ -171,7 +110,6 @@ FLAGS
 
 DESCRIPTION
   Installs a plugin into the CLI.
-
   Can be installed from npm or a git url.
 
   Installation of a user-installed plugin will override a core plugin.
@@ -180,24 +118,88 @@ DESCRIPTION
   will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
   the CLI without the need to patch and update the whole CLI.
 
+
 ALIASES
-  $ oex plugins add
+  $ github-automation plugins add
 
 EXAMPLES
-  $ oex plugins:install myplugin 
+  $ github-automation plugins:install myplugin 
 
-  $ oex plugins:install https://github.com/someuser/someplugin
+  $ github-automation plugins:install https://github.com/someuser/someplugin
 
-  $ oex plugins:install someuser/someplugin
+  $ github-automation plugins:install someuser/someplugin
 ```
 
-## `oex plugins:link PLUGIN`
+## `github-automation plugins:inspect PLUGIN...`
+
+Displays installation properties of a plugin.
+
+```
+USAGE
+  $ github-automation plugins:inspect PLUGIN...
+
+ARGUMENTS
+  PLUGIN  [default: .] Plugin to inspect.
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  Displays installation properties of a plugin.
+
+EXAMPLES
+  $ github-automation plugins:inspect myplugin
+```
+
+## `github-automation plugins:install PLUGIN...`
+
+Installs a plugin into the CLI.
+
+```
+USAGE
+  $ github-automation plugins:install PLUGIN...
+
+ARGUMENTS
+  PLUGIN  Plugin to install.
+
+FLAGS
+  -f, --force    Run yarn install with force flag.
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Installs a plugin into the CLI.
+  Can be installed from npm or a git url.
+
+  Installation of a user-installed plugin will override a core plugin.
+
+  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
+  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
+  the CLI without the need to patch and update the whole CLI.
+
+
+ALIASES
+  $ github-automation plugins add
+
+EXAMPLES
+  $ github-automation plugins:install myplugin 
+
+  $ github-automation plugins:install https://github.com/someuser/someplugin
+
+  $ github-automation plugins:install someuser/someplugin
+```
+
+## `github-automation plugins:link PLUGIN`
 
 Links a plugin into the CLI for development.
 
 ```
 USAGE
-  $ oex plugins:link PLUGIN
+  $ github-automation plugins:link PLUGIN
 
 ARGUMENTS
   PATH  [default: .] path to plugin
@@ -208,23 +210,23 @@ FLAGS
 
 DESCRIPTION
   Links a plugin into the CLI for development.
-
   Installation of a linked plugin will override a user-installed or core plugin.
 
   e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
   command will override the user-installed or core plugin implementation. This is useful for development work.
 
+
 EXAMPLES
-  $ oex plugins:link myplugin
+  $ github-automation plugins:link myplugin
 ```
 
-## `oex plugins:uninstall PLUGIN...`
+## `github-automation plugins:uninstall PLUGIN...`
 
 Removes a plugin from the CLI.
 
 ```
 USAGE
-  $ oex plugins:uninstall PLUGIN...
+  $ github-automation plugins:uninstall PLUGIN...
 
 ARGUMENTS
   PLUGIN  plugin to uninstall
@@ -237,17 +239,63 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ oex plugins unlink
-  $ oex plugins remove
+  $ github-automation plugins unlink
+  $ github-automation plugins remove
 ```
 
-## `oex plugins update`
+## `github-automation plugins:uninstall PLUGIN...`
+
+Removes a plugin from the CLI.
+
+```
+USAGE
+  $ github-automation plugins:uninstall PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to uninstall
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Removes a plugin from the CLI.
+
+ALIASES
+  $ github-automation plugins unlink
+  $ github-automation plugins remove
+```
+
+## `github-automation plugins:uninstall PLUGIN...`
+
+Removes a plugin from the CLI.
+
+```
+USAGE
+  $ github-automation plugins:uninstall PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to uninstall
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Removes a plugin from the CLI.
+
+ALIASES
+  $ github-automation plugins unlink
+  $ github-automation plugins remove
+```
+
+## `github-automation plugins update`
 
 Update installed plugins.
 
 ```
 USAGE
-  $ oex plugins update [-h] [-v]
+  $ github-automation plugins update [-h] [-v]
 
 FLAGS
   -h, --help     Show CLI help.
