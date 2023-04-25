@@ -2,12 +2,7 @@ name: Publishing Modyo Github Automation on Npm
 on:
   release:
     types: [published]
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to publish'
-        required: true
-        default: 'patch'
+
 jobs:
   cache-install-and-version:
     runs-on: ubuntu-latest
