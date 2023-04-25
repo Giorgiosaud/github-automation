@@ -64,8 +64,29 @@
     ],
     "topicSeparator": " ",
     "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
+      "branch-protection-rules": {
+        "description": "Copy protection rules from a repo to many others"
+      },
+      "collaborators":{
+        "description":  "Manage collaborators in repository"
+      },
+      "create-environment":{
+        "description":  "Create environment in repository"
+      },
+      "delete-secret":{
+        "description":  "Delete secret in repository"
+      },
+      "list-org-repositories":{
+        "description":  "List all repositories in organization"
+      },
+      "repos-with-secret":{
+        "description":  "List all repositories with secret"
+      },
+      "set-secret":{
+        "description":  "Set secret in repository with env or not"
+      },
+      "set-vars":{
+        "description":  "Set vars in repository with env or not"
       }
     }
   },
