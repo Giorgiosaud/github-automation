@@ -38,8 +38,8 @@ jobs:
             git commit -m "fix: bump package version [skip actions]"
             git status
             git push --set-upstream origin fix/bump-package-version
-            gh pr create --title "fix: bump self version" --body "Bump Version"
-            gh pr merge --auto --merge --delete-branch
+            gh pr create -B master --title "fix: bump self version" --body "Bump Version"
+            gh pr merge --merge --delete-branch
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Publish to GitHub Package Registry
