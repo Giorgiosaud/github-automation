@@ -38,8 +38,6 @@ jobs:
             gh pr create --title "fix: bump self version" --body "Bump Version"
         env:
           GH_TOKEN: ${{ github.token }}
-        env:
-          GH_TOKEN: ${{ github.token }}
       - name: Publish to GitHub Package Registry
         run: npm publish
         env:
