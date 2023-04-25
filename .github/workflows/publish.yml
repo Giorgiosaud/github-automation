@@ -35,7 +35,7 @@ jobs:
           git pull
           git add .
           git commit -m "fix: bump package version"
-          git push --set-upstream origin fix/bump-package-version
+          git push --set-upstream origin/fix/bump-package-version fix/bump-package-version
           gh pr create --title "fix: bump self version" --body "Bump Version#
           gh pr merge --squash --auto --merge --delete-branch
         env:
