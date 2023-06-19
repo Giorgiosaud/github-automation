@@ -1,6 +1,10 @@
 import {Octokit} from 'octokit'
-
-export default function ({auth}: { auth: string}): Octokit {
+import getGithubToken from '../../helpers/get-github-token'
+type OctokitClient = {
+  org: string;
+}
+export default async ({org}:OctokitClient):Promise<Octokit> => {
+  const auth = await getGithubToken(org)
   return new Octokit({
     auth,
   })

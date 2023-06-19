@@ -4,7 +4,6 @@ import {writeFileSync, existsSync} from 'node:fs'
 import {resolve} from 'node:path'
 import {promptToken} from './prompt-token'
 import {rcPath} from './config'
-import octokitRepository from '../repositories/octokit-repository'
 
 export default async (org: string): Promise<string> => {
   const rcRealPath = resolve(homedir(), rcPath)
@@ -25,6 +24,5 @@ export default async (org: string): Promise<string> => {
   }
 
   const auth = SETTINGS[0][org].GITHUB_TOKEN
-  await octokitRepository.tokenIsValid({org, auth})
   return auth
 }

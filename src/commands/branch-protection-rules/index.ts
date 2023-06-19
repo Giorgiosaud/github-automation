@@ -5,6 +5,8 @@ import protectBranch from '../../branch-protection-rules-helpers/protect-branch'
 export default class BranchProtectionRules extends Command {
   static description = 'describe the command here'
 
+  static hidden=true
+
   static examples = [
     `
     you must have a personal github token to set the first time that uses this tool

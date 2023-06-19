@@ -1,6 +1,7 @@
 import {Command, Args} from '@oclif/core'
 import {info} from '../../helpers/logger'
-import listRepos from '../../list-org-repositories.ts/list-repos'
+import ls from '../../ls/ls'
+import getGithubToken from '../../helpers/get-github-token'
 
 export default class ReposWithSecret extends Command {
   static description = 'List Org Repositories if have access'
@@ -17,12 +18,14 @@ export default class ReposWithSecret extends Command {
 
   static args = {
     organization: Args.string(),
+    page: Args.integer({default: 1}),
   }
 
   async run(): Promise<void> {
-    const {args} = await this.parse(ReposWithSecret)
-    if (args.organization) {
-      await listRepos(args.organization)
+    const {args: {page, organization}} = await this.parse(ReposWithSecret)
+    if (organization) {
+      const token = await getGithubToken(organization)
+      await ls({token, owner: organization, page})
     }
 
     info('listing repos')

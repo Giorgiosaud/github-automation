@@ -3,7 +3,7 @@ import getGithubToken from '../../helpers/get-github-token'
 import {validateRepoNames} from '../../helpers/validations'
 import getEnvironment from '../../helpers/environments/get-environment'
 import createEnvironment from '../../helpers/environments/create-environment'
-export default class CreateEnvironment extends Command {
+export default class MkEnv extends Command {
   static description = 'describe the command here'
 
   static examples = [
@@ -40,7 +40,7 @@ export default class CreateEnvironment extends Command {
   }
 
   async run(): Promise<void> {
-    const {flags} = await this.parse(CreateEnvironment)
+    const {flags} = await this.parse(MkEnv)
     const token = await getGithubToken(flags.organization)
     validateRepoNames(flags.repositories)
     const getEnvironmentsOfrepos = flags.repositories.map(repo =>  getEnvironment(token, flags.organization, repo))

@@ -15,6 +15,8 @@ export default class Collaborators extends Command {
     `,
   ]
 
+  static hidden: boolean=true
+
   static usage=`
   collaborators -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
   collaborators -r GITHUBREPOS… -u GITHUBUSERS… --delete
