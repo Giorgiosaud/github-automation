@@ -1,5 +1,7 @@
 import {Command, Flags} from '@oclif/core'
-import octokitRepository from '../../repositories/octokit-repository'
+import repositoryFactory from '../../repositories/repository-factory'
+import {info} from '../../helpers/logger'
+import {validateRepoNames} from '../../helpers/validations'
 
 export default class BranchProtectionRules extends Command {
   static description = 'Set PRotected Branches and rules'
@@ -46,21 +48,15 @@ export default class BranchProtectionRules extends Command {
   }
 
   async run(): Promise<void> {
-    const {flags} = await this.parse(BranchProtectionRules)
-    const okRepoNames = flags.repositories.every((repo: string) => {
-      return /^(([a-z]|[A-Z]|\d)+-?)*\w$/.test(repo)
-    })
-    if (!okRepoNames) {
-      throw new Error('The repository string must only contain numbers leters and dash')
+    const {flags: {repositories, branches, likes, organization}} = await this.parse(BranchProtectionRules)
+    validateRepoNames(repositories)
+    const octoFactory = repositoryFactory.get('octokit')
+    for (const repo of repositories) {
+      branches.map(async  branch => {
+        info(`Protecting branch ${branch} in ${repo}`)
+        octoFactory.protectBranch({owner: organization, repo, branch, countReviewers: Number(likes)})
+        info(`Branch ${branch} protected in ${repo}`)
+      })
     }
-
-    const branchesToProtectPromises = []
-    for (const repo of flags.repositories) {
-      for (const branch of flags.branches) {
-        branchesToProtectPromises.push(octokitRepository.protectBranch({owner: flags.organization, repo, branch, countReviewers: Number(flags.likes)}))
-      }
-    }
-
-    await Promise.all(branchesToProtectPromises)
   }
 }

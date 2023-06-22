@@ -1,16 +1,15 @@
 import {Command, Flags} from '@oclif/core'
-import getGithubToken from '../../helpers/get-github-token'
 import {validateRepoNames} from '../../helpers/validations'
-import getEnvironment from '../../helpers/environments/get-environment'
-import removeEnvironment from '../../helpers/environments/remove-environment'
+import repositoryFactory from '../../repositories/repository-factory'
+import {info} from 'node:console'
 export default class RmEnv extends Command {
-  static description = 'Remove Environment'
+  static description = 'Remove environments if exist'
 
   static examples = [
     `
     you must have a personal github token to set the first time that uses this tool
-    $ github-automation create-environment --organization OWNER --repositories OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environment ENVIRONMENTA ENVIRONMENTB
-    $ github-automation create-environment -o Owner -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environment ENVIRONMENTA ENVIRONMENTB
+    $ github-automation rm-env --organization OWNER --repositories OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+    $ github-automation rm-env -o Owner -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
     `,
   ]
 
@@ -30,34 +29,32 @@ export default class RmEnv extends Command {
       required: true,
       multiple: true,
     }),
-    environment: Flags.string({
+    environments: Flags.string({
       char: 'e',
       description: 'If is set the env should be activated in the specified environment and create it if not exist',
       required: true,
+      multiple: true,
     }),
 
     help: Flags.help({char: 'h'}),
   }
 
   async run(): Promise<void> {
-    const {flags} = await this.parse(RmEnv)
-    const token = await getGithubToken(flags.organization)
-    validateRepoNames(flags.repositories)
-    const getEnvironmentsOfrepos = flags.repositories.map(repo =>  getEnvironment(token, flags.organization, repo))
-
-    const reposEnvs = await Promise.all(getEnvironmentsOfrepos)
-    const repoEnvsToCreate:string[] = []
-    for (const [index, envs] of reposEnvs.entries()) {
-      const findHasEnv = envs?.find(env => env.name === flags.environment)
-      if (findHasEnv) {
-        repoEnvsToCreate.push(flags.repositories[index])
+    const {flags: {organization, repositories, environments}} = await this.parse(RmEnv)
+    validateRepoNames(repositories)
+    const octoFactory = repositoryFactory.get('octokit')
+    for (const repo of repositories) {
+      info(`Listing  environments ${environments} in ${repo}`)
+      // eslint-disable-next-line no-await-in-loop
+      const {data: {environments: existentEnvironments}} = await octoFactory.getEnvironments({organization, repository: repo})
+      const envsToRemove = existentEnvironments?.filter(env => environments.includes(env.name)).map(env => env.name) || []
+      info(`Environments to remove ${envsToRemove} in ${repo} inside ${organization}`)
+      for (const env of envsToRemove) {
+        info(`Remocing environment ${env} in ${repo} inside ${organization}`)
+        // eslint-disable-next-line no-await-in-loop
+        await octoFactory.removeEnvironment({owner: organization, repo, environment_name: env})
+        info(`Environment ${env} removed in ${repo} inside ${organization}`)
       }
     }
-
-    const actionToCreate = repoEnvsToCreate.map(repo => {
-      return removeEnvironment(token, flags.organization, repo, flags.environment)
-    })
-
-    await Promise.all(actionToCreate)
   }
 }

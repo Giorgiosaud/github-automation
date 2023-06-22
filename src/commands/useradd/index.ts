@@ -1,5 +1,6 @@
 import {Command, Flags} from '@oclif/core'
-import octokitRepository from '../../repositories/octokit-repository'
+import {validateRepoNames} from '../../helpers/validations'
+import repositoryFactory from '../../repositories/repository-factory'
 
 export default class Useradd extends Command {
   static description = 'Add user to repos'
@@ -48,17 +49,13 @@ export default class Useradd extends Command {
 
   async run(): Promise<void> {
     const {flags: {repositories, organization, githubUsers, permission}} = await this.parse(Useradd)
-    const okRepoNames = repositories.every((repo: string) => {
-      return /^([\w-])+$/.test(repo)
-    })
-    if (!okRepoNames) {
-      throw new Error('The repository string must be of type OWNER/NAME')
-    }
+    validateRepoNames(repositories)
+    const octoFactory = repositoryFactory.get('octokit')
 
     const usersToAdd = []
     for (const repo of repositories) {
       for (const username of githubUsers) {
-        usersToAdd.push(octokitRepository.addCollaborator({owner: organization, repo, username, permission}))
+        usersToAdd.push(octoFactory.addCollaborator({owner: organization, repo, username, permission}))
       }
     }
 

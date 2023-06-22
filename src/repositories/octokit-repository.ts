@@ -2,6 +2,7 @@ import {Endpoints} from '@octokit/types'
 import octokitClient from './clients/octokit-client'
 type listReposResponse = Endpoints['GET /orgs/{org}/repos']['response'];
 type getEnvironmentsResponse = Endpoints['GET /repos/{owner}/{repo}/environments']['response'];
+type setEnvironmentResponse = Endpoints['PUT /repos/{owner}/{repo}/environments/{environment_name}']['response'];
 type postVariableResponse = Endpoints['POST /repositories/{repository_id}/environments/{environment_name}/variables']['response'];
 type patchVariableResponse = Endpoints['PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
 type getVariableResponse = Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
@@ -14,6 +15,7 @@ type removeCollaboratorResponse=Endpoints['DELETE /repos/{owner}/{repo}/collabor
 type removeCollaboratorParams=Endpoints['DELETE /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
 type addCollaboratorResponse=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['response'];
 type addCollaboratorParams=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
+type removeEnvironmentResponse=Endpoints['DELETE /repos/{owner}/{repo}/environments/{environment_name}']['response'];
 export default {
   async setEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<postVariableResponse> {
     const octokit = await octokitClient({org: owner})
@@ -107,7 +109,7 @@ export default {
       },
     })
   },
-  async getEnvironment(organization:string, repository:string):Promise<getEnvironmentsResponse> {
+  async getEnvironments({organization, repository}:{organization: string, repository: string}):Promise<getEnvironmentsResponse> {
     const octokit = await octokitClient({org: organization})
 
     return octokit.request('GET /repos/{owner}/{repo}/environments', {
@@ -120,6 +122,29 @@ export default {
       },
     })
   },
+  async defineEnvironment({owner, repo, environment_name}:{owner:string, repo:string, environment_name:string}):Promise<setEnvironmentResponse> {
+    const octokit = await octokitClient({org: owner})
+    return octokit.request('PUT /repos/{owner}/{repo}/environments/{environment_name}', {
+      owner,
+      repo,
+      environment_name,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    })
+  },
+  async removeEnvironment({owner, repo, environment_name}:{owner:string, repo:string, environment_name:string}):Promise<removeEnvironmentResponse> {
+    const octokit = await octokitClient({org: owner})
+    return octokit.request('DELETE /repos/{owner}/{repo}/environments/{environment_name}', {
+      owner,
+      repo,
+      environment_name,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    })
+  },
+
   async protectBranch({owner, repo, branch, countReviewers}:{owner:string, repo:string, branch:string, countReviewers:number},
   ):Promise<protectBranchResponse> {
     const octokit = await octokitClient({org: owner})
