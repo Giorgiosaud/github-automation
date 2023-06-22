@@ -17,19 +17,12 @@ const FlagsSecretAndVars = {
     description: 'If is set the env should be activated in the specified environment and create it if not exist',
     required: false,
   }),
-  'secret-name': Flags.string({
-    char: 'n',
-    description: 'Can be multiples secret names separated by space',
+  secrets: Flags.string({
+    char: 's',
+    description: 'Can be multiples secret names separated by : ej: name:secret',
     required: true,
     multiple: true,
   }),
-  'secret-value': Flags.string({
-    required: true,
-    description: 'Can be multiples secret values separated by space',
-    char: 'x',
-    multiple: true,
-  }),
-
   help: Flags.help({char: 'h'}),
 }
 export default FlagsSecretAndVars

@@ -1,43 +1,40 @@
+/* eslint-disable no-await-in-loop */
 import {Command} from '@oclif/core'
-import getGithubToken from '../../helpers/get-github-token'
 import {info} from '../../helpers/logger'
-import {validateRepoNames} from '../../helpers/validations'
-import removeSecret from '../../helpers/rm-secret-helpers/rm-secrets'
+import {validateRepoNames, validateSecrets} from '../../helpers/validations'
+import secretVarsFlags from '../../helpers/set-vars-helpers/secret-vars-flags'
+import repositoryFactory from '../../repositories/repository-factory'
+import encryptSecret from '../../set-secret-helpers/encrypt-secret'
+import {getPublicKey} from '../../set-secret-helpers/get-public-key'
 import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags'
 
-export default class RmSecret extends Command {
-  static description = 'remove a secret from a repository or environment'
+export default class SetSecret extends Command {
+  static description = 'describe the command here'
 
   static examples = [
     `
     you must have a personal github token to set the first time that uses this tool
-    $ github-automation rm-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN 
-    $ github-automation rm-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN 
+    $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secrets SECRET_NAME1:SECRET_VALUE_1 SECRET_NAME2:SECRET_VALUE_2 ... SECRET_NAMEN:SECRET_VALUE_N
+    $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -s SECRET_NAME1:SECRET_VALUE_1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2:SECRET_VALUE_2 ... SECRETVALUEN:SECRET_VALUE_N
     `,
   ]
 
-  static usage='rm-secret -r REPOS -n NAMES -e ENVIRONMENT_NAME'
+  static usage='set-secret -r REPOS -n NAMES -x VALUES'
 
   static strict = false
 
   static flags = RmSecretFlags
+
   async run(): Promise<void> {
-    const {flags} = await this.parse(RmSecret)
-    validateRepoNames(flags.repositories)
-
-    const token = await getGithubToken(flags.organization)
-
-    const varsToSet = []
-    for (const repo of flags.repositories) {
-      for (const [, name] of flags['secret-name'].entries()) {
-        varsToSet.push(removeSecret({token, owner: flags.organization, repo, name, environment_name: flags.environment}))
-      }
-    }
-
-    await Promise.all(varsToSet)
-    for (const repo of flags.repositories) {
-      for (const [, name] of flags['secret-name'].entries()) {
-        this.log(info(`Removed secret ${name} in org: ${flags.organization} in repo: ${repo}`))
+    const {flags: {organization, repositories, secrets, environment}} = await this.parse(SetSecret)
+    validateRepoNames(repositories)
+    const octoFactory = repositoryFactory.get('octokit')
+    for (const repo of repositories) {
+      this.log(info(`Removing secrets in org: ${organization} in repo: ${repo}`))
+      for (const secret of secrets) {
+        this.log(info(`Removing secret ${secret} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        await octoFactory.removeSecret({owner: organization, repo, secret_name: secret, environment})
+        this.log(info(`Updated secret ${secret}  in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
       }
     }
   }

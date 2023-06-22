@@ -17,8 +17,8 @@ const RmSecretFlags = {
     description: 'If is set the env should be activated in the specified environment and create it if not exist',
     required: false,
   }),
-  'secret-name': Flags.string({
-    char: 'n',
+  secrets: Flags.string({
+    char: 's',
     description: 'Can be multiples secret names separated by space',
     required: true,
     multiple: true,

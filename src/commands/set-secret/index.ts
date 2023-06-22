@@ -1,10 +1,11 @@
+/* eslint-disable no-await-in-loop */
 import {Command} from '@oclif/core'
-import getGithubToken from '../../helpers/get-github-token'
 import {info} from '../../helpers/logger'
-import updateSecret from '../../set-secret-helpers/update-secret'
-import encryptSecrets from '../../set-secret-helpers/encrypt-secret'
-import {validateEqualLengths, validateRepoNames} from '../../helpers/validations'
+import {validateRepoNames, validateSecrets} from '../../helpers/validations'
 import secretVarsFlags from '../../helpers/set-vars-helpers/secret-vars-flags'
+import repositoryFactory from '../../repositories/repository-factory'
+import encryptSecret from '../../set-secret-helpers/encrypt-secret'
+import {getPublicKey} from '../../set-secret-helpers/get-public-key'
 
 export default class SetSecret extends Command {
   static description = 'describe the command here'
@@ -12,8 +13,8 @@ export default class SetSecret extends Command {
   static examples = [
     `
     you must have a personal github token to set the first time that uses this tool
-    $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
-    $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
+    $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secrets SECRET_NAME1:SECRET_VALUE_1 SECRET_NAME2:SECRET_VALUE_2 ... SECRET_NAMEN:SECRET_VALUE_N
+    $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -s SECRET_NAME1:SECRET_VALUE_1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2:SECRET_VALUE_2 ... SECRETVALUEN:SECRET_VALUE_N
     `,
   ]
 
@@ -24,24 +25,21 @@ export default class SetSecret extends Command {
   static flags = secretVarsFlags
 
   async run(): Promise<void> {
-    const {flags} = await this.parse(SetSecret)
-    validateEqualLengths(flags['secret-name'], flags['secret-value'])
-    validateRepoNames(flags.repositories)
-
-    const token = await getGithubToken(flags.organization)
-    const secretsToEncrypt = []
-    for (const repo of flags.repositories) {
-      for (const [index, secret] of flags['secret-value'].entries()) {
-        secretsToEncrypt.push(encryptSecrets({token, value: secret, org: flags.organization, repo, name: flags['secret-name'][index], environment: flags.environment}))
-      }
-    }
-
-    const promisesEncrypted = await Promise.all(secretsToEncrypt)
-    const updateSecretsPromises = flags.environment ? promisesEncrypted.map(encriptedData => updateSecret({...encriptedData, env: flags.environment}, token)) : promisesEncrypted.map(encriptedData => updateSecret(encriptedData, token))
-    await Promise.all(updateSecretsPromises)
-    for (const repo of flags.repositories) {
-      for (const [index, secret] of flags['secret-value'].entries()) {
-        this.log(info(`Updated secret ${flags['secret-name'][index]} with value ${secret} in org: ${flags.organization} in repo: ${repo}`))
+    const {flags: {organization, repositories, secrets, environment}} = await this.parse(SetSecret)
+    validateSecrets(secrets)
+    validateRepoNames(repositories)
+    const octoFactory = repositoryFactory.get('octokit')
+    for (const repo of repositories) {
+      this.log(info(`Updating secrets in org: ${organization} in repo: ${repo}`))
+      for (const secret of secrets) {
+        const [name, value] = secret.split(':')
+        this.log(info(`Generating Key for secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        const {data: publicKey} = await octoFactory.getPublicKey({owner: organization, repo, environment})
+        this.log(info(`Encrypting secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        const encryptedValue = await encryptSecret({value, publicKey})
+        this.log(info(`Updating secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        await octoFactory.updateSecret({owner: organization, repo, secret_name: name, encrypted_value: encryptedValue, key_id: publicKey.key_id, environment})
+        this.log(info(`Updated secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
       }
     }
   }
