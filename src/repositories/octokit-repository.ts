@@ -21,6 +21,8 @@ type removeEnvironmentResponse=Endpoints['DELETE /repos/{owner}/{repo}/environme
 type getPublicKeyResponse=Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key']['response'];
 type updateSecretResponse=Endpoints['PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response'];
 type removeSecretResponse=Endpoints['DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response'];
+type renameBranchResponse=Endpoints['POST /repos/{owner}/{repo}/branches/{branch}/rename']['response'];
+type getBranchResponse=Endpoints['GET /repos/{owner}/{repo}/branches/{branch}']['response'];
 export default {
   async setEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<postVariableResponse> {
     const octokit = await octokitClient({org: owner})
@@ -312,4 +314,30 @@ export default {
       return this.setGlobalVariable({owner, repo, name, value})
     }
   },
+  async getBranch({owner, repo, branch}:{owner:string, repo:string, branch:string}):Promise<getBranchResponse> {
+    const octokit = await octokitClient({org: owner})
+
+    return octokit.request('GET /repos/{owner}/{repo}/branches/{branch}', {
+      owner,
+      repo,
+      branch,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    })
+  },
+  async renameBranch({owner, repo, branch, new_name}:{owner:string, repo:string, branch:string, new_name:string}):Promise<renameBranchResponse> {
+    const octokit = await octokitClient({org: owner})
+
+    return octokit.request('POST /repos/{owner}/{repo}/branches/{branch}/rename', {
+      owner,
+      repo,
+      branch,
+      new_name,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    })
+  },
+
 }
