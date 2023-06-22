@@ -26,7 +26,8 @@ export async function promptToken({org}: { org: string; }): Promise<string> {
       type: 'private',
     })
     return token
-  } catch {
+  } catch (error) {
+    console.log(error)
     return promptToken({org})
   }
 }

@@ -1,11 +1,11 @@
 /* eslint-disable no-await-in-loop */
 import {Command} from '@oclif/core'
 import {info} from '../../helpers/logger'
-import {validateRepoNames, validateSecrets} from '../../helpers/validations'
-import secretVarsFlags from '../../helpers/set-vars-helpers/secret-vars-flags'
+import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
+import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags'
 
-export default class SetVars extends Command {
+export default class RmSecret extends Command {
   static description = 'describe the command here'
 
   static examples = [
@@ -20,20 +20,18 @@ export default class SetVars extends Command {
 
   static strict = false
 
-  static flags = secretVarsFlags
+  static flags = RmSecretFlags
 
   async run(): Promise<void> {
-    const {flags: {organization, repositories, secrets, environment}} = await this.parse(SetVars)
-    validateSecrets(secrets)
+    const {flags: {organization, repositories, secrets, environment}} = await this.parse(RmSecret)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      this.log(info(`Updating secrets in org: ${organization} in repo: ${repo}`))
+      this.log(info(`Removing secrets in org: ${organization} in repo: ${repo}`))
       for (const secret of secrets) {
-        const [name, value] = secret.split(':')
-        this.log(info(`Updating variables ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
-        await octoFactory.updateVariables({owner: organization, repo, name, value, environment})
-        this.log(info(`Updated variable ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        this.log(info(`Removing secret ${secret} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        await octoFactory.removeSecret({owner: organization, repo, secret_name: secret, environment})
+        this.log(info(`Updated secret ${secret}  in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
       }
     }
   }

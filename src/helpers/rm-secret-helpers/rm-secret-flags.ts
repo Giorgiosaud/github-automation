@@ -1,6 +1,6 @@
 import {Flags} from '@oclif/core'
 
-const FlagsSecretAndVars = {
+const RmSecretFlags = {
   organization: Flags.string({
     char: 'o',
     description: 'A single string containing the organization name',
@@ -19,10 +19,11 @@ const FlagsSecretAndVars = {
   }),
   secrets: Flags.string({
     char: 's',
-    description: 'Can be multiples secret names separated by : ej: name:secret',
+    description: 'Can be multiples secret names separated by space',
     required: true,
     multiple: true,
   }),
+
   help: Flags.help({char: 'h'}),
 }
-export default FlagsSecretAndVars
+export default RmSecretFlags

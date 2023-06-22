@@ -4,8 +4,9 @@ import {info} from '../../helpers/logger'
 import {validateRepoNames, validateSecrets} from '../../helpers/validations'
 import secretVarsFlags from '../../helpers/set-vars-helpers/secret-vars-flags'
 import repositoryFactory from '../../repositories/repository-factory'
+import encryptSecret from '../../set-secret-helpers/encrypt-secret'
 
-export default class SetVars extends Command {
+export default class SetSecret extends Command {
   static description = 'describe the command here'
 
   static examples = [
@@ -23,7 +24,7 @@ export default class SetVars extends Command {
   static flags = secretVarsFlags
 
   async run(): Promise<void> {
-    const {flags: {organization, repositories, secrets, environment}} = await this.parse(SetVars)
+    const {flags: {organization, repositories, secrets, environment}} = await this.parse(SetSecret)
     validateSecrets(secrets)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
@@ -31,9 +32,13 @@ export default class SetVars extends Command {
       this.log(info(`Updating secrets in org: ${organization} in repo: ${repo}`))
       for (const secret of secrets) {
         const [name, value] = secret.split(':')
-        this.log(info(`Updating variables ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
-        await octoFactory.updateVariables({owner: organization, repo, name, value, environment})
-        this.log(info(`Updated variable ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        this.log(info(`Generating Key for secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        const {data: publicKey} = await octoFactory.getPublicKey({owner: organization, repo, environment})
+        this.log(info(`Encrypting secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        const encryptedValue = await encryptSecret({value, publicKey})
+        this.log(info(`Updating secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        await octoFactory.updateSecret({owner: organization, repo, secret_name: name, encrypted_value: encryptedValue, key_id: publicKey.key_id, environment})
+        this.log(info(`Updated secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
       }
     }
   }
