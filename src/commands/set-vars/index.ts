@@ -4,8 +4,6 @@ import {info} from '../../helpers/logger'
 import {validateRepoNames, validateSecrets} from '../../helpers/validations'
 import secretVarsFlags from '../../helpers/set-vars-helpers/secret-vars-flags'
 import repositoryFactory from '../../repositories/repository-factory'
-import encryptSecret from '../../set-secret-helpers/encrypt-secret'
-import {getPublicKey} from '../../set-secret-helpers/get-public-key'
 
 export default class SetVars extends Command {
   static description = 'describe the command here'
