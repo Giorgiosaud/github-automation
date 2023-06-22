@@ -1,5 +1,4 @@
 import {Command, Flags} from '@oclif/core'
-import {info} from '../../helpers/logger'
 import octokitRepository from '../../repositories/octokit-repository'
 
 export default class Useradd extends Command {
