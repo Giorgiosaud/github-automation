@@ -1,9 +1,8 @@
 import {Command, Flags} from '@oclif/core'
-import getGithubToken from '../../helpers/get-github-token'
-import protectBranch from '../../branch-protection-rules-helpers/protect-branch'
+import octokitRepository from '../../repositories/octokit-repository'
 
 export default class BranchProtectionRules extends Command {
-  static description = 'describe the command here'
+  static description = 'Set PRotected Branches and rules'
 
   static hidden=true
 
@@ -20,6 +19,12 @@ export default class BranchProtectionRules extends Command {
   static strict = false
 
   static flags = {
+    likes: Flags.string({
+      char: 'l',
+      description: 'Likes required in pr',
+      required: true,
+      default: '2',
+    }),
     repositories: Flags.string({
       char: 'r',
       description: 'Can be multiples repositories names',
@@ -49,11 +54,10 @@ export default class BranchProtectionRules extends Command {
       throw new Error('The repository string must only contain numbers leters and dash')
     }
 
-    const token = await getGithubToken(flags.organization)
     const branchesToProtectPromises = []
     for (const repo of flags.repositories) {
       for (const branch of flags.branches) {
-        branchesToProtectPromises.push(protectBranch(token, flags.organization, repo, branch))
+        branchesToProtectPromises.push(octokitRepository.protectBranch({owner: flags.organization, repo, branch, countReviewers: Number(flags.likes)}))
       }
     }
 

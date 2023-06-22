@@ -21,12 +21,15 @@ export async function promptToken({org}: { org: string; }): Promise<string> {
     auth: token,
   })
   try {
-    await octokit.request(`GET /orgs/${org}/repos`, {
+    console.log('ro', token)
+    const r = await octokit.request(`GET /orgs/${org}/repos`, {
       org: 'ORG',
       type: 'private',
     })
+    console.log(r)
     return token
-  } catch {
+  } catch (error) {
+    console.log(error)
     return promptToken({org})
   }
 }
