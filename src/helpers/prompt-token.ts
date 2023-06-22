@@ -1,5 +1,4 @@
 import {ux} from '@oclif/core'
-import {error as errorLogger} from './logger'
 import {Octokit} from 'octokit'
 export async function testToken({token, org}:{token:string, org:string}):Promise<boolean> {
   const octokit = new Octokit({
