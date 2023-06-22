@@ -285,5 +285,31 @@ export default {
       },
     })
   },
+  async updateVariables({owner, repo, name, value, environment}:{owner:string, repo:string, name:string, value:string, environment?:string}):Promise<postVariableResponse|patchVariableResponse> {
+    if (environment) {
+      const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo})
+      if (!environments?.find(env => env.name === environment)) {
+        const confirm = await ux.confirm('The environment does not exist. Would you like to create it? (yes/no)')
+        if (confirm) {
+          await this.defineEnvironment({owner, repo, environment_name: environment})
+        } else {
+          throw new Error(`Environment ${environment} does not exist`)
+        }
+      }
 
+      try {
+        await this.getEnvironmentVariable({owner, repo, name, environment_name: environment})
+        return this.patchEnvironmentVariable({owner, repo, name, value, environment_name: environment})
+      } catch  {
+        return this.setEnvironmentVariable({owner, repo, name, value, environment_name: environment})
+      }
+    }
+
+    try {
+      await this.getGlobalVariable({owner, repo, name})
+      return this.patchGlobalVariable({owner, repo, name, value})
+    } catch  {
+      return this.setGlobalVariable({owner, repo, name, value})
+    }
+  },
 }

@@ -1,14 +1,11 @@
 /* eslint-disable no-await-in-loop */
 import {Command} from '@oclif/core'
 import {info} from '../../helpers/logger'
-import {validateRepoNames, validateSecrets} from '../../helpers/validations'
-import secretVarsFlags from '../../helpers/set-vars-helpers/secret-vars-flags'
+import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import encryptSecret from '../../set-secret-helpers/encrypt-secret'
-import {getPublicKey} from '../../set-secret-helpers/get-public-key'
 import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags'
 
-export default class SetSecret extends Command {
+export default class RmSecret extends Command {
   static description = 'describe the command here'
 
   static examples = [
@@ -26,7 +23,7 @@ export default class SetSecret extends Command {
   static flags = RmSecretFlags
 
   async run(): Promise<void> {
-    const {flags: {organization, repositories, secrets, environment}} = await this.parse(SetSecret)
+    const {flags: {organization, repositories, secrets, environment}} = await this.parse(RmSecret)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
