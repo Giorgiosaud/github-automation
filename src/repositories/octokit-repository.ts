@@ -316,7 +316,6 @@ export default {
   },
   async getBranch({owner, repo, branch}:{owner:string, repo:string, branch:string}):Promise<getBranchResponse> {
     const octokit = await octokitClient({org: owner})
-
     return octokit.request('GET /repos/{owner}/{repo}/branches/{branch}', {
       owner,
       repo,

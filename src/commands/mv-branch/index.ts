@@ -2,7 +2,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import {info} from 'node:console'
+import {info} from '../../helpers/logger'
 export default class MvBranch extends Command {
   static description = 'Remove environments if exist'
 
