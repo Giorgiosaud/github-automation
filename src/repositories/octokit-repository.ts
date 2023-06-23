@@ -2,28 +2,29 @@ import {Endpoints} from '@octokit/types'
 import {ux} from '@oclif/core'
 
 import octokitClient from './clients/octokit-client'
-type listReposResponse = Endpoints['GET /orgs/{org}/repos']['response'];
-type getEnvironmentsResponse = Endpoints['GET /repos/{owner}/{repo}/environments']['response'];
-type setEnvironmentResponse = Endpoints['PUT /repos/{owner}/{repo}/environments/{environment_name}']['response'];
-type postVariableResponse = Endpoints['POST /repositories/{repository_id}/environments/{environment_name}/variables']['response'];
-type patchVariableResponse = Endpoints['PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
-type getVariableResponse = Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
-type postGlobalVariableResponse = Endpoints['POST /repos/{owner}/{repo}/actions/variables']['response'];
-type patchGlobalVariableResponse = Endpoints['PATCH /repos/{owner}/{repo}/actions/variables/{name}']['response'];
-type getGlobalVariableResponse = Endpoints['GET /repos/{owner}/{repo}/actions/variables/{name}']['response'];
-type getRepositoryId = Endpoints['GET /repos/{owner}/{repo}']['response'];
-type protectBranchResponse= Endpoints['PUT /repos/{owner}/{repo}/branches/{branch}/protection']['response'];
-type removeCollaboratorResponse=Endpoints['DELETE /repos/{owner}/{repo}/collaborators/{username}']['response'];
-type removeCollaboratorParams=Endpoints['DELETE /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
-type addCollaboratorResponse=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['response'];
-type addCollaboratorParams=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
-type removeEnvironmentResponse=Endpoints['DELETE /repos/{owner}/{repo}/environments/{environment_name}']['response'];
-type getPublicKeyResponse=Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key']['response'];
-type updateSecretResponse=Endpoints['PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
-type removeSecretResponse=Endpoints['DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
-type renameBranchResponse=Endpoints['POST /repos/{owner}/{repo}/branches/{branch}/rename']['response'];
-type getBranchResponse=Endpoints['GET /repos/{owner}/{repo}/branches/{branch}']['response'];
-type readFile=Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response'];
+export type listReposResponse = Endpoints['GET /orgs/{org}/repos']['response'];
+export type getEnvironmentsResponse = Endpoints['GET /repos/{owner}/{repo}/environments']['response'];
+export type setEnvironmentResponse = Endpoints['PUT /repos/{owner}/{repo}/environments/{environment_name}']['response'];
+export type postVariableResponse = Endpoints['POST /repositories/{repository_id}/environments/{environment_name}/variables']['response'];
+export type patchVariableResponse = Endpoints['PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
+export type getVariableResponse = Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
+export type postGlobalVariableResponse = Endpoints['POST /repos/{owner}/{repo}/actions/variables']['response'];
+export type patchGlobalVariableResponse = Endpoints['PATCH /repos/{owner}/{repo}/actions/variables/{name}']['response'];
+export type getGlobalVariableResponse = Endpoints['GET /repos/{owner}/{repo}/actions/variables/{name}']['response'];
+export type getRepositoryId = Endpoints['GET /repos/{owner}/{repo}']['response'];
+export type protectBranchResponse= Endpoints['PUT /repos/{owner}/{repo}/branches/{branch}/protection']['response'];
+export type removeCollaboratorResponse=Endpoints['DELETE /repos/{owner}/{repo}/collaborators/{username}']['response'];
+export type removeCollaboratorParams=Endpoints['DELETE /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
+export type addCollaboratorResponse=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['response'];
+export type addCollaboratorParams=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
+export type removeEnvironmentResponse=Endpoints['DELETE /repos/{owner}/{repo}/environments/{environment_name}']['response'];
+export type getPublicKeyResponse=Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key']['response'];
+export type updateSecretResponse=Endpoints['PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
+export type removeSecretResponse=Endpoints['DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
+export type renameBranchResponse=Endpoints['POST /repos/{owner}/{repo}/branches/{branch}/rename']['response'];
+export type getBranchResponse=Endpoints['GET /repos/{owner}/{repo}/branches/{branch}']['response'];
+export type readFile=Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response'];
+export type writeFile=Endpoints['PUT /repos/{owner}/{repo}/contents/{path}']['response'];
 export default {
   async setEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<postVariableResponse> {
     const octokit = await octokitClient({org: owner})
@@ -366,14 +367,14 @@ export default {
       },
     })
   },
-  async writeFile({name, email, message, owner, repo, path, content, sha, branch}:{name: string; email: string; message: string; owner:string, repo:string, path:string, content:string, sha:string, branch: string}):Promise<readFile> {
+  async writeFile({name, email, message, owner, repo, path, content, sha, branch}:{name: string; email: string; message: string; owner:string, repo:string, path:string, content:string, sha:string, branch?: string}):Promise<writeFile> {
     const octokit = await octokitClient({org: owner})
 
     return octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner,
       repo,
       path,
-      message: 'my commit message',
+      message,
       committer: {
         name,
         email,

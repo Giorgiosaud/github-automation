@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mv-branch command mv-branch fails if branchNaming is set and org 1`] = `
+"The following error occurred:
+  [2mMissing required flag repositories[22m
+See more help with --help"
+`;
+
+exports[`mv-branch command mv-branch fails if no flags are set 1`] = `
+"The following errors occurred:
+  [2mMissing required flag branchNaming[22m
+[2m  Missing required flag organization[22m
+[2m  Missing required flag repositories[22m
+See more help with --help"
+`;
+
+exports[`mv-branch command mv-branch fails if only branchNaming is set 1`] = `
+"The following errors occurred:
+  [2mMissing required flag organization[22m
+[2m  Missing required flag repositories[22m
+See more help with --help"
+`;

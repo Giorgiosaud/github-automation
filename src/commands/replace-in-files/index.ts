@@ -3,18 +3,18 @@ import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
 import {info} from '../../helpers/logger'
-export default class ReplaceInFile extends Command {
+export default class ReplaceInFiles extends Command {
   static description = 'Create environments if not exist'
 
   static examples = [
     `
     you must have a personal github token to set the first time that uses this tool
-    $ github-automation mk-env --organization OWNER --repositories OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
-    $ github-automation mk-env -o Owner -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+    $ github-automation replace-in-files --organization OWNER --repositories OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+    $ github-automation replace-in-files -o Owner -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
     `,
   ]
 
-  static usage='mk-env -r REPOS -n NAMES -x VALUES'
+  static usage='replace-in-files -r REPOS -n NAMES -x VALUES'
 
   static strict = false
 
@@ -46,22 +46,47 @@ export default class ReplaceInFile extends Command {
       description: 'string to replace',
       required: true,
     }),
+    name: Flags.string({
+      char: 'n',
+      description: 'Commiter Name',
+      default: 'Jorge Saud',
+    }),
+    email: Flags.string({
+      char: 'e',
+      description: 'Commiter Email',
+      default: 'jsaud@modyo.com',
+    }),
+    message: Flags.string({
+      char: 'm',
+      description: 'Commit Message',
+      default: 'Replace in file',
+    }),
+    branch: Flags.string({
+      char: 'b',
+      description: 'Branch',
+      default: 'main',
+    }),
 
     help: Flags.help({char: 'h'}),
   }
 
   async run(): Promise<void> {
-    const {flags: {organization, repositories, paths, from, to}} = await this.parse(ReplaceInFile)
+    const {flags: {organization, repositories, paths, from, to, name, email, message, branch}} = await this.parse(ReplaceInFiles)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
       for (const path of paths) {
         console.log(info(`Read File ${path} in ${repo}`))
-        const response = await octoFactory.readFile({owner: organization, repo, path})
-        const data = atob(response.data.content)
-        const sha = atob(response.data.sha)
-        const infonew = btoa(data.replace(from, to))
-        await octoFactory.writeFile({owner: organization, repo, path, content: infonew, sha})
+        const response = await octoFactory.readFile({owner: organization, repo, path}) as {
+          data: {
+            content: string
+            sha: string
+          }
+        }
+        const data = atob(response.data.content) as string
+        const sha = response.data.sha as string
+        const infonew = btoa(data.replace(new RegExp(from, 'g'), to)) as string
+        await octoFactory.writeFile({owner: organization, repo, path, content: infonew, sha, name, email, message,  branch})
         console.log(info(`File in ${path}
         from:
         ${data}

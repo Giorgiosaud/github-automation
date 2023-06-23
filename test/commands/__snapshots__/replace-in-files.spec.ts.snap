@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`replace-in-files command replace-in-files fails if from, org is set 1`] = `
+"The following errors occurred:
+  [2mMissing required flag paths[22m
+[2m  Missing required flag repositories[22m
+[2m  Missing required flag to[22m
+See more help with --help"
+`;
+
+exports[`replace-in-files command replace-in-files fails if from, org, paths is set 1`] = `
+"The following errors occurred:
+  [2mMissing required flag repositories[22m
+[2m  Missing required flag to[22m
+See more help with --help"
+`;
+
+exports[`replace-in-files command replace-in-files fails if from, org, paths, repositories is set 1`] = `
+"The following error occurred:
+  [2mMissing required flag to[22m
+See more help with --help"
+`;
+
+exports[`replace-in-files command replace-in-files fails if no flags are set 1`] = `
+"The following errors occurred:
+  [2mMissing required flag from[22m
+[2m  Missing required flag organization[22m
+[2m  Missing required flag paths[22m
+[2m  Missing required flag repositories[22m
+[2m  Missing required flag to[22m
+See more help with --help"
+`;
+
+exports[`replace-in-files command replace-in-files fails if only from is set 1`] = `
+"The following errors occurred:
+  [2mMissing required flag organization[22m
+[2m  Missing required flag paths[22m
+[2m  Missing required flag repositories[22m
+[2m  Missing required flag to[22m
+See more help with --help"
+`;

@@ -1,7 +1,7 @@
 import {Command, Flags, ux, Args} from '@oclif/core'
 import repositoryFactory from '../../repositories/repository-factory'
 
-export default class ListOrgRepositories extends Command {
+export default class Ls extends Command {
   static description = 'List Org Repositories if have access'
 
   static examples = [
@@ -27,7 +27,7 @@ export default class ListOrgRepositories extends Command {
   }
 
   async run(): Promise<void> {
-    const {args: {owner}, flags: {page}} = await this.parse(ListOrgRepositories)
+    const {args: {owner}, flags: {page}} = await this.parse(Ls)
     const octoFactory = repositoryFactory.get('octokit')
     const repositories = await octoFactory.listRepositories({org: owner, page})
     ux.styledObject({

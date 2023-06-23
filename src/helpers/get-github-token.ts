@@ -6,6 +6,7 @@ import {promptToken} from './prompt-token'
 import {rcPath} from './config'
 
 export default async (org: string): Promise<string> => {
+  console.log('asasdaagvjkkjjknjkn kjnkjn')
   const rcRealPath = resolve(homedir(), rcPath)
   const SETTINGS_FILE_EXIST = existsSync(rcRealPath)
   let SETTINGS
@@ -15,6 +16,7 @@ export default async (org: string): Promise<string> => {
       const token = await promptToken({org})
 
       const data = {
+        ...SETTINGS,
         [org]: {
           GITHUB_TOKEN: token,
         }}

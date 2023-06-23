@@ -1,4 +1,3 @@
-import DeleteSecret from '../../src/commands/delete-secret'
 import removeSecret from '../../src/helpers/delete-secrets'
 import logger from '../../src/helpers/logger'
 
@@ -11,10 +10,10 @@ jest.mock('../../src/helpers/logger',
     info: jest.fn(),
   }))
 
-describe.skip('delete-secret command', () => {
-  test('delete-secret fails if no flags are set asking for repo', async () => {
+describe('delete-secret command', () => {
+  test.only('delete-secret fails if no flags are set asking for repo', async () => {
     try {
-      await DeleteSecret.run([])
+      await removeSecret.run([])
     } catch (error) {
       if (error instanceof Error) {
         expect(error.message).toContain('Missing required flag:')
