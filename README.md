@@ -32,7 +32,7 @@ $ npm install -g github-automation
 $ github-automation COMMAND
 running command...
 $ github-automation (--version)
-github-automation/4.0.2 linux-x64 node-v16.20.0
+github-automation/4.0.3 linux-x64 node-v16.20.0
 $ github-automation --help [COMMAND]
 USAGE
   $ github-automation COMMAND
@@ -70,7 +70,7 @@ DESCRIPTION
   Display help for github-automation.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.9/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.10/src/commands/help.ts)_
 
 ## `github-automation plugins`
 
@@ -78,10 +78,13 @@ List installed plugins.
 
 ```
 USAGE
-  $ github-automation plugins [--core]
+  $ github-automation plugins [--json] [--core]
 
 FLAGS
   --core  Show core plugins.
+
+GLOBAL FLAGS
+  --json  Format output as json.
 
 DESCRIPTION
   List installed plugins.
@@ -90,7 +93,7 @@ EXAMPLES
   $ github-automation plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.1.3/src/commands/plugins/index.ts)_
 
 ## `github-automation plugins:install PLUGIN...`
 
