@@ -19,13 +19,11 @@ type addCollaboratorResponse=Endpoints['PUT /repos/{owner}/{repo}/collaborators/
 type addCollaboratorParams=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
 type removeEnvironmentResponse=Endpoints['DELETE /repos/{owner}/{repo}/environments/{environment_name}']['response'];
 type getPublicKeyResponse=Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key']['response'];
-type updateSecretResponse=Endpoints['PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response'];
-type removeSecretResponse=Endpoints['DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response'];
+type updateSecretResponse=Endpoints['PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
+type removeSecretResponse=Endpoints['DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
 type renameBranchResponse=Endpoints['POST /repos/{owner}/{repo}/branches/{branch}/rename']['response'];
 type getBranchResponse=Endpoints['GET /repos/{owner}/{repo}/branches/{branch}']['response'];
-interface CONTENT{
-  data:{content:string}
-}
+type readFile=Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response'];
 export default {
   async setEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<postVariableResponse> {
     const octokit = await octokitClient({org: owner})
@@ -166,7 +164,7 @@ export default {
         'X-GitHub-Api-Version': '2022-11-28',
       },
       required_status_checks: {
-        strict: true,
+        strict: false,
         contexts: [],
       },
       enforce_admins: false,
@@ -175,7 +173,7 @@ export default {
           users: [],
           teams: [],
         },
-        dismiss_stale_reviews: true,
+        dismiss_stale_reviews: false,
         require_code_owner_reviews: true,
         required_approving_review_count: countReviewers,
       },
@@ -238,11 +236,10 @@ export default {
   },
   async updateSecret({owner, repo, secret_name, encrypted_value, key_id, environment}:{owner:string, repo:string, secret_name:string, encrypted_value:string, key_id:string, environment?:string}):Promise<updateSecretResponse> {
     const octokit = await octokitClient({org: owner})
-
+    let params
     if (environment) {
       const repoId = await this.getRepositoryId({owner, repo})
-
-      return octokit.request('PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}', {
+      params = {
         repository_id: repoId,
         environment_name: environment,
         secret_name,
@@ -251,10 +248,11 @@ export default {
         headers: {
           'X-GitHub-Api-Version': '2022-11-28',
         },
-      })
+      }
+      return octokit.request('PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}', params)
     }
 
-    return octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
+    params = {
       owner,
       repo,
       secret_name,
@@ -263,32 +261,36 @@ export default {
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
-    })
+    }
+    return octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', params)
   },
   async removeSecret({owner, repo, secret_name, environment}:{owner:string, repo:string, secret_name:string, environment?:string}):Promise<removeSecretResponse> {
     const octokit = await octokitClient({org: owner})
-
+    let params
     if (environment) {
       const repoId = await this.getRepositoryId({owner, repo})
-
-      return octokit.request('DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}', {
+      params = {
         repository_id: repoId,
         environment_name: environment,
         secret_name,
         headers: {
           'X-GitHub-Api-Version': '2022-11-28',
         },
-      })
+      }
+      return octokit.request('DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}',
+        params)
     }
 
-    return octokit.request('DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
+    params = {
+
       owner,
       repo,
       secret_name,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
-    })
+    }
+    return octokit.request('DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}', params)
   },
   async updateVariables({owner, repo, name, value, environment}:{owner:string, repo:string, name:string, value:string, environment?:string}):Promise<postVariableResponse|patchVariableResponse> {
     if (environment) {
@@ -341,8 +343,20 @@ export default {
       },
     })
   },
-  async readFile({owner, repo, path}:{owner:string, repo:string, path:string}):Promise<{data:{content:string}}> {
+  async readFile({owner, repo, path, branch: ref}:{owner:string, repo:string, path:string, branch?: string}):Promise<readFile> {
     const octokit = await octokitClient({org: owner})
+    if (ref) {
+      return octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+        owner,
+        repo,
+        path,
+        ref,
+        headers: {
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+      })
+    }
+
     return octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
       owner,
       repo,
@@ -350,27 +364,23 @@ export default {
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
-    }) as Promise<CONTENT>
-  },
-  async writeFile({owner, repo, path, content}:{owner:string, repo:string, path:string, content:string}):Promise<unknown> {
-    const octokit = await octokitClient({org: owner})
-    const {data: {sha}} = await octokit.request('GET /repos/{owner}/{repo}/contents/{file_path}', {
-      owner,
-      repo,
-      file_path: path,
     })
-    console.log(sha)
+  },
+  async writeFile({name, email, message, owner, repo, path, content, sha, branch}:{name: string; email: string; message: string; owner:string, repo:string, path:string, content:string, sha:string, branch: string}):Promise<readFile> {
+    const octokit = await octokitClient({org: owner})
+
     return octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner,
       repo,
       path,
       message: 'my commit message',
       committer: {
-        name: 'jorge saud',
-        email: 'jorgelsaud@gmail.com',
+        name,
+        email,
       },
       sha,
       content,
+      branch,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },

@@ -59,8 +59,9 @@ export default class ReplaceInFile extends Command {
         console.log(info(`Read File ${path} in ${repo}`))
         const response = await octoFactory.readFile({owner: organization, repo, path})
         const data = atob(response.data.content)
+        const sha = atob(response.data.sha)
         const infonew = btoa(data.replace(from, to))
-        await octoFactory.writeFile({owner: organization, repo, path, content: infonew})
+        await octoFactory.writeFile({owner: organization, repo, path, content: infonew, sha})
         console.log(info(`File in ${path}
         from:
         ${data}

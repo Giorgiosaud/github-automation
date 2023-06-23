@@ -3,8 +3,8 @@ import repositoryFactory from '../../repositories/repository-factory'
 import {info} from '../../helpers/logger'
 import {validateRepoNames} from '../../helpers/validations'
 
-export default class BranchProtectionRules extends Command {
-  static description = 'Set PRotected Branches and rules'
+export default class SetPRotectionRules extends Command {
+  static description = 'Set Protected Branches and rules'
 
   static hidden=true
 
@@ -48,7 +48,7 @@ export default class BranchProtectionRules extends Command {
   }
 
   async run(): Promise<void> {
-    const {flags: {repositories, branches, likes, organization}} = await this.parse(BranchProtectionRules)
+    const {flags: {repositories, branches, likes, organization}} = await this.parse(SetPRotectionRules)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
