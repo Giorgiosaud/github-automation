@@ -6,8 +6,6 @@ import {validateRepoNames} from '../../helpers/validations'
 export default class SetPRotectionRules extends Command {
   static description = 'Set Protected Branches and rules'
 
-  static hidden=true
-
   static examples = [
     `
     you must have a personal github token to set the first time that uses this tool
