@@ -30,10 +30,11 @@ export default class ReplaceInFile extends Command {
       required: true,
       multiple: true,
     }),
-    path: Flags.string({
+    paths: Flags.string({
       char: 'p',
-      description: 'path of file',
+      description: 'paths of files',
       required: true,
+      multiple: true,
     }),
     from: Flags.string({
       char: 'f',
@@ -50,16 +51,23 @@ export default class ReplaceInFile extends Command {
   }
 
   async run(): Promise<void> {
-    const {flags: {organization, repositories, path, from, to}} = await this.parse(ReplaceInFile)
+    const {flags: {organization, repositories, paths, from, to}} = await this.parse(ReplaceInFile)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log(info(`Read File ${path} in ${repo}`))
-      const response = await octoFactory.readFile({owner: organization, repo, path})
-      const data = atob(response.data.content)
-      console.log(data)
-      const infonew = btoa(data.replace(from, to))
-      await octoFactory.writeFile({owner: organization, repo, path, content: infonew})
+      for (const path of paths) {
+        console.log(info(`Read File ${path} in ${repo}`))
+        const response = await octoFactory.readFile({owner: organization, repo, path})
+        const data = atob(response.data.content)
+        const infonew = btoa(data.replace(from, to))
+        await octoFactory.writeFile({owner: organization, repo, path, content: infonew})
+        console.log(info(`File in ${path}
+        from:
+        ${data}
+        to:
+        ${infonew}
+        in: ${repo}`))
+      }
     }
   }
 }
