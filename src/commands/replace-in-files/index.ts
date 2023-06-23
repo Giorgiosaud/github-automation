@@ -85,8 +85,9 @@ export default class ReplaceInFiles extends Command {
         }
         const data = atob(response.data.content) as string
         const sha = response.data.sha as string
-        const infonew = btoa(data.replace(new RegExp(from, 'g'), to)) as string
-        await octoFactory.writeFile({owner: organization, repo, path, content: infonew, sha, name, email, message,  branch})
+        const infonew = data.replace(new RegExp(from, 'g'), to)
+        const infonewbase64 = btoa(infonew)
+        await octoFactory.writeFile({owner: organization, repo, path, content: infonewbase64, sha, name, email, message,  branch})
         console.log(info(`File in ${path}
         from:
         ${data}

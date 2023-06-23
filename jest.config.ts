@@ -14,7 +14,6 @@ const config: Config.InitialOptions = {
     'text-summary',
     'lcov',
   ],
-  setupFiles: ['<rootDir>/jest-setup.ts'],
   // testResultsProcessor: 'jest-sonar-reporter',
   collectCoverage: true,
 }
