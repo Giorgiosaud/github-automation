@@ -6,7 +6,7 @@ import repositoryFactory from '../../repositories/repository-factory'
 import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags'
 
 export default class RmSecret extends Command {
-  static description = 'describe the command here'
+  static description = 'Rempve Secrets'
 
   static examples = [
     `
@@ -27,11 +27,11 @@ export default class RmSecret extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      this.log(info(`Removing secrets in org: ${organization} in repo: ${repo}`))
+      console.log(info(`Removing secrets in org: ${organization} in repo: ${repo}`))
       for (const secret of secrets) {
-        this.log(info(`Removing secret ${secret} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        console.log(info(`Removing secret ${secret} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
         await octoFactory.removeSecret({owner: organization, repo, secret_name: secret, environment})
-        this.log(info(`Updated secret ${secret}  in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        console.log(info(`Updated secret ${secret}  in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
       }
     }
   }

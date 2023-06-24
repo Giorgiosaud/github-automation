@@ -1,3 +1,4 @@
+// eslint-disable-next-line node/no-missing-import
 import {Endpoints} from '@octokit/types'
 import {ux} from '@oclif/core'
 
@@ -104,6 +105,9 @@ export default {
     const repoResponse = await octokit.request('GET /repos/{owner}/{repo}', {
       owner,
       repo,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
     }) as getRepositoryId
     return repoResponse.data.id
   },
@@ -123,8 +127,6 @@ export default {
 
     return octokit.request('GET /repos/{owner}/{repo}/environments', {
       owner: organization,
-      per_page: 100,
-      page: 1,
       repo: repository,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
@@ -227,12 +229,18 @@ export default {
       return octokit.request('GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key', {
         repository_id: repoId,
         environment_name: environment,
+        headers: {
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
       })
     }
 
     return octokit.request('GET /repos/{owner}/{repo}/actions/secrets/public-key', {
       owner,
       repo,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
     })
   },
   async updateSecret({owner, repo, secret_name, encrypted_value, key_id, environment}:{owner:string, repo:string, secret_name:string, encrypted_value:string, key_id:string, environment?:string}):Promise<updateSecretResponse> {

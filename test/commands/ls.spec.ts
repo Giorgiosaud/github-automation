@@ -8,7 +8,7 @@ spyOctokitClient.mockResolvedValue({
   request: reqFn,
 } as any)
 const spyUx = jest.spyOn(ux, 'styledObject')
-
+spyUx.mockImplementation(() => jest.fn())
 describe('ls command', () => {
   afterEach(() => {
     jest.clearAllMocks()

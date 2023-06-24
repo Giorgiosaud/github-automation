@@ -28,12 +28,12 @@ export default class SetVars extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      this.log(info(`Updating secrets in org: ${organization} in repo: ${repo}`))
+      console.log(info(`Updating secrets in org: ${organization} in repo: ${repo}`))
       for (const secret of secrets) {
         const [name, value] = secret.split(':')
-        this.log(info(`Updating variables ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        console.log(info(`Updating variables ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
         await octoFactory.updateVariables({owner: organization, repo, name, value, environment})
-        this.log(info(`Updated variable ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        console.log(info(`Updated variable ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
       }
     }
   }

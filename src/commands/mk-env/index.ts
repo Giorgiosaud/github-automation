@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import {info} from 'node:console'
+import {info} from '../../helpers/logger'
 export default class MkEnv extends Command {
   static description = 'Create environments if not exist'
 
@@ -44,16 +44,16 @@ export default class MkEnv extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      info(`Listing  environments ${environments} in ${repo}`)
+      console.log(info(`Listing  environments ${environments} in ${repo}`))
       // eslint-disable-next-line no-await-in-loop
       const {data: {environments: existentEnvironments}} = await octoFactory.getEnvironments({organization, repository: repo})
       const envsToCreate = environments.filter(environment => environment !== existentEnvironments?.find(env => env.name === environment)?.name)
-      info(`Environments to create ${envsToCreate} in ${repo} inside ${organization}`)
+      console.log(info(`Environments to create ${envsToCreate} in ${repo} inside ${organization}`))
       for (const env of envsToCreate) {
-        info(`Creating environment ${env} in ${repo} inside ${organization}`)
+        console.log(info(`Creating environment ${env} in ${repo} inside ${organization}`))
         // eslint-disable-next-line no-await-in-loop
         await octoFactory.defineEnvironment({owner: organization, repo, environment_name: env})
-        info(`Environment ${env} created in ${repo} inside ${organization}`)
+        console.log(info(`Environment ${env} created in ${repo} inside ${organization}`))
       }
     }
   }
