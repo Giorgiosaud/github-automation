@@ -212,12 +212,12 @@ export default {
       },
     })
   },
-  async getPublicKey({owner, repo, environment}:{owner:string, repo:string, environment?:string}):Promise<getPublicKeyResponse> {
+  async getPublicKey({owner, repo, environment, forced}:{owner:string, repo:string, environment?:string, forced?:boolean}):Promise<getPublicKeyResponse> {
     const octokit = await octokitClient({org: owner})
     if (environment) {
       const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo})
       if (!environments?.find(env => env.name === environment)) {
-        const confirm = await ux.confirm('The environment does not exist. Would you like to create it? (yes/no)')
+        const confirm = forced || await ux.confirm('The environment does not exist. Would you like to create it? (yes/no)')
         if (confirm) {
           await this.defineEnvironment({owner, repo, environment_name: environment})
         } else {
@@ -301,11 +301,11 @@ export default {
     }
     return octokit.request('DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}', params)
   },
-  async updateVariables({owner, repo, name, value, environment}:{owner:string, repo:string, name:string, value:string, environment?:string}):Promise<postVariableResponse|patchVariableResponse> {
+  async updateVariables({owner, repo, name, value, environment, forced}:{owner:string, repo:string, name:string, value:string, environment?:string, forced?: boolean}):Promise<postVariableResponse|patchVariableResponse> {
     if (environment) {
       const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo})
       if (!environments?.find(env => env.name === environment)) {
-        const confirm = await ux.confirm('The environment does not exist. Would you like to create it? (yes/no)')
+        const confirm = forced || await ux.confirm('The environment does not exist. Would you like to create it? (yes/no)')
         if (confirm) {
           await this.defineEnvironment({owner, repo, environment_name: environment})
         } else {
