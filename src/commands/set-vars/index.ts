@@ -2,8 +2,8 @@
 import {Command} from '@oclif/core'
 import {info} from '../../helpers/logger'
 import {validateRepoNames, validateSecrets} from '../../helpers/validations'
-import secretVarsFlags from '../../helpers/set-vars-helpers/secret-vars-flags'
 import repositoryFactory from '../../repositories/repository-factory'
+import VarsFlags from '../../helpers/flags/vars-flags'
 
 export default class SetVars extends Command {
   static description = 'Set Variables in repo from org'
@@ -23,7 +23,7 @@ export default class SetVars extends Command {
 
   static strict = false
 
-  static flags = secretVarsFlags
+  static flags = VarsFlags
 
   async run(): Promise<void> {
     const {flags: {organization, repositories, variables, environment, forced}} = await this.parse(SetVars)

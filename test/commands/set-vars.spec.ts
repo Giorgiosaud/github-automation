@@ -33,25 +33,25 @@ describe('set-vars command', () => {
       if (path.includes('GET /repos/{owner}/{repo}/actions/variables/{name}'))
         return Promise.resolve(getVars)
     })
-    await SetVars.run(['-o', 'org', '-r', 'repo', '-s', 'secrt:123'])
+    await SetVars.run(['-o', 'org', '-r', 'repo', '-v', 'variable->123'])
     expect(reqFn).toHaveBeenCalledTimes(2)
-    expect(reqFn).toHaveBeenNthCalledWith(1,  'GET /repos/{owner}/{repo}/actions/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', name: 'secrt'})
-    expect(reqFn).toHaveBeenNthCalledWith(2,  'PATCH /repos/{owner}/{repo}/actions/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', name: 'secrt', value: '123'})
+    expect(reqFn).toHaveBeenNthCalledWith(1,  'GET /repos/{owner}/{repo}/actions/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', name: 'variable'})
+    expect(reqFn).toHaveBeenNthCalledWith(2,  'PATCH /repos/{owner}/{repo}/actions/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', name: 'variable', value: '123'})
   })
   test('set-vars works if org,repo,secret flags are set and var exist', async () => {
     const getVars = {
       data: {
-        name: 'secrt',
+        name: 'variable',
         value: 'string',
       }} as any
     reqFn.mockImplementation(path => {
       if (path.includes('GET /repos/{owner}/{repo}/actions/variables/{name}'))
         return Promise.resolve(getVars)
     })
-    await SetVars.run(['-o', 'org', '-r', 'repo', '-s', 'secrt:123'])
+    await SetVars.run(['-o', 'org', '-r', 'repo', '-v', 'variable->123'])
     expect(reqFn).toHaveBeenCalledTimes(2)
-    expect(reqFn).toHaveBeenNthCalledWith(1,  'GET /repos/{owner}/{repo}/actions/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', name: 'secrt'})
-    expect(reqFn).toHaveBeenNthCalledWith(2,  'PATCH /repos/{owner}/{repo}/actions/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', name: 'secrt', value: '123'})
+    expect(reqFn).toHaveBeenNthCalledWith(1,  'GET /repos/{owner}/{repo}/actions/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', name: 'variable'})
+    expect(reqFn).toHaveBeenNthCalledWith(2,  'PATCH /repos/{owner}/{repo}/actions/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', name: 'variable', value: '123'})
   })
   test('set-vars works if org,repo,secret,env flags are set and var exist', async () => {
     const defaultD = {
@@ -81,12 +81,12 @@ describe('set-vars command', () => {
       }
       }
     })
-    await SetVars.run(['-o', 'org', '-r', 'repo', '-s', 'secrt:123', '-e', 'env'])
+    await SetVars.run(['-o', 'org', '-r', 'repo', '-v', 'variable->123', '-e', 'env'])
     expect(reqFn).toHaveBeenCalledTimes(5)
     expect(reqFn).toHaveBeenNthCalledWith(1,  'GET /repos/{owner}/{repo}/environments', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo'})
     expect(reqFn).toHaveBeenNthCalledWith(2,  'GET /repos/{owner}/{repo}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo'})
-    expect(reqFn).toHaveBeenNthCalledWith(3,  'GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, environment_name: 'env', name: 'secrt', repository_id: repoData.data.id})
+    expect(reqFn).toHaveBeenNthCalledWith(3,  'GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, environment_name: 'env', name: 'variable', repository_id: repoData.data.id})
     expect(reqFn).toHaveBeenNthCalledWith(4,  'GET /repos/{owner}/{repo}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo'})
-    expect(reqFn).toHaveBeenNthCalledWith(5,  'PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {environment_name: 'env', headers: {'X-GitHub-Api-Version': '2022-11-28'}, name: 'secrt', repository_id: repoData.data.id, value: '123'})
+    expect(reqFn).toHaveBeenNthCalledWith(5,  'PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {environment_name: 'env', headers: {'X-GitHub-Api-Version': '2022-11-28'}, name: 'variable', repository_id: repoData.data.id, value: '123'})
   })
 })

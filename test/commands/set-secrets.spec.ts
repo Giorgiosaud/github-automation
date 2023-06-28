@@ -33,7 +33,7 @@ describe('set-secrets command', () => {
       if (path.includes('GET'))
         return Promise.resolve(envRes)
     })
-    await SetSecrets.run(['-o', 'org', '-r', 'repo', '-s', 'secrt:123'])
+    await SetSecrets.run(['-o', 'org', '-r', 'repo', '-s', 'secrt->123'])
     expect(reqFn).toHaveBeenCalledTimes(2)
     expect(reqFn).toHaveBeenNthCalledWith(1,  'GET /repos/{owner}/{repo}/actions/secrets/public-key', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo'})
     expect(reqFn).toHaveBeenNthCalledWith(2,  'PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', secret_name: 'secrt', encrypted_value: 'ASD', key_id: '012345678912345678'})
@@ -72,7 +72,7 @@ describe('set-secrets command', () => {
       }
       }
     })
-    await SetSecrets.run(['-o', 'org', '-r', 'repo', '-s', 'secrt:123', '-e', 'env'])
+    await SetSecrets.run(['-o', 'org', '-r', 'repo', '-s', 'secrt->123', '-e', 'env'])
     expect(reqFn).toHaveBeenCalledTimes(5)
     expect(reqFn).toHaveBeenNthCalledWith(1,  'GET /repos/{owner}/{repo}/environments', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo'})
     expect(reqFn).toHaveBeenNthCalledWith(2,  'GET /repos/{owner}/{repo}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo'})

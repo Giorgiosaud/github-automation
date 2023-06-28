@@ -1,6 +1,6 @@
 import {Flags} from '@oclif/core'
 
-const FlagsSecretAndVars = {
+export const VarsFlags = {
   organization: Flags.string({
     char: 'o',
     description: 'A single string containing the organization name',
@@ -30,4 +30,4 @@ const FlagsSecretAndVars = {
   }),
   help: Flags.help({char: 'h'}),
 }
-export default FlagsSecretAndVars
+export default VarsFlags
