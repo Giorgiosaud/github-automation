@@ -31,7 +31,7 @@ export default class SetSecret extends Command {
     for (const repo of repositories) {
       console.log(info(`Updating secrets in org: ${organization} in repo: ${repo}`))
       for (const secret of secrets) {
-        const [name, value] = secret.split(':')
+        const [name, value] = secret.split('->')
         console.log(info(`Generating Key for secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
         const {data: publicKey} = await octoFactory.getPublicKey({owner: organization, repo, environment})
         console.log(info(`Encrypting secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))

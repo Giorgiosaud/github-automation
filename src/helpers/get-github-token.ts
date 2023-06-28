@@ -6,7 +6,6 @@ import {promptToken} from './prompt-token'
 import {rcPath} from './config'
 
 export default async (org: string): Promise<string> => {
-  console.log('asasdaagvjkkjjknjkn kjnkjn')
   const rcRealPath = resolve(homedir(), rcPath)
   const SETTINGS_FILE_EXIST = existsSync(rcRealPath)
   let SETTINGS
