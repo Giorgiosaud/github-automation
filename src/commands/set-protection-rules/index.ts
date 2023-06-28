@@ -1,6 +1,6 @@
 import {Command, Flags} from '@oclif/core'
 import repositoryFactory from '../../repositories/repository-factory'
-import {info} from '../../helpers/logger'
+import {normal, preProcessed, processed} from '../../helpers/logger'
 import {validateRepoNames} from '../../helpers/validations'
 
 export default class SetPRotectionRules extends Command {
@@ -50,10 +50,11 @@ export default class SetPRotectionRules extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
+      console.log(normal(`Working in ${repo}`))
       branches.map(async  branch => {
-        info(`Protecting branch ${branch} in ${repo}`)
-        octoFactory.protectBranch({owner: organization, repo, branch, countReviewers: Number(likes)})
-        info(`Branch ${branch} protected in ${repo}`)
+        console.log(preProcessed(`Protecting branch ${branch} in ${repo}`))
+        await octoFactory.protectBranch({owner: organization, repo, branch, countReviewers: Number(likes)})
+        console.log(processed(`Branch ${branch} protected in ${repo}`))
       })
     }
   }

@@ -1,6 +1,5 @@
-/* eslint-disable no-await-in-loop */
 import {Command} from '@oclif/core'
-import {info} from '../../helpers/logger'
+import {normal, preProcessed, processed} from '../../helpers/logger'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
 import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags'
@@ -27,11 +26,11 @@ export default class RmSecret extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log(info(`Removing secrets in org: ${organization} in repo: ${repo}`))
+      console.log(normal(`Removing secrets in org: ${organization} in repo: ${repo}`))
       for (const secret of secrets) {
-        console.log(info(`Removing secret ${secret} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        console.log(preProcessed(`Removing secret ${secret} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
         await octoFactory.removeSecret({owner: organization, repo, secret_name: secret, environment})
-        console.log(info(`Updated secret ${secret}  in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        console.log(processed(`Updated secret ${secret}  in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
       }
     }
   }

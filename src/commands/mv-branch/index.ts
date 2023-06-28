@@ -1,8 +1,8 @@
-/* eslint-disable no-await-in-loop */
+
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import {info} from '../../helpers/logger'
+import {info, preProcessed, processed} from '../../helpers/logger'
 export default class MvBranch extends Command {
   static description = 'Remove environments if exist'
 
@@ -46,10 +46,11 @@ export default class MvBranch extends Command {
     for (const repo of repositories) {
       const [branch, new_name] = branchNaming.split(':')
       try {
-        console.log(info(`checking if ${branch} exist in ${repo} inside ${organization}`))
+        console.log(preProcessed(`checking if ${branch} exist in ${repo} inside ${organization}`))
         await octoFactory.getBranch({owner: organization, repo, branch})
-        console.log(info(`Renaming branch ${branch} to ${new_name} in ${repo} inside ${organization}`))
+        console.log(preProcessed(`Renaming branch ${branch} to ${new_name} in ${repo} inside ${organization}`))
         await octoFactory.renameBranch({owner: organization, repo, branch, new_name})
+        console.log(processed(`Branch ${branch} renamed to ${new_name} in ${repo} inside ${organization}`))
       } catch {
         throw new Error(`Branch ${branch} does not exist in ${repo} inside ${organization}`)
       }

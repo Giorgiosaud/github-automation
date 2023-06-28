@@ -4,7 +4,8 @@
     "oclif-typescript"
   ],
   "rules": {
-    "camelcase": "off"
+    "camelcase": "off",
+    "no-await-in-loop":"off"
   },
   "overrides": [
     {

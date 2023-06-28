@@ -2,7 +2,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import {info} from '../../helpers/logger'
+import {info, preProcessed, processed} from '../../helpers/logger'
 export default class ReplaceInFiles extends Command {
   static description = 'Create environments if not exist'
 
@@ -75,8 +75,9 @@ export default class ReplaceInFiles extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
+      console.log(info(`Replace in files in ${repo}`))
       for (const path of paths) {
-        console.log(info(`Read File ${path} in ${repo}`))
+        console.log(preProcessed(`Read File ${path} in ${repo}`))
         const response = await octoFactory.readFile({owner: organization, repo, path}) as {
           data: {
             content: string
@@ -88,7 +89,7 @@ export default class ReplaceInFiles extends Command {
         const infonew = data.replace(new RegExp(from, 'g'), to)
         const infonewbase64 = btoa(infonew)
         await octoFactory.writeFile({owner: organization, repo, path, content: infonewbase64, sha, name, email, message,  branch})
-        console.log(info(`File in ${path}
+        console.log(processed(`File in ${path}
         from:
         ${data}
         to:

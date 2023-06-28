@@ -1,6 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
+import {normal, preProcessed, processed} from '../../helpers/logger'
 
 export default class Useradd extends Command {
   static description = 'Add user to repos'
@@ -54,8 +55,11 @@ export default class Useradd extends Command {
 
     const usersToAdd = []
     for (const repo of repositories) {
+      console.log(normal(`Updating users in ${repo}`))
       for (const username of githubUsers) {
-        usersToAdd.push(octoFactory.addCollaborator({owner: organization, repo, username, permission}))
+        console.log(preProcessed(`Adding user ${username} to ${repo} inside ${organization} as ${permission}}`))
+        await usersToAdd.push(octoFactory.addCollaborator({owner: organization, repo, username, permission}))
+        console.log(processed(`User ${username} added to ${repo} inside ${organization} as ${permission}}`))
       }
     }
 
