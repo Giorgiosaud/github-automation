@@ -15,9 +15,9 @@ export const validateEqualLengths = (names:string[], values:string[]):boolean|vo
 
 export const validateSecrets = (secrets:string[]):boolean|void => {
   const okSecrets = secrets.every((secret: string) => {
-    return /^[\w-]+->.+$/.test(secret)
+    return /^.+->.+$/.test(secret)
   })
   if (!okSecrets) {
-    throw new Error('The secret string must only contain numbers leters and dash and name and value must be separated by :')
+    throw new Error('The secret string must only contain numbers leters and dash and name and value must be separated by ->')
   }
 }

@@ -18,6 +18,10 @@ export type removeCollaboratorResponse=Endpoints['DELETE /repos/{owner}/{repo}/c
 export type removeCollaboratorParams=Endpoints['DELETE /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
 export type addCollaboratorResponse=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['response'];
 export type addCollaboratorParams=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
+export type addTeamParams=Endpoints['PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['parameters'];
+export type addTeamResponse=Endpoints['PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['response'];
+export type delTeamParams=Endpoints['DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['parameters'];
+export type delTeamResponse=Endpoints['DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['response'];
 export type removeEnvironmentResponse=Endpoints['DELETE /repos/{owner}/{repo}/environments/{environment_name}']['response'];
 export type getPublicKeyResponse=Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key']['response'];
 export type updateSecretResponse=Endpoints['PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
@@ -207,6 +211,33 @@ export default {
       repo,
       username,
       permission,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    })
+  },
+  async addTeam({owner, org, repo, team_slug, permission}:addTeamParams):Promise<addTeamResponse> {
+    const octokit = await octokitClient({org})
+
+    return octokit.request('PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}', {
+      org,
+      team_slug,
+      owner,
+      repo,
+      permission,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    })
+  },
+  async delTeam({owner, org, repo, team_slug}:delTeamParams):Promise<delTeamResponse> {
+    const octokit = await octokitClient({org})
+
+    return octokit.request('DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}', {
+      org,
+      team_slug,
+      owner,
+      repo,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },

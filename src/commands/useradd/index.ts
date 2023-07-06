@@ -53,16 +53,13 @@ export default class Useradd extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
 
-    const usersToAdd = []
     for (const repo of repositories) {
       console.log(normal(`Updating users in ${repo}`))
       for (const username of githubUsers) {
         console.log(preProcessed(`Adding user ${username} to ${repo} inside ${organization} as ${permission}}`))
-        await usersToAdd.push(octoFactory.addCollaborator({owner: organization, repo, username, permission}))
+        await octoFactory.addCollaborator({owner: organization, repo, username, permission})
         console.log(processed(`User ${username} added to ${repo} inside ${organization} as ${permission}}`))
       }
     }
-
-    await Promise.all(usersToAdd)
   }
 }

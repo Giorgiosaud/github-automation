@@ -51,11 +51,11 @@ export default class SetPRotectionRules extends Command {
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
       console.log(normal(`Working in ${repo}`))
-      branches.map(async  branch => {
+      for (const branch of branches) {
         console.log(preProcessed(`Protecting branch ${branch} in ${repo}`))
         await octoFactory.protectBranch({owner: organization, repo, branch, countReviewers: Number(likes)})
         console.log(processed(`Branch ${branch} protected in ${repo}`))
-      })
+      }
     }
   }
 }
