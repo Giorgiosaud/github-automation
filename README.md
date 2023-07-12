@@ -32,7 +32,7 @@ $ npm install -g github-automation
 $ github-automation COMMAND
 running command...
 $ github-automation (--version)
-github-automation/5.1.4 linux-x64 node-v18.16.1
+github-automation/5.1.5 linux-x64 node-v18.16.1
 $ github-automation --help [COMMAND]
 USAGE
   $ github-automation COMMAND
