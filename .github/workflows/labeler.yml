@@ -3,7 +3,10 @@ on:
   pull_request:
     types: [ opened, edited, synchronize, ready_for_review ]
     branches: [ master, develop ]
-
+permissions:
+  pull-requests: write # for labeling pull requests (on: pull_request)
+  statuses: write # to generate status
+  checks: write # to generate status
 jobs:
   call-labeler:
     uses: Giorgiosaud/centralized-workflows/.github/workflows/labeler.yml@v1
