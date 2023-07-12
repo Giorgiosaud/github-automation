@@ -6,10 +6,10 @@
   "bin": {
     "github-automation": "./bin/run"
   },
-  "homepage": "https://github.com/Giorgiosaud/hello-world",
+  "homepage": "https://github.com/Giorgiosaud/github-automation",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "Giorgiosaud/hello-world",
+  "repository": "Giorgiosaud/github-automation",
   "files": [
     "/bin",
     "/dist",
@@ -107,7 +107,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "bugs": "https://github.com/Giorgiosaud/hello-world/issues",
+  "bugs": "https://github.com/Giorgiosaud/github-automation/issues",
   "keywords": [
     "oclif"
   ],
