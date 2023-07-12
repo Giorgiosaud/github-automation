@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
@@ -86,7 +85,7 @@ export default class ReplaceInFiles extends Command {
         }
         const data = atob(response.data.content) as string
         const sha = response.data.sha as string
-        const infonew = data.replace(new RegExp(from, 'g'), to)
+        const infonew = data.replaceAll(new RegExp(from, 'g'), to)
         const infonewbase64 = btoa(infonew)
         await octoFactory.writeFile({owner: organization, repo, path, content: infonewbase64, sha, name, email, message,  branch})
         console.log(processed(`File in ${path}

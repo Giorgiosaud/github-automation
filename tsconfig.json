@@ -8,7 +8,7 @@
     "rootDir": "src",
     "strict": true,
     "skipLibCheck": true,
-    "target": "es2019",
+    "target": "es2021",
     "noImplicitAny": true
 
   },

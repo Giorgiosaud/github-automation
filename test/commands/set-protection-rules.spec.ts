@@ -24,48 +24,26 @@ describe('set-protection-rules command', () => {
   test('set-protection-rules works branches,org,repo are set', async () => {
     await SetProtectionRules.run(['-b', 'branch1', '-o', 'org', '-r', 'repo'])
     expect(reqFn).toHaveBeenCalledTimes(1)
-    expect(reqFn).toHaveBeenNthCalledWith(1, 'PUT /repos/{owner}/{repo}/branches/{branch}/protection', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', branch: 'branch1', required_status_checks: {
-      strict: false,
-      contexts: [],
-    },
-    enforce_admins: false,
-    required_pull_request_reviews: {
-      dismissal_restrictions: {
-        users: [],
-        teams: [],
+    expect(reqFn).toHaveBeenNthCalledWith(1, 'PUT /repos/{owner}/{repo}/branches/{branch}/protection', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', branch: 'branch1', required_status_checks: null,
+      enforce_admins: false,
+      required_pull_request_reviews: {
+        dismiss_stale_reviews: false,
+        require_code_owner_reviews: false,
+        required_approving_review_count: 2,
       },
-      dismiss_stale_reviews: false,
-      require_code_owner_reviews: true,
-      required_approving_review_count: 2,
-    },
-    restrictions: {
-      users: [],
-      teams: [],
-      apps: [],
-    }})
+      restrictions: null})
   })
   test('set-protection-rules works branches,org,repo are set and likes adjusted', async () => {
     await SetProtectionRules.run(['-b', 'branch1', '-o', 'org', '-r', 'repo', '-l', '3'])
     expect(reqFn).toHaveBeenCalledTimes(1)
-    expect(reqFn).toHaveBeenNthCalledWith(1, 'PUT /repos/{owner}/{repo}/branches/{branch}/protection', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', branch: 'branch1', required_status_checks: {
-      strict: false,
-      contexts: [],
-    },
-    enforce_admins: false,
-    required_pull_request_reviews: {
-      dismissal_restrictions: {
-        users: [],
-        teams: [],
+    expect(reqFn).toHaveBeenNthCalledWith(1, 'PUT /repos/{owner}/{repo}/branches/{branch}/protection', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', branch: 'branch1', required_status_checks: null,
+      enforce_admins: false,
+      required_pull_request_reviews: {
+        dismiss_stale_reviews: false,
+        require_code_owner_reviews: false,
+        required_approving_review_count: 3,
       },
-      dismiss_stale_reviews: false,
-      require_code_owner_reviews: true,
-      required_approving_review_count: 3,
-    },
-    restrictions: {
-      users: [],
-      teams: [],
-      apps: [],
-    }})
+      restrictions: null})
   })
 
   // test('set-protection-rules works if org,repo,secrets are set', async () => {

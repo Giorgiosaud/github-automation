@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import {info, normal, preProcessed, processed} from '../../helpers/logger'
+import {normal, preProcessed, processed} from '../../helpers/logger'
 export default class MkEnv extends Command {
   static description = 'Create environments if not exist'
 
