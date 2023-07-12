@@ -54,7 +54,7 @@ USAGE
 
 ## `github-automation help [COMMANDS]`
 
-Display help for github-automation.
+Display help for github-automation
 
 ```
 USAGE
