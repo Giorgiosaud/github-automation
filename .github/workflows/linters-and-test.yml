@@ -10,4 +10,4 @@ on:
       - master
 jobs:
   linter-and-test:
-    uses: Giorgiosaud/centralized-workflows/.github/workflows/lint-and-test.yml@v1
+    uses: Giorgiosaud/centralized-workflows/.github/workflows/lint-and-test.yml@main

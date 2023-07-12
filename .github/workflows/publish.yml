@@ -6,7 +6,7 @@ on:
 
 jobs:
   call-publish:
-    uses: Giorgiosaud/centralized-workflows/.github/workflows/npm-publish.yml@v1
+    uses: Giorgiosaud/centralized-workflows/.github/workflows/npm-publish.yml@main
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This gets generated automatically
