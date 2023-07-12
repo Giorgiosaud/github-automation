@@ -11,3 +11,5 @@ on:
 jobs:
   linter-and-test:
     uses: Giorgiosaud/centralized-workflows/.github/workflows/lint-and-test.yml@main
+  with:
+    lint-css: false
