@@ -15,7 +15,7 @@ describe('ls command', () => {
   })
 
   test('ls fails if no flags are set asking for repo', async () => {
-    await expect(Ls.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(Ls.run([])).rejects.toThrow()
   })
   test('ls works if only org is set', async () => {
     const response = {

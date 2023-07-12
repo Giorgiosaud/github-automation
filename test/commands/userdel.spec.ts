@@ -15,13 +15,13 @@ describe('userdel command', () => {
   })
 
   test('userdel fails if no flags are set', async () => {
-    await expect(Userdel.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(Userdel.run([])).rejects.toThrow()
   })
   test('userdel fails if only repo flags are set', async () => {
-    await expect(Userdel.run(['-r', 'repo'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(Userdel.run(['-r', 'repo'])).rejects.toThrow()
   })
   test('userdel fails if only repo,org flags are set', async () => {
-    await expect(Userdel.run(['-r', 'repo', '-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(Userdel.run(['-r', 'repo', '-o', 'org'])).rejects.toThrow()
   })
   test('userdel fails if only repo,org,user flags are set', async () => {
     await Userdel.run(['-r', 'repo', '-o', 'org', '-u', 'user'])

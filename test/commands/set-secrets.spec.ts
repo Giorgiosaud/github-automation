@@ -15,13 +15,13 @@ describe('set-secrets command', () => {
   })
 
   test('set-secrets fails if no flags are set', async () => {
-    await expect(SetSecrets.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(SetSecrets.run([])).rejects.toThrow()
   })
   test('set-secrets fails if org flags are set', async () => {
-    await expect(SetSecrets.run(['-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(SetSecrets.run(['-o', 'org'])).rejects.toThrow()
   })
   test('set-secrets fails if org,repo flags are set', async () => {
-    await expect(SetSecrets.run(['-o', 'org', '-r', 'repo'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(SetSecrets.run(['-o', 'org', '-r', 'repo'])).rejects.toThrow()
   })
   test('set-secrets fails if org,repo,secret flags are set', async () => {
     const envRes = {

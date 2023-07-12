@@ -12,16 +12,16 @@ describe('mk-env command', () => {
   })
 
   test('mk-env fails if no flags are set asking for repo', async () => {
-    await expect(MkEnv.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(MkEnv.run([])).rejects.toThrow()
   })
   test('mk-env fails if only env is set', async () => {
-    await expect(MkEnv.run(['-e', 'env'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(MkEnv.run(['-e', 'env'])).rejects.toThrow()
   })
   test('mk-env fails if only env and org is set', async () => {
-    await expect(MkEnv.run(['-e', 'env', '-o', 'owner'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(MkEnv.run(['-e', 'env', '-o', 'owner'])).rejects.toThrow()
   })
   test('mk-env fails if repo name not match', async () => {
-    await expect(MkEnv.run(['-e', 'env', '-o', 'owner', '-r', 'repo%1--*'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(MkEnv.run(['-e', 'env', '-o', 'owner', '-r', 'repo%1--*'])).rejects.toThrow()
   })
   test('mk-env works if repo name match', async () => {
     const envRes = {

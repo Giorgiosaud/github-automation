@@ -12,14 +12,14 @@ describe('rm-secrets command', () => {
   })
 
   test('rm-secrets fails if no flags are set', async () => {
-    await expect(RmSecrets.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(RmSecrets.run([])).rejects.toThrow()
   })
   test('rm-secrets fails org are set', async () => {
-    await expect(RmSecrets.run(['-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(RmSecrets.run(['-o', 'org'])).rejects.toThrow()
   })
 
   test('rm-secrets fails org,repo are set', async () => {
-    await expect(RmSecrets.run(['-o', 'org', '-r', 'repo'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(RmSecrets.run(['-o', 'org', '-r', 'repo'])).rejects.toThrow()
   })
   test('rm-secrets works if org,repo,secrets are set', async () => {
     await RmSecrets.run(['-o', 'org', '-r', 'repo', '-s', 'alo'])

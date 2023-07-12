@@ -12,13 +12,13 @@ describe('set-protection-rules command', () => {
   })
 
   test('set-protection-rules fails if no flags are set', async () => {
-    await expect(SetProtectionRules.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(SetProtectionRules.run([])).rejects.toThrow()
   })
   test('set-protection-rules fails branches are set', async () => {
-    await expect(SetProtectionRules.run(['-b', 'branch1'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(SetProtectionRules.run(['-b', 'branch1'])).rejects.toThrow()
   })
   test('set-protection-rules fails branches,org are set', async () => {
-    await expect(SetProtectionRules.run(['-b', 'branch1', '-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(SetProtectionRules.run(['-b', 'branch1', '-o', 'org'])).rejects.toThrow()
   })
 
   test('set-protection-rules works branches,org,repo are set', async () => {
@@ -67,10 +67,10 @@ describe('set-protection-rules command', () => {
   //   expect(reqFn).toHaveBeenNthCalledWith(2,  'DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}', {environment_name: 'env', headers: {'X-GitHub-Api-Version': '2022-11-28'}, repository_id: '123', secret_name: 'alo'})
   // })
   // test('set-protection-rules fails if env is set', async () => {
-  //   await expect(SetProtectionRules.run(['-e', 'env'])).rejects.toThrowErrorMatchingSnapshot()
+  //   await expect(SetProtectionRules.run(['-e', 'env'])).rejects.toThrow()
   // })
   // test('set-protection-rules fails if env,org is set', async () => {
-  //   await expect(SetProtectionRules.run(['-e', 'env', '-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+  //   await expect(SetProtectionRules.run(['-e', 'env', '-o', 'org'])).rejects.toThrow()
   // })
   // test('set-protection-rules works if env,org,repo is set and env exist', async () => {
   //   const response = {

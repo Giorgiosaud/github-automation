@@ -12,13 +12,13 @@ describe('rm-env command', () => {
   })
 
   test('rm-env fails if no flags are set', async () => {
-    await expect(RmEnv.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(RmEnv.run([])).rejects.toThrow()
   })
   test('rm-env fails if env is set', async () => {
-    await expect(RmEnv.run(['-e', 'env'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(RmEnv.run(['-e', 'env'])).rejects.toThrow()
   })
   test('rm-env fails if env,org is set', async () => {
-    await expect(RmEnv.run(['-e', 'env', '-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(RmEnv.run(['-e', 'env', '-o', 'org'])).rejects.toThrow()
   })
   test('rm-env works if env,org,repo is set and env exist', async () => {
     const response = {

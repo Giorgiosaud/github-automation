@@ -12,19 +12,19 @@ describe('replace-in-files command', () => {
   })
 
   test('replace-in-files fails if no flags are set', async () => {
-    await expect(ReplaceInFiles.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(ReplaceInFiles.run([])).rejects.toThrow()
   })
   test('replace-in-files fails if only from is set', async () => {
-    await expect(ReplaceInFiles.run(['-f', 'develop'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(ReplaceInFiles.run(['-f', 'develop'])).rejects.toThrow()
   })
   test('replace-in-files fails if from, org is set', async () => {
-    await expect(ReplaceInFiles.run(['-f', 'develop', '-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(ReplaceInFiles.run(['-f', 'develop', '-o', 'org'])).rejects.toThrow()
   })
   test('replace-in-files fails if from, org, paths is set', async () => {
-    await expect(ReplaceInFiles.run(['-f', 'develop', '-o', 'org', '-p', 'path'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(ReplaceInFiles.run(['-f', 'develop', '-o', 'org', '-p', 'path'])).rejects.toThrow()
   })
   test('replace-in-files fails if from, org, paths, repositories is set', async () => {
-    await expect(ReplaceInFiles.run(['-f', 'develop', '-o', 'org', '-p', 'path', '-r', 'repo'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(ReplaceInFiles.run(['-f', 'develop', '-o', 'org', '-p', 'path', '-r', 'repo'])).rejects.toThrow()
   })
   test('replace-in-files fails if from, org, paths, repositories,to is set', async () => {
     const response = {

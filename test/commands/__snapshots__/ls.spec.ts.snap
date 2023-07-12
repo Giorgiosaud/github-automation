@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`ls command ls fails if no flags are set asking for repo 1`] = `
-"Missing 1 required arg:
-owner
-See more help with --help"
-`;

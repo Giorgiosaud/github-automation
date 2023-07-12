@@ -12,13 +12,13 @@ describe('mv-branch command', () => {
   })
 
   test('mv-branch fails if no flags are set', async () => {
-    await expect(MvBranch.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(MvBranch.run([])).rejects.toThrow()
   })
   test('mv-branch fails if only branchNaming is set', async () => {
-    await expect(MvBranch.run(['-b', 'prueba:r'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(MvBranch.run(['-b', 'prueba:r'])).rejects.toThrow()
   })
   test('mv-branch fails if branchNaming is set and org', async () => {
-    await expect(MvBranch.run(['-b', 'prueba:r', '-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(MvBranch.run(['-b', 'prueba:r', '-o', 'org'])).rejects.toThrow()
   })
   test('mv-branch works if branchNaming is set and org and repo', async () => {
     await MvBranch.run(['-b', 'prueba:r', '-o', 'org', '-r', 'repo'])

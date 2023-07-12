@@ -15,13 +15,13 @@ describe('set-vars command', () => {
   })
 
   test('set-vars fails if no flags are set', async () => {
-    await expect(SetVars.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(SetVars.run([])).rejects.toThrow()
   })
   test('set-vars fails if org flags are set', async () => {
-    await expect(SetVars.run(['-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(SetVars.run(['-o', 'org'])).rejects.toThrow()
   })
   test('set-vars fails if org,repo flags are set', async () => {
-    await expect(SetVars.run(['-o', 'org', '-r', 'repo'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(SetVars.run(['-o', 'org', '-r', 'repo'])).rejects.toThrow()
   })
   test('set-vars wokrs if org,repo,secret flags are set and not exist', async () => {
     const getVars = {

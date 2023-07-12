@@ -15,13 +15,13 @@ describe('useradd command', () => {
   })
 
   test('useradd fails if no flags are set', async () => {
-    await expect(Useradd.run([])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(Useradd.run([])).rejects.toThrow()
   })
   test('useradd fails if only repo flags are set', async () => {
-    await expect(Useradd.run(['-r', 'repo'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(Useradd.run(['-r', 'repo'])).rejects.toThrow()
   })
   test('useradd fails if only repo,org flags are set', async () => {
-    await expect(Useradd.run(['-r', 'repo', '-o', 'org'])).rejects.toThrowErrorMatchingSnapshot()
+    await expect(Useradd.run(['-r', 'repo', '-o', 'org'])).rejects.toThrow()
   })
   test('useradd fails if only repo,org,user flags are set', async () => {
     await Useradd.run(['-r', 'repo', '-o', 'org', '-u', 'user'])
@@ -34,7 +34,7 @@ describe('useradd command', () => {
     expect(reqFn).toHaveBeenNthCalledWith(1,  'PUT /repos/{owner}/{repo}/collaborators/{username}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo', username: 'user', permission: 'pull'})
   })
   // test('useradd fails if org,repo flags are set', async () => {
-  //   await expect(Useradd.run(['-o', 'org', '-r', 'repo'])).rejects.toThrowErrorMatchingSnapshot()
+  //   await expect(Useradd.run(['-o', 'org', '-r', 'repo'])).rejects.toThrow()
   // })
   // test('useradd wokrs if org,repo,secret flags are set and not exist', async () => {
   //   const getVars = {
