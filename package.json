@@ -1,6 +1,6 @@
 {
   "name": "github-automation",
-  "version": "5.1.5",
+  "version": "5.1.6",
   "description": "oclif example Hello World CLI",
   "author": "Jorge Saud @Giorgiosaud",
   "bin": {
