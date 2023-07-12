@@ -2,7 +2,7 @@ github automation
 =================
 
 
-oclif example Hello World CLI
+oclif github-automation CLI
 
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Giorgiosaud_github-automation&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Giorgiosaud_github-automation)
