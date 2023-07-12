@@ -1,4 +1,4 @@
-github automation
+github automation CLI interface
 =================
 
 
