@@ -8,4 +8,4 @@ jobs:
   call-publish:
     uses: Giorgiosaud/centralized-workflows/.github/workflows/npm-publish.yml@main
     secrets:
-      npm-token: ${{ secrets.NPM_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
