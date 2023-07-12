@@ -9,4 +9,3 @@ jobs:
     uses: Giorgiosaud/centralized-workflows/.github/workflows/npm-publish.yml@main
     secrets:
       npm-token: ${{ secrets.NPM_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This gets generated automatically
