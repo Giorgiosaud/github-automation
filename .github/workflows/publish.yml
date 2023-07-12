@@ -1,49 +1,12 @@
-name: Publishing Modyo Github Automation on Npm
+name: Publish
+
 on:
   release:
     types: [published]
 
 jobs:
-  cache-install-and-version:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          registry-url: 'https://registry.npmjs.org'
-          node-version: 16
-      - name: Cache Node_modules for parallels executions
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-modules
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ./node_modules
-          key: ${{ hashFiles('**/npm-shrinkwrap.json') }}-node-modules
-      - name: Install dependencies
-        run: npm install
-      - name: Versioning
-        run: |
-            echo $GITHUB_REF
-            TAG=$(echo $GITHUB_REF | cut -c 11-)
-            echo $TAG
-            git config user.email "support+actions@github.com"
-            git config user.name "github-actions-bot"
-            npm version $TAG --allow-same-version --no-git-tag-version
-            git checkout -b fix/bump-package-version
-            git status
-            git add .
-            git status
-            git commit -m "fix: bump package version [skip actions]"
-            git status
-            git push --set-upstream origin fix/bump-package-version
-            gh pr create --title "fix: bump self version" --body "Bump Version"
-        env:
-          GH_TOKEN: ${{ github.token }}
-      - name: Publish to NPM Package Registry
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  call-publish:
+    uses: Giorgiosaud/centralized-workflows/.github/workflows/npm-publish.yml@main
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This gets generated automatically
