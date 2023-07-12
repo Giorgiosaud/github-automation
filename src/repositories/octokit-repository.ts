@@ -170,25 +170,14 @@ export default {
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
-      required_status_checks: {
-        strict: false,
-        contexts: [],
-      },
+      required_status_checks: null,
       enforce_admins: false,
       required_pull_request_reviews: {
-        dismissal_restrictions: {
-          users: [],
-          teams: [],
-        },
         dismiss_stale_reviews: false,
-        require_code_owner_reviews: true,
+        require_code_owner_reviews: false,
         required_approving_review_count: countReviewers,
       },
-      restrictions: {
-        users: [],
-        teams: [],
-        apps: [],
-      },
+      restrictions: null,
     })
   },
   async removeCollaborator({owner, repo, username}:removeCollaboratorParams):Promise<removeCollaboratorResponse> {
