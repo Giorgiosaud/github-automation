@@ -15,7 +15,7 @@ export default async (org: string): Promise<string> => {
       const token = await promptToken({org})
 
       const data = {
-        ...SETTINGS,
+        ...SETTINGS[0],
         [org]: {
           GITHUB_TOKEN: token,
         }}
