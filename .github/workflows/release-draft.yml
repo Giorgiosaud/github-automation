@@ -3,7 +3,6 @@ name: Create a Draft Release
 on:
   push:
     branches:
-      - main
       - master
 
 jobs:
