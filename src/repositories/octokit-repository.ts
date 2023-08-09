@@ -30,7 +30,20 @@ export type renameBranchResponse=Endpoints['POST /repos/{owner}/{repo}/branches/
 export type getBranchResponse=Endpoints['GET /repos/{owner}/{repo}/branches/{branch}']['response'];
 export type readFile=Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response'];
 export type writeFile=Endpoints['PUT /repos/{owner}/{repo}/contents/{path}']['response'];
+export type createRepoResponse=Endpoints['POST /orgs/{org}/repos']['response'];
+
 export default {
+  async createRepo({organization, repo}:{organization: string, repo: string}):Promise<createRepoResponse> {
+    const octokit = await octokitClient({org: organization})
+    return octokit.request('POST /orgs/{org}/repos', {
+      org: organization,
+      name: repo,
+      private: true,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    })
+  },
   async setEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<postVariableResponse> {
     const octokit = await octokitClient({org: owner})
     const repository_id = await this.getRepositoryId({owner, repo})
