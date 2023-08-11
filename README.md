@@ -41,15 +41,11 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`github-automation branch-protection-rules -r REPOS -n NAMES -x VALUES`](#github-automation-branch-protection-rules--r-repos--n-names--x-values)
-* [`github-automation 
-  collaborators -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
-  collaborators -r GITHUBREPOS… -u GITHUBUSERS… --delete
-  `](#github-automation---collaborators--r-githubrepos--u-githubusers--p-pullpushadminmaintaintriage--collaborators--r-githubrepos--u-githubusers---delete--)
-* [`github-automation create-environment -r REPOS -n NAMES -x VALUES`](#github-automation-create-environment--r-repos--n-names--x-values)
-* [`github-automation delete-secret -r REPOS -n NAMES`](#github-automation-delete-secret--r-repos--n-names)
 * [`github-automation help [COMMANDS]`](#github-automation-help-commands)
 * [`github-automation list-org-repositories OWNER`](#github-automation-list-org-repositories-owner)
+* [`github-automation mk-env -r REPOS -n NAMES -x VALUES`](#github-automation-mk-env--r-repos--n-names--x-values)
+* [`github-automation mk-repo -o ORG -r REPOS`](#github-automation-mk-repo--o-org--r-repos)
+* [`github-automation create-environment -r REPOS -n NAMES -x VALUES`](#github-automation-create-environment--r-repos--n-names--x-values)
 * [`github-automation plugins`](#github-automation-plugins)
 * [`github-automation plugins:install PLUGIN...`](#github-automation-pluginsinstall-plugin)
 * [`github-automation plugins:inspect PLUGIN...`](#github-automation-pluginsinspect-plugin)
@@ -59,115 +55,12 @@ USAGE
 * [`github-automation plugins:uninstall PLUGIN...`](#github-automation-pluginsuninstall-plugin-1)
 * [`github-automation plugins:uninstall PLUGIN...`](#github-automation-pluginsuninstall-plugin-2)
 * [`github-automation plugins update`](#github-automation-plugins-update)
-* [`github-automation repos-with-secret OWNER`](#github-automation-repos-with-secret-owner)
-* [`github-automation set-vars -r REPOS -n NAMES -x VALUES`](#github-automation-set-vars--r-repos--n-names--x-values)
-
-## `github-automation branch-protection-rules -r REPOS -n NAMES -x VALUES`
-
-describe the command here
-
-```
-USAGE
-  $ github-automation branch-protection-rules -r REPOS -n NAMES -x VALUES
-
-FLAGS
-  -b, --branches=<value>...      (required) Can be multiples repositories branches
-  -h, --help                     Show CLI help.
-  -o, --organization=<value>     (required) A single string containing the organization name
-  -r, --repositories=<value>...  (required) Can be multiples repositories names
-
-DESCRIPTION
-  describe the command here
-
-EXAMPLES
-      you must have a personal github token to set the first time that uses this tool
-      $ github-automation branch-protection-rules -r NAME1 NAME2 ... NAMEn -o ORG --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
-      $ github-automation branch-protection-rules -r NAME1 NAME2 ... NAMEn -o ORG -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
-```
-
-_See code: [dist/commands/branch-protection-rules/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/branch-protection-rules/index.ts)_
-
-## `github-automation 
-  collaborators -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
-  collaborators -r GITHUBREPOS… -u GITHUBUSERS… --delete
-  `
-
-Manage Repo collaborators
-
-```
-USAGE
-  $ github-automation 
-    collaborators -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
- 
-    collaborators -r GITHUBREPOS… -u GITHUBUSERS… --delete
-
-FLAGS
-  -d, --delete                   delete user permission
-  -h, --help                     Show CLI help.
-  -p, --permissions=<option>     [default: push] Select Permission to add
-                                 <options: pull|push|admin|maintain|triage>
-  -r, --repositories=<value>...  (required) Can be multiples repositories with shape OWNER/REPO separated by space
-  -u, --github-users=<value>...  (required) Can be multiples users
-
-DESCRIPTION
-  Manage Repo collaborators
-
-EXAMPLES
-      you must have a personal github token to set the first time that uses this tool
-      $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
-      $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
-```
-
-_See code: [dist/commands/collaborators/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/collaborators/index.ts)_
-
-## `github-automation create-environment -r REPOS -n NAMES -x VALUES`
-
-describe the command here
-
-```
-USAGE
-  $ github-automation create-environment -r REPOS -n NAMES -x VALUES
-
-FLAGS
-  -e, --environment=<value>      (required) If is set the env should be activated in the specified environment and
-                                 create it if not exist
-  -h, --help                     Show CLI help.
-  -o, --organization=<value>     (required) A single string containing the organization name
-  -r, --repositories=<value>...  (required) Can be multiples repositories names
-
-DESCRIPTION
-  describe the command here
-
-EXAMPLES
-      you must have a personal github token to set the first time that uses this tool
-      $ github-automation create-environment --organization OWNER --repositories OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environment ENVIRONMENTA ENVIRONMENTB
-      $ github-automation create-environment -o Owner -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environment ENVIRONMENTA ENVIRONMENTB
-```
-
-_See code: [dist/commands/create-environment/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/create-environment/index.ts)_
-
-## `github-automation delete-secret -r REPOS -n NAMES`
-
-Delete Secret from repo
-
-```
-USAGE
-  $ github-automation delete-secret -r REPOS -n NAMES
-
-FLAGS
-  -n, --secret-name=<value>...   (required) Can be multiples secret names separated by space
-  -o, --organization=<value>     (required) a single sting with the name of org
-  -r, --repositories=<value>...  (required) Can be multiples repositories with shape REPO separated by space
-
-DESCRIPTION
-  Delete Secret from repo
-
-EXAMPLES
-      $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
-      $ github-automation delete-secret OWNER/REPO_NAME1 OWNER/REPO_NAME2 ... OWNER/REPO_NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAME_N
-```
-
-_See code: [dist/commands/delete-secret/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/delete-secret/index.ts)_
+* [`github-automation replace-in-files -r REPOS -n NAMES -x VALUES`](#github-automation-replace-in-files--r-repos--n-names--x-values)
+* [`github-automation create-environment -r REPOS -n NAMES -x VALUES`](#github-automation-create-environment--r-repos--n-names--x-values-1)
+* [`github-automation set-secret -r REPOS -n NAMES -x VALUES`](#github-automation-set-secret--r-repos--n-names--x-values)
+* [`github-automation branch-protection-rules -r REPOS -n NAMES -x VALUES`](#github-automation-branch-protection-rules--r-repos--n-names--x-values)
+* [`github-automation set-secret -e ENVIRONMENT -o OWNER  -r REPOS -s NAMES->VALUES`](#github-automation-set-secret--e-environment--o-owner---r-repos--s-names-values)
+* [`github-automation set-vars -e ENV -r REPOS -o OWNER -v NAMES->VALUES`](#github-automation-set-vars--e-env--r-repos--o-owner--v-names-values)
 
 ## `github-automation help [COMMANDS]`
 
@@ -198,16 +91,91 @@ USAGE
   $ github-automation list-org-repositories OWNER
 
 FLAGS
-  -f, --filter=<value>  filter by name contains
+  -p, --page=<value>  [default: 1] page number
 
 DESCRIPTION
   List Org Repositories if have access
 
 EXAMPLES
-      $ github-automation list-org-repositories OWNER
+      $ github-automation ls OWNER
 ```
 
-_See code: [dist/commands/list-org-repositories/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/list-org-repositories/index.ts)_
+_See code: [dist/commands/ls/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/ls/index.ts)_
+
+## `github-automation mk-env -r REPOS -n NAMES -x VALUES`
+
+Create environments if not exist
+
+```
+USAGE
+  $ github-automation mk-env -r REPOS -n NAMES -x VALUES
+
+FLAGS
+  -e, --environments=<value>...  (required) If is set the env should be activated in the specified environment and
+                                 create it if not exist
+  -h, --help                     Show CLI help.
+  -o, --organization=<value>     (required) A single string containing the organization name
+  -r, --repositories=<value>...  (required) Can be multiples repositories names
+
+DESCRIPTION
+  Create environments if not exist
+
+EXAMPLES
+      you must have a personal github token to set the first time that uses this tool
+      $ github-automation mk-env --organization OWNER --repositories OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+      $ github-automation mk-env -o Owner -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+```
+
+_See code: [dist/commands/mk-env/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/mk-env/index.ts)_
+
+## `github-automation mk-repo -o ORG -r REPOS`
+
+Create repos
+
+```
+USAGE
+  $ github-automation mk-repo -o ORG -r REPOS
+
+FLAGS
+  -h, --help                     Show CLI help.
+  -o, --organization=<value>     (required) A single string containing the organization name
+  -r, --repositories=<value>...  (required) Can be multiples repositories names
+
+DESCRIPTION
+  Create repos
+
+EXAMPLES
+      you must have a personal github token to set the first time that uses this tool
+      $ github-automation mk-repo --organization OWNER --repositories NAME1 NAME2 ... NAMEn  
+      $ github-automation mk-repo -o Owner -r NAME1 NAME2 ... NAMEn
+```
+
+_See code: [dist/commands/mk-repo/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/mk-repo/index.ts)_
+
+## `github-automation create-environment -r REPOS -n NAMES -x VALUES`
+
+Remove environments if exist
+
+```
+USAGE
+  $ github-automation create-environment -r REPOS -n NAMES -x VALUES
+
+FLAGS
+  -b, --branchNaming=<value>     (required) branchfrom:branchto
+  -h, --help                     Show CLI help.
+  -o, --organization=<value>     (required) A single string containing the organization name
+  -r, --repositories=<value>...  (required) Can be multiples repositories names
+
+DESCRIPTION
+  Remove environments if exist
+
+EXAMPLES
+      you must have a personal github token to set the first time that uses this tool
+      $ github-automation rm-env --organization OWNER --repositories OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+      $ github-automation rm-env -o Owner -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+```
+
+_See code: [dist/commands/mv-branch/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/mv-branch/index.ts)_
 
 ## `github-automation plugins`
 
@@ -445,47 +413,174 @@ DESCRIPTION
   Update installed plugins.
 ```
 
-## `github-automation repos-with-secret OWNER`
+## `github-automation replace-in-files -r REPOS -n NAMES -x VALUES`
 
-List Org Repositories if have access
+Create environments if not exist
 
 ```
 USAGE
-  $ github-automation repos-with-secret OWNER
+  $ github-automation replace-in-files -r REPOS -n NAMES -x VALUES
+
+FLAGS
+  -b, --branch=<value>           [default: main] Branch
+  -e, --email=<value>            [default: jsaud@modyo.com] Commiter Email
+  -f, --from=<value>             (required) string to replace
+  -h, --help                     Show CLI help.
+  -m, --message=<value>          [default: Replace in file] Commit Message
+  -n, --name=<value>             [default: Jorge Saud] Commiter Name
+  -o, --organization=<value>     (required) A single string containing the organization name
+  -p, --paths=<value>...         (required) paths of files
+  -r, --repositories=<value>...  (required) Can be multiples repositories names
+  -t, --to=<value>               (required) string to replace
 
 DESCRIPTION
-  List Org Repositories if have access
+  Create environments if not exist
 
 EXAMPLES
-      $ github-automation repos-with-secret OWNER
+      you must have a personal github token to set the first time that uses this tool
+      $ github-automation replace-in-files --organization OWNER --repositories OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+      $ github-automation replace-in-files -o Owner -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
 ```
 
-_See code: [dist/commands/repos-with-secret/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/repos-with-secret/index.ts)_
+_See code: [dist/commands/replace-in-files/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/replace-in-files/index.ts)_
 
-## `github-automation set-vars -r REPOS -n NAMES -x VALUES`
+## `github-automation create-environment -r REPOS -n NAMES -x VALUES`
 
-describe the command here
+Remove environments if exist
 
 ```
 USAGE
-  $ github-automation set-vars -r REPOS -n NAMES -x VALUES
+  $ github-automation create-environment -r REPOS -n NAMES -x VALUES
+
+FLAGS
+  -e, --environments=<value>...  (required) If is set the env should be activated in the specified environment and
+                                 create it if not exist
+  -h, --help                     Show CLI help.
+  -o, --organization=<value>     (required) A single string containing the organization name
+  -r, --repositories=<value>...  (required) Can be multiples repositories names
+
+DESCRIPTION
+  Remove environments if exist
+
+EXAMPLES
+      you must have a personal github token to set the first time that uses this tool
+      $ github-automation rm-env --organization OWNER --repositories OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+      $ github-automation rm-env -o Owner -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --environments ENVIRONMENTA ENVIRONMENTB
+```
+
+_See code: [dist/commands/rm-env/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/rm-env/index.ts)_
+
+## `github-automation set-secret -r REPOS -n NAMES -x VALUES`
+
+Rempve Secrets
+
+```
+USAGE
+  $ github-automation set-secret -r REPOS -n NAMES -x VALUES
 
 FLAGS
   -e, --environment=<value>      If is set the env should be activated in the specified environment and create it if not
                                  exist
   -h, --help                     Show CLI help.
-  -n, --secret-name=<value>...   (required) Can be multiples secret names separated by space
   -o, --organization=<value>     (required) A single string containing the organization name
   -r, --repositories=<value>...  (required) Can be multiples repositories names
-  -x, --secret-value=<value>...  (required) Can be multiples secret values separated by space
+  -s, --secrets=<value>...       (required) Can be multiples secret names separated by space
 
 DESCRIPTION
-  describe the command here
+  Rempve Secrets
 
 EXAMPLES
       you must have a personal github token to set the first time that uses this tool
-      $ github-automation set-vars -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
-      $ github-automation set-vars -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
+      $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn --secrets SECRET_NAME1:SECRET_VALUE_1 SECRET_NAME2:SECRET_VALUE_2 ... SECRET_NAMEN:SECRET_VALUE_N
+      $ github-automation set-secret -r OWNER/NAME1 OWNER/NAME2 ... OWNER/NAMEn -s SECRET_NAME1:SECRET_VALUE_1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2:SECRET_VALUE_2 ... SECRETVALUEN:SECRET_VALUE_N
+```
+
+_See code: [dist/commands/rm-secrets/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/rm-secrets/index.ts)_
+
+## `github-automation branch-protection-rules -r REPOS -n NAMES -x VALUES`
+
+Set Protected Branches and rules
+
+```
+USAGE
+  $ github-automation branch-protection-rules -r REPOS -n NAMES -x VALUES
+
+FLAGS
+  -b, --branches=<value>...      (required) Can be multiples repositories branches
+  -h, --help                     Show CLI help.
+  -l, --likes=<value>            (required) [default: 2] Likes required in pr
+  -o, --organization=<value>     (required) A single string containing the organization name
+  -r, --repositories=<value>...  (required) Can be multiples repositories names
+
+DESCRIPTION
+  Set Protected Branches and rules
+
+EXAMPLES
+      you must have a personal github token to set the first time that uses this tool
+      $ github-automation branch-protection-rules -r NAME1 NAME2 ... NAMEn -o ORG --secret-name SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN --secret-value SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
+      $ github-automation branch-protection-rules -r NAME1 NAME2 ... NAMEn -o ORG -n SECRET_NAME1 SECRET_NAME2 ... SECRET_NAMEN -x SECRETVALUE1 SECRETVALUE2 ... SECRETVALUEN
+```
+
+_See code: [dist/commands/set-protection-rules/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/set-protection-rules/index.ts)_
+
+## `github-automation set-secret -e ENVIRONMENT -o OWNER  -r REPOS -s NAMES->VALUES`
+
+Set Secrets in repo from org
+
+```
+USAGE
+  $ github-automation set-secret -e ENVIRONMENT -o OWNER  -r REPOS -s NAMES->VALUES
+
+FLAGS
+  -e, --environment=<value>      If is set the env should be activated in the specified environment and create it if not
+                                 exist
+  -f, --forced                   If is set the env should be activated in the specified environment and create it if not
+                                 exist
+  -h, --help                     Show CLI help.
+  -o, --organization=<value>     (required) A single string containing the organization name
+  -r, --repositories=<value>...  (required) Can be multiples repositories names
+  -s, --secrets=<value>...       (required) Can be multiples variable names separated by -> ej: name->variable
+
+DESCRIPTION
+  Set Secrets in repo from org
+
+EXAMPLES
+      you must have a personal github token to set the first time that uses this tool
+      $ github-automation set-secret --owner OWNER --repositories NAME1 NAME2 ... NAMEN --secrets NAME_1->SECRET_1 NAME_2->SECRET_2 ... NAME_N->SECRET_N
+      $ github-automation set-secret --environment ENVIRONMENT --owner OWNER --repositories NAME1 NAME2 ... NAMEN --secrets NAME_1->SECRET_1 NAME_2->SECRET_2 ... NAME_N->SECRET_N
+      $ github-automation set-secret -o OWNER -r NAME1 NAME2 ... NAMEN -s NAME_1->SECRET_1 NAME_2->SECRET_2 ... NAME_N->SECRET_N
+      $ github-automation set-secret -e ENVIRONMENT -o OWNER -r NAME1 NAME2 ... NAMEN -s NAME_1->SECRET_1 NAME_2->SECRET_2 ... NAME_N->SECRET_N
+```
+
+_See code: [dist/commands/set-secrets/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/set-secrets/index.ts)_
+
+## `github-automation set-vars -e ENV -r REPOS -o OWNER -v NAMES->VALUES`
+
+Set Variables in repo from org
+
+```
+USAGE
+  $ github-automation set-vars -e ENV -r REPOS -o OWNER -v NAMES->VALUES
+
+FLAGS
+  -e, --environment=<value>      If is set the env should be activated in the specified environment and create it if not
+                                 exist
+  -f, --forced                   If is set the env should be activated in the specified environment and create it if not
+                                 exist
+  -h, --help                     Show CLI help.
+  -o, --organization=<value>     (required) A single string containing the organization name
+  -r, --repositories=<value>...  (required) Can be multiples repositories names
+  -v, --variables=<value>...     (required) Can be multiples variable names separated by -> ej: name->variable
+
+DESCRIPTION
+  Set Variables in repo from org
+
+EXAMPLES
+      you must have a personal github token to set the first time that uses this tool
+      $ github-automation set-vars --owner OWNER --repositories NAME1 NAME2 ... NAMEN --variables NAME_1->SECRET_1 NAME_2->SECRET_2 ... NAME_N->SECRET_N
+      $ github-automation set-vars --environment ENVIRONMENT --owner OWNER --repositories NAME1 NAME2 ... NAMEN --variables NAME_1->SECRET_1 NAME_2->SECRET_2 ... NAME_N->SECRET_N
+      $ github-automation set-vars -o OWNER -r NAME1 NAME2 ... NAMEN -v NAME_1->SECRET_1 NAME_2->SECRET_2 ... NAME_N->SECRET_N
+      $ github-automation set-vars -e ENVIRONMENT -o OWNER -r NAME1 NAME2 ... NAMEN -v NAME_1->SECRET_1 NAME_2->SECRET_2 ... NAME_N->SECRET_N
 ```
 
 _See code: [dist/commands/set-vars/index.ts](https://github.com/Giorgiosaud/github-automation/blob/v5.1.10/dist/commands/set-vars/index.ts)_
