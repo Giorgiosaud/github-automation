@@ -31,9 +31,23 @@ export type getBranchResponse=Endpoints['GET /repos/{owner}/{repo}/branches/{bra
 export type readFile=Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response'];
 export type writeFile=Endpoints['PUT /repos/{owner}/{repo}/contents/{path}']['response'];
 export type createRepoResponse=Endpoints['POST /orgs/{org}/repos']['response'];
+export type createRepoFromTemplateResponse=Endpoints['POST /repos/{template_owner}/{template_repo}/generate']['response'];
 export type DeleteRepoResponse=Endpoints['DELETE /repos/{owner}/{repo}']['response'];
 
 export default {
+  async createRepoFromTemplate({organization, repo, template}:{organization: string, repo: string, template:string}):Promise<createRepoResponse> {
+    const octokit = await octokitClient({org: organization})
+    return octokit.request('POST /repos/{template_owner}/{template_repo}/generate', {
+      template_owner: organization,
+      template_repo: template,
+      owner: organization,
+      name: repo,
+      private: true,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    })
+  },
   async createRepo({organization, repo}:{organization: string, repo: string}):Promise<createRepoResponse> {
     const octokit = await octokitClient({org: organization})
     return octokit.request('POST /orgs/{org}/repos', {
