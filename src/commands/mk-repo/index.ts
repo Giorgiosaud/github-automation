@@ -30,7 +30,7 @@ export default class MkRepo extends Command {
     allBranches: Flags.boolean({
       char: 'b',
       description: 'include All Branches',
-      default: false,
+      default: true,
     }),
     repositories: Flags.string({
       char: 'r',
