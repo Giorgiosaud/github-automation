@@ -35,7 +35,7 @@ export type createRepoFromTemplateResponse=Endpoints['POST /repos/{template_owne
 export type DeleteRepoResponse=Endpoints['DELETE /repos/{owner}/{repo}']['response'];
 
 export default {
-  async createRepoFromTemplate({organization, repo, template}:{organization: string, repo: string, template:string}):Promise<createRepoResponse> {
+  async createRepoFromTemplate({organization, repo, template, allBranches}:{organization: string, repo: string, template:string, allBranches?:boolean}):Promise<createRepoResponse> {
     const octokit = await octokitClient({org: organization})
     return octokit.request('POST /repos/{template_owner}/{template_repo}/generate', {
       template_owner: organization,
@@ -43,6 +43,7 @@ export default {
       owner: organization,
       name: repo,
       private: true,
+      include_all_branches: allBranches,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
