@@ -7,4 +7,4 @@ on:
 
 jobs:
   call-release-drafter:
-    uses: giorgiosaud/centralized-workflows/.github/workflows/release-draft.yml@main
+    uses: giorgiosaud/centralized-workflows/.github/workflows/release-drafter.yml@main
