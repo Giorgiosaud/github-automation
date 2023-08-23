@@ -56,9 +56,9 @@ export default class Teamadd extends Command {
     for (const repo of repositories) {
       console.log(normal(`Updating users in ${repo}`))
       for (const team_slug of teamSlugs) {
-        console.log(preProcessed(`Adding team ${team_slug} to ${repo} inside ${organization} as ${permission}}`))
+        console.log(preProcessed(`Adding team ${team_slug} to ${repo} inside ${organization} as ${permission}`))
         await octoFactory.addTeam({owner: organization, org: organization, repo, team_slug, permission})
-        console.log(processed(`User ${team_slug} added to ${repo} inside ${organization} as ${permission}}`))
+        console.log(processed(`User ${team_slug} added to ${repo} inside ${organization} as ${permission}`))
       }
     }
   }
