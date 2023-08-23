@@ -42,18 +42,24 @@ export default class SetPRotectionRules extends Command {
       required: true,
       multiple: true,
     }),
+    passingChecks: Flags.string({
+      char: 'c',
+      description: 'Can be multiples checks to pass to the pr',
+      required: false,
+      multiple: true,
+    }),
     help: Flags.help({char: 'h'}),
   }
 
   async run(): Promise<void> {
-    const {flags: {repositories, branches, likes, organization}} = await this.parse(SetPRotectionRules)
+    const {flags: {repositories, branches, likes, organization, passingChecks}} = await this.parse(SetPRotectionRules)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
       console.log(normal(`Working in ${repo}`))
       for (const branch of branches) {
         console.log(preProcessed(`Protecting branch ${branch} in ${repo}`))
-        await octoFactory.protectBranch({owner: organization, repo, branch, countReviewers: Number(likes)})
+        await octoFactory.protectBranch({owner: organization, repo, branch, countReviewers: Number(likes), passingChecks})
         console.log(processed(`Branch ${branch} protected in ${repo}`))
       }
     }
