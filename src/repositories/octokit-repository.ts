@@ -198,10 +198,10 @@ export default {
       },
     })
   },
-  async protectBranch({owner, repo, branch, countReviewers}:{owner:string, repo:string, branch:string, countReviewers:number},
+  async protectBranch({owner, repo, branch, countReviewers, passingChecks}:{owner:string, repo:string, branch:string, countReviewers:number, passingChecks?:string[]},
   ):Promise<protectBranchResponse> {
     const octokit = await octokitClient({org: owner})
-
+    const required_status_checks = passingChecks ? {strict: true, contexts: passingChecks} : null
     return octokit.request('PUT /repos/{owner}/{repo}/branches/{branch}/protection', {
       owner,
       repo,
@@ -209,7 +209,7 @@ export default {
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
-      required_status_checks: null,
+      required_status_checks,
       enforce_admins: false,
       required_pull_request_reviews: {
         dismiss_stale_reviews: false,
