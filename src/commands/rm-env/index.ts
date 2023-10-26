@@ -13,7 +13,7 @@ export default class RmEnv extends Command {
     `,
   ]
 
-  static usage='create-environment -r REPOS -n NAMES -x VALUES'
+  static usage='remove-environment -r REPOS -n NAMES -x VALUES'
 
   static strict = false
 
