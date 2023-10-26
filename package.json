@@ -4,12 +4,15 @@
   "description": "A github automation CLI for repetitive works",
   "author": "Jorge Saud @Giorgiosaud",
   "bin": {
-    "github-automation": "./bin/run"
+    "github-automation": "bin/run"
   },
   "homepage": "https://github.com/Giorgiosaud/github-automation",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "Giorgiosaud/github-automation",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Giorgiosaud/github-automation.git"
+  },
   "files": [
     "/bin",
     "/dist",
