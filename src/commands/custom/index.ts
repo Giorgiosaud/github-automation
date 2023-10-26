@@ -2,15 +2,15 @@ import {Command, Flags} from '@oclif/core'
 import SetVars from '../set-vars'
 
 export default class Custom extends Command {
-  static description = 'List Org Repositories if have access'
+  static description = 'Custom command'
 
   static examples = [
     `
-    $ github-automation ls OWNER
+    $ github-automation custom XXXXX
     `,
   ]
 
-  static usage='list-org-repositories OWNER'
+  static usage='custom XXXXXX'
 
   static strict = false
   static hidden = true;
