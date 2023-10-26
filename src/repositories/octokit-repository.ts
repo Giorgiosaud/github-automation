@@ -33,8 +33,55 @@ export type writeFile=Endpoints['PUT /repos/{owner}/{repo}/contents/{path}']['re
 export type createRepoResponse=Endpoints['POST /orgs/{org}/repos']['response'];
 export type createRepoFromTemplateResponse=Endpoints['POST /repos/{template_owner}/{template_repo}/generate']['response'];
 export type DeleteRepoResponse=Endpoints['DELETE /repos/{owner}/{repo}']['response'];
+export type UpdateReposResponse=Endpoints['PATCH /repos/{owner}/{repo}']['response'];
+export interface UpdateReposBody{
+  name?: string,
+  description?: string,
+  homepage?: string,
+  private?: boolean,
+  visibility?: 'public' | 'private',
+  security_and_analysis?: {
+    advanced_security?: {
+      status?: 'enabled' | 'disabled',
+      secret_scanning?: {
+        status?: 'enabled' | 'disabled',
+      },
+      secret_scanning_push_protection:{
+        status?: 'enabled' | 'disabled',
+      }
+  },
+  has_issues?: boolean,
+  has_projects?: boolean,
+  has_wiki?: boolean,
+  is_template?: boolean,
+  default_branch?: string,
+  allow_squash_merge?: boolean,
+  allow_merge_commit?: boolean,
+  allow_rebase_merge?: boolean,
+  allow_auto_merge?: boolean,
+  delete_branch_on_merge?: boolean,
+  allow_update_branch?: boolean,
+  use_squash_pr_title_as_default?: boolean,
+  squash_merge_commit_title?: string,
+  merge_commit_title?: string,
+  merge_commit_message?: string,
+  archived?: boolean,
+  allow_forking?: boolean,
+  web_commit_signoff_required?: boolean,
 
+}}
 export default {
+  async updateRepo({organization, repo, data}:{organization: string, repo: string, data:UpdateReposBody}):Promise<UpdateReposResponse> {
+    const octokit = await octokitClient({org: organization})
+    return octokit.request('PATCH /repos/{owner}/{repo}', {
+      owner: organization,
+      repo,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      ...data,
+    })
+  },
   async createRepoFromTemplate({organization, repo, template, allBranches}:{organization: string, repo: string, template:string, allBranches?:boolean}):Promise<createRepoResponse> {
     const octokit = await octokitClient({org: organization})
     return octokit.request('POST /repos/{template_owner}/{template_repo}/generate', {
