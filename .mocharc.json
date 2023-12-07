@@ -1,10 +1,13 @@
 {
+  "extension":["ts"],
+  "package": "./package.json",
+  "watch-files": ["src/**/*.ts", "test/**/*.ts"],
+
   "require": [
-    "test/helpers/init.js",
     "ts-node/register"
   ],
   "watch-extensions": [
-    "ts"
+    "ts","js"
   ],
   "recursive": true,
   "reporter": "spec",

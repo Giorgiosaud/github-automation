@@ -1,7 +1,8 @@
 import {Command, Flags} from '@oclif/core'
+
+import {normal, preProcessed, processed} from '../../helpers/logger'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import {normal, preProcessed, processed} from '../../helpers/logger'
 
 export default class Useradd extends Command {
   static description = 'Add user to repos'
@@ -14,42 +15,42 @@ export default class Useradd extends Command {
     `,
   ]
 
-  static hidden: boolean=true
-
-  static usage=`
-  useradd -o OWNER -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
-  `
-
-  static strict = false
   static flags = {
-    repositories: Flags.string({
-      char: 'r',
-      description: 'Can be multiples repositories names',
-      required: true,
+    githubUsers: Flags.string({
+      char: 'u',
+      description: 'Can be multiples users',
       multiple: true,
+      required: true,
     }),
+    help: Flags.help({char: 'h'}),
     organization: Flags.string({
       char: 'o',
       description: 'A single string containing the organization name',
       required: true,
     }),
-    githubUsers: Flags.string({
-      char: 'u',
-      description: 'Can be multiples users',
-      required: true,
-      multiple: true,
-    }),
     permission: Flags.string({
       char: 'p',
-      options: ['pull', 'push', 'admin', 'maintain', 'triage'],
-      description: 'Select Permission to add',
       default: 'push',
+      description: 'Select Permission to add',
+      options: ['pull', 'push', 'admin', 'maintain', 'triage'],
     }),
-    help: Flags.help({char: 'h'}),
+    repositories: Flags.string({
+      char: 'r',
+      description: 'Can be multiples repositories names',
+      multiple: true,
+      required: true,
+    }),
   }
 
+  static hidden: boolean=true
+
+  static strict = false
+  static usage=`
+  useradd -o OWNER -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
+  `
+
   async run(): Promise<void> {
-    const {flags: {repositories, organization, githubUsers, permission}} = await this.parse(Useradd)
+    const {flags: {githubUsers, organization, permission, repositories}} = await this.parse(Useradd)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
 
@@ -57,7 +58,7 @@ export default class Useradd extends Command {
       console.log(normal(`Updating users in ${repo}`))
       for (const username of githubUsers) {
         console.log(preProcessed(`Adding user ${username} to ${repo} inside ${organization} as ${permission}}`))
-        await octoFactory.addCollaborator({owner: organization, repo, username, permission})
+        await octoFactory.addCollaborator({owner: organization, permission, repo, username})
         console.log(processed(`User ${username} added to ${repo} inside ${organization} as ${permission}}`))
       }
     }

@@ -1,7 +1,8 @@
 import {Command, Flags} from '@oclif/core'
+
 import {validateRepoNames} from '../../helpers/validations'
-import repositoryFactory from '../../repositories/repository-factory'
 import {UpdateReposBody} from '../../repositories/octokit-repository'
+import repositoryFactory from '../../repositories/repository-factory'
 export default class MkRepo extends Command {
   static description = 'Update repos'
 
@@ -13,11 +14,8 @@ export default class MkRepo extends Command {
     `,
   ]
 
-  static usage='mk-repo -o ORG -r REPOS'
-
-  static strict = false
-
   static flags = {
+    help: Flags.help({char: 'h'}),
     organization: Flags.string({
       char: 'o',
       description: 'A single string containing the organization name',
@@ -33,8 +31,11 @@ export default class MkRepo extends Command {
       description: 'update metadata',
       required: true,
     }),
-    help: Flags.help({char: 'h'}),
   }
+
+  static strict = false
+
+  static usage='mk-repo -o ORG -r REPOS'
 
   async run(): Promise<void> {
     const {flags: {organization, repositories, updateMetadata}} = await this.parse(MkRepo)
@@ -44,7 +45,7 @@ export default class MkRepo extends Command {
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
       console.log('updating repo', repo)
-      await octoFactory.updateRepo({organization, repo, data})
+      await octoFactory.updateRepo({data, organization, repo})
       console.log('Repo updated with info', repo)
     }
   }

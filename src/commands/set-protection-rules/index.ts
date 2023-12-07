@@ -1,7 +1,8 @@
 import {Command, Flags} from '@oclif/core'
-import repositoryFactory from '../../repositories/repository-factory'
+
 import {normal, preProcessed, processed} from '../../helpers/logger'
 import {validateRepoNames} from '../../helpers/validations'
+import repositoryFactory from '../../repositories/repository-factory'
 
 export default class SetPRotectionRules extends Command {
   static description = 'Set Protected Branches and rules'
@@ -14,52 +15,52 @@ export default class SetPRotectionRules extends Command {
     `,
   ]
 
-  static usage='branch-protection-rules -r REPOS -n NAMES -x VALUES'
-
-  static strict = false
-
   static flags = {
+    branches: Flags.string({
+      char: 'b',
+      description: 'Can be multiples repositories branches',
+      multiple: true,
+      required: true,
+    }),
+    help: Flags.help({char: 'h'}),
     likes: Flags.string({
       char: 'l',
+      default: '2',
       description: 'Likes required in pr',
       required: true,
-      default: '2',
-    }),
-    repositories: Flags.string({
-      char: 'r',
-      description: 'Can be multiples repositories names',
-      required: true,
-      multiple: true,
     }),
     organization: Flags.string({
       char: 'o',
       description: 'A single string containing the organization name',
       required: true,
     }),
-    branches: Flags.string({
-      char: 'b',
-      description: 'Can be multiples repositories branches',
-      required: true,
-      multiple: true,
-    }),
     passingChecks: Flags.string({
       char: 'c',
       description: 'Can be multiples checks to pass to the pr',
-      required: false,
       multiple: true,
+      required: false,
     }),
-    help: Flags.help({char: 'h'}),
+    repositories: Flags.string({
+      char: 'r',
+      description: 'Can be multiples repositories names',
+      multiple: true,
+      required: true,
+    }),
   }
 
+  static strict = false
+
+  static usage='branch-protection-rules -r REPOS -n NAMES -x VALUES'
+
   async run(): Promise<void> {
-    const {flags: {repositories, branches, likes, organization, passingChecks}} = await this.parse(SetPRotectionRules)
+    const {flags: {branches, likes, organization, passingChecks, repositories}} = await this.parse(SetPRotectionRules)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
       console.log(normal(`Working in ${repo}`))
       for (const branch of branches) {
         console.log(preProcessed(`Protecting branch ${branch} in ${repo}`))
-        await octoFactory.protectBranch({owner: organization, repo, branch, countReviewers: Number(likes), passingChecks})
+        await octoFactory.protectBranch({branch, countReviewers: Number(likes), owner: organization, passingChecks, repo})
         console.log(processed(`Branch ${branch} protected in ${repo}`))
       }
     }

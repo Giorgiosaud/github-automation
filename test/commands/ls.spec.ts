@@ -1,47 +1,46 @@
-import {ux} from '@oclif/core'
-import Ls from '../../src/commands/ls'
+import { ux} from '@oclif/core'
+import {expect, test} from '@oclif/test'
+import {assert,stub} from 'sinon'
+
+import * as getGithubToken from '../../src/helpers/get-github-token'
 import * as octokitClient from '../../src/repositories/clients/octokit-client'
+const lsRes={
+  data: [
+    {
+      name: 'repo1',
+    },
+    {
+      name: 'repo2',
+    },
+  ],
+  headers: {
+    link: 'link',
+    },
+}
+const spyRequest = {
+  ...octokitClient.default,
+  request: stub().returns(Promise.resolve(lsRes)),
+};
+const spyStyledObject = stub(ux,'styledObject')
+describe('Testing LS function', () => {
 
-const spyOctokitClient = jest.spyOn(octokitClient, 'default')
-const reqFn = jest.fn()
-spyOctokitClient.mockResolvedValue({
-  request: reqFn,
-} as any)
-const spyUx = jest.spyOn(ux, 'styledObject')
-spyUx.mockImplementation(() => jest.fn())
-describe('ls command', () => {
-  afterEach(() => {
-    jest.clearAllMocks()
+  test.stdout()
+  .command(['ls'])
+  // .exit(0)
+  .catch(error => {
+    expect(error.message).to.contain('Missing 1 required arg')
+    expect(error.message).to.contain('owner')
   })
+  .it('fails without arguments')
+  
+  test
+  .stub(getGithubToken,'default',stub=>stub.returns('token'))
+  .stub(octokitClient,'default',stub=>stub.returns(Promise.resolve(spyRequest)))
+  .command(['ls', 'ORG'])
+  .it('test is executed correctly',()=>{
+    expect(spyRequest.request.calledOnce).to.be.true
+    assert.calledWith(spyRequest.request,'GET /orgs/{org}/repos', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, org: 'ORG', page: 1, per_page: 100})
+    assert.calledWith(spyStyledObject, {page: 'link', repositories: ['repo1', 'repo2']})
 
-  test('ls fails if no flags are set asking for repo', async () => {
-    await expect(Ls.run([])).rejects.toThrow()
-  })
-  test('ls works if only org is set', async () => {
-    const response = {
-      data: [
-
-        {
-          name: 'repo1',
-        },
-        {
-          name: 'repo2',
-        },
-      ],
-      headers: {
-        link: 'link',
-      },
-    }
-    // spyOctokitRepository.mockResolvedValue(response as listReposResponse)
-    const argv = ['ORG']
-
-    reqFn.mockResolvedValueOnce(response)
-    await expect(Ls.run(argv)).resolves.not.toThrow()
-    expect(spyUx).lastCalledWith({
-      repositories: response.data.map(repo => repo.name),
-      page: response.headers.link,
-    })
-    expect(reqFn).toHaveBeenCalledTimes(1)
-    expect(reqFn).toHaveBeenNthCalledWith(1, 'GET /orgs/{org}/repos', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, org: 'ORG', page: 1, per_page: 100})
   })
 })

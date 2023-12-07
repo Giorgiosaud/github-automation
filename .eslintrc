@@ -1,20 +1,11 @@
 {
   "extends": [
     "oclif",
-    "oclif-typescript"
+    "oclif-typescript",
+    "prettier"
   ],
   "rules": {
     "camelcase": "off",
     "no-await-in-loop":"off"
-  },
-  "overrides": [
-    {
-      "files": [
-      "**/__tests__/*.{j,t}s?(x)",
-      "**/tests/unit/**/*.spec.{j,t}s?(x)"
-      ],
-    "env": {
-      "jest": true
-    }}
-  ]
+  }
 }

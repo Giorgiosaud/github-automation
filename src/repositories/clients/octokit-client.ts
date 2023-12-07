@@ -1,4 +1,5 @@
 import {Octokit} from 'octokit'
+
 import getGithubToken from '../../helpers/get-github-token'
 type OctokitClient = {
   org: string;

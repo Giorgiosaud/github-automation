@@ -1,18 +1,11 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
     "declaration": true,
-    "importHelpers": true,
     "module": "commonjs",
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
-    "skipLibCheck": true,
-    "target": "es2021",
-    "noImplicitAny": true
-
+    "target": "es2022"
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }

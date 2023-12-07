@@ -1,7 +1,8 @@
 import {Command, Flags} from '@oclif/core'
+
+import {normal, preProcessed, processed} from '../../helpers/logger'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import {normal, preProcessed, processed} from '../../helpers/logger'
 
 export default class Userdel extends Command {
   static description = 'Add user to repos'
@@ -14,36 +15,36 @@ export default class Userdel extends Command {
     `,
   ]
 
-  static hidden: boolean=true
-
-  static usage=`
-  userdel -o OWNER -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
-  `
-
-  static strict = false
   static flags = {
-    repositories: Flags.string({
-      char: 'r',
-      description: 'Can be multiples repositories names',
-      required: true,
+    githubUsers: Flags.string({
+      char: 'u',
+      description: 'Can be multiples users',
       multiple: true,
+      required: true,
     }),
+    help: Flags.help({char: 'h'}),
     organization: Flags.string({
       char: 'o',
       description: 'A single string containing the organization name',
       required: true,
     }),
-    githubUsers: Flags.string({
-      char: 'u',
-      description: 'Can be multiples users',
-      required: true,
+    repositories: Flags.string({
+      char: 'r',
+      description: 'Can be multiples repositories names',
       multiple: true,
+      required: true,
     }),
-    help: Flags.help({char: 'h'}),
   }
 
+  static hidden: boolean=true
+
+  static strict = false
+  static usage=`
+  userdel -o OWNER -r GITHUBREPOS… -u GITHUBUSERS… -p [pull,push,admin,maintain,triage]
+  `
+
   async run(): Promise<void> {
-    const {flags: {repositories, organization, githubUsers}} = await this.parse(Userdel)
+    const {flags: {githubUsers, organization, repositories}} = await this.parse(Userdel)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
 

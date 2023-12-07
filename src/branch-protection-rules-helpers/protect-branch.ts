@@ -1,42 +1,42 @@
 import axios, {AxiosResponse} from 'axios'
 
 interface StatusChecks{
-  context:string;
   app_id?: string;
+  context:string;
 }
 interface PermissionsBody {
-  required_status_checks: null | {
-    strict:boolean;
-    checks:StatusChecks[]
-  };
+  allow_deletions:boolean;
+  allow_force_pushes:boolean|null;
+  block_creations:boolean;
   enforce_admins: boolean|null;
+  required_conversation_resolution:boolean;
+  required_linear_history:boolean;
   required_pull_request_reviews?:{
-    dismissal_restrictions:{
-      users?: string[];
-      teams?: string[];
+    bypass_pull_request_allowances:{
       apps?: string[];
-    };
+      teams?: string[];
+      users?: string[];
+    }
     dismiss_stale_reviews:boolean;
 
+    dismissal_restrictions:{
+      apps?: string[];
+      teams?: string[];
+      users?: string[];
+    };
     require_code_owner_reviews:boolean;
     required_approving_review_count:number;
-    bypass_pull_request_allowances:{
-      users?: string[];
-      teams?: string[];
-      apps?: string[];
-    }
 
   }
-  restrictions:null|{
-    users?: string[];
-    teams?: string[];
+  required_status_checks: {
+    checks:StatusChecks[]
+    strict:boolean;
+  } | null;
+  restrictions:{
     apps?: string[];
-  }
-  required_linear_history:boolean;
-  allow_force_pushes:null|boolean;
-  allow_deletions:boolean;
-  block_creations:boolean;
-  required_conversation_resolution:boolean;
+    teams?: string[];
+    users?: string[];
+  }|null
 }
 const protectBranch = (token:string, organization:string, repo:string, branch:string):Promise<AxiosResponse> => {
   const config = {
@@ -47,25 +47,25 @@ const protectBranch = (token:string, organization:string, repo:string, branch:st
   }
   const url = `https://api.github.com//repos/${organization}/${repo}/branches/${branch}/protection`
   const bodyBase:PermissionsBody = {
-    required_status_checks: {
-      strict: true,
-      checks: [],
-    },
+    allow_deletions: false,
+    allow_force_pushes: null,
+    block_creations: false,
     enforce_admins: null,
+    required_conversation_resolution: true,
+    required_linear_history: false,
     required_pull_request_reviews: {
-      required_approving_review_count: 1,
-      dismissal_restrictions: {},
-      dismiss_stale_reviews: false,
-      require_code_owner_reviews: false,
       bypass_pull_request_allowances: {},
+      dismiss_stale_reviews: false,
+      dismissal_restrictions: {},
+      require_code_owner_reviews: false,
+      required_approving_review_count: 1,
 
     },
+    required_status_checks: {
+      checks: [],
+      strict: true,
+    },
     restrictions: null,
-    required_linear_history: false,
-    allow_force_pushes: null,
-    allow_deletions: false,
-    block_creations: false,
-    required_conversation_resolution: true,
   }
   return axios.put(url, bodyBase, config)
 }

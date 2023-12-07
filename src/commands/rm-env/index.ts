@@ -1,6 +1,7 @@
 import {Command, Flags} from '@oclif/core'
-import {validateRepoNames} from '../../helpers/validations'
+
 import {info} from '../../helpers/logger'
+import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
 export default class RmEnv extends Command {
   static description = 'Remove environments if exist'
@@ -13,34 +14,34 @@ export default class RmEnv extends Command {
     `,
   ]
 
-  static usage='remove-environment -r REPOS -n NAMES -x VALUES'
-
-  static strict = false
-
   static flags = {
+    environments: Flags.string({
+      char: 'e',
+      description: 'If is set the env should be activated in the specified environment and create it if not exist',
+      multiple: true,
+      required: true,
+    }),
+    help: Flags.help({char: 'h'}),
     organization: Flags.string({
       char: 'o',
       description: 'A single string containing the organization name',
       required: true,
     }),
+
     repositories: Flags.string({
       char: 'r',
       description: 'Can be multiples repositories names',
-      required: true,
       multiple: true,
-    }),
-    environments: Flags.string({
-      char: 'e',
-      description: 'If is set the env should be activated in the specified environment and create it if not exist',
       required: true,
-      multiple: true,
     }),
-
-    help: Flags.help({char: 'h'}),
   }
 
+  static strict = false
+
+  static usage='remove-environment -r REPOS -n NAMES -x VALUES'
+
   async run(): Promise<void> {
-    const {flags: {organization, repositories, environments}} = await this.parse(RmEnv)
+    const {flags: {environments, organization, repositories}} = await this.parse(RmEnv)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
@@ -50,7 +51,7 @@ export default class RmEnv extends Command {
       console.log(info(`Environments to remove ${envsToRemove} in ${repo} inside ${organization}`))
       for (const env of envsToRemove) {
         console.log(info(`Remocing environment ${env} in ${repo} inside ${organization}`))
-        await octoFactory.removeEnvironment({owner: organization, repo, environment_name: env})
+        await octoFactory.removeEnvironment({environment_name: env, owner: organization, repo})
         console.log(info(`Environment ${env} removed in ${repo} inside ${organization}`))
       }
     }

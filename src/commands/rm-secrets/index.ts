@@ -1,8 +1,9 @@
 import {Command} from '@oclif/core'
+
 import {normal, preProcessed, processed} from '../../helpers/logger'
+import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags'
 
 export default class RmSecret extends Command {
   static description = 'Rempve Secrets'
@@ -15,21 +16,21 @@ export default class RmSecret extends Command {
     `,
   ]
 
-  static usage='set-secret -r REPOS -n NAMES -x VALUES'
+  static flags = RmSecretFlags
 
   static strict = false
 
-  static flags = RmSecretFlags
+  static usage='set-secret -r REPOS -n NAMES -x VALUES'
 
   async run(): Promise<void> {
-    const {flags: {organization, repositories, secrets, environment}} = await this.parse(RmSecret)
+    const {flags: {environment, organization, repositories, secrets}} = await this.parse(RmSecret)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
       console.log(normal(`Removing secrets in org: ${organization} in repo: ${repo}`))
       for (const secret of secrets) {
         console.log(preProcessed(`Removing secret ${secret} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
-        await octoFactory.removeSecret({owner: organization, repo, secret_name: secret, environment})
+        await octoFactory.removeSecret({environment, owner: organization, repo, secret_name: secret})
         console.log(processed(`Updated secret ${secret}  in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
       }
     }

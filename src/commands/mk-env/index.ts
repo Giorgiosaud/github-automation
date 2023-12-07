@@ -1,7 +1,8 @@
 import {Command, Flags} from '@oclif/core'
+
+import {normal, preProcessed, processed} from '../../helpers/logger'
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
-import {normal, preProcessed, processed} from '../../helpers/logger'
 export default class MkEnv extends Command {
   static description = 'Create environments if not exist'
 
@@ -13,36 +14,38 @@ export default class MkEnv extends Command {
     `,
   ]
 
-  static usage='mk-env -r REPOS -n NAMES -x VALUES'
-
-  static strict = false
-
   static flags = {
+    environments: Flags.string({
+      char: 'e',
+      description: 'If is set the env should be activated in the specified environment and create it if not exist',
+      multiple: true,
+      required: true,
+    }),
+    help: Flags.help({char: 'h'}),
     organization: Flags.string({
       char: 'o',
       description: 'A single string containing the organization name',
       required: true,
     }),
+
     repositories: Flags.string({
       char: 'r',
       description: 'Can be multiples repositories names',
-      required: true,
       multiple: true,
-    }),
-    environments: Flags.string({
-      char: 'e',
-      description: 'If is set the env should be activated in the specified environment and create it if not exist',
       required: true,
-      multiple: true,
     }),
-
-    help: Flags.help({char: 'h'}),
   }
 
+  static strict = false
+
+  static usage='mk-env -r REPOS -n NAMES -x VALUES'
+
   async run(): Promise<void> {
-    const {flags: {organization, repositories, environments}} = await this.parse(MkEnv)
+    const {flags: {environments, organization, repositories}} = await this.parse(MkEnv)
+    console.log(environments, organization, repositories)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
+    console.log('asdasdasd')
     for (const repo of repositories) {
       console.log(normal(`Listing  environments ${environments} in ${repo}`))
       const {data: {environments: existentEnvironments}} = await octoFactory.getEnvironments({organization, repository: repo})
@@ -50,7 +53,7 @@ export default class MkEnv extends Command {
       console.log(preProcessed(`Environments to create ${envsToCreate} in ${repo} inside ${organization}`))
       for (const env of envsToCreate) {
         console.log(preProcessed(`Creating environment ${env} in ${repo} inside ${organization}`))
-        await octoFactory.defineEnvironment({owner: organization, repo, environment_name: env})
+        await octoFactory.defineEnvironment({environment_name: env, owner: organization, repo})
         console.log(processed(`Environment ${env} created in ${repo} inside ${organization}`))
       }
     }

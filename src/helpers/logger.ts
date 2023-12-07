@@ -7,10 +7,10 @@ export const warning = (message: string): string => colors(message).bgYellow.red
 export const normal = (message: string): string => colors(message).bgBlack.white.toString()
 export const error = (message: string): string => colors(message).bgRed.yellow.toString()
 export default {
+  error,
   info,
+  normal,
   preProcessed,
   processed,
   warning,
-  normal,
-  error,
 }

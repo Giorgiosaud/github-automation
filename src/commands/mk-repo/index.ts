@@ -1,4 +1,5 @@
 import {Command, Flags} from '@oclif/core'
+
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
 export default class MkRepo extends Command {
@@ -12,44 +13,44 @@ export default class MkRepo extends Command {
     `,
   ]
 
-  static usage='mk-repo -o ORG -r REPOS'
-
-  static strict = false
-
   static flags = {
+    allBranches: Flags.boolean({
+      char: 'b',
+      default: true,
+      description: 'include All Branches',
+    }),
+    help: Flags.help({char: 'h'}),
     organization: Flags.string({
       char: 'o',
       description: 'A single string containing the organization name',
       required: true,
     }),
+    repositories: Flags.string({
+      char: 'r',
+      description: 'Can be multiples repositories names',
+      multiple: true,
+      required: true,
+    }),
+
     template: Flags.string({
       char: 't',
       description: 'a template name',
       required: false,
     }),
-    allBranches: Flags.boolean({
-      char: 'b',
-      description: 'include All Branches',
-      default: true,
-    }),
-    repositories: Flags.string({
-      char: 'r',
-      description: 'Can be multiples repositories names',
-      required: true,
-      multiple: true,
-    }),
-
-    help: Flags.help({char: 'h'}),
   }
 
+  static strict = false
+
+  static usage='mk-repo -o ORG -r REPOS'
+
   async run(): Promise<void> {
-    const {flags: {organization, repositories, template, allBranches}} = await this.parse(MkRepo)
+    const {flags: {allBranches, organization, repositories, template}} = await this.parse(MkRepo)
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
       console.log('Creating repo', repo)
       if (template) {
-        await octoFactory.createRepoFromTemplate({organization, repo, template, allBranches})
+        await octoFactory.createRepoFromTemplate({allBranches, organization, repo, template})
         console.log('Repo created from template', repo)
         continue
       }

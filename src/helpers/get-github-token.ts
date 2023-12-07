@@ -1,16 +1,23 @@
+import {existsSync, writeFileSync} from 'node:fs'
 import {homedir} from 'node:os'
-import {readEnv, buildEnvContent} from './file-system'
-import {writeFileSync, existsSync} from 'node:fs'
 import {resolve} from 'node:path'
-import {promptToken} from './prompt-token'
+
 import {rcPath} from './config'
+import {buildEnvContent, readEnv} from './file-system'
+import {promptToken} from './prompt-token'
+type ORG={
+  GITHUB_TOKEN:string
+}
+type Orgs={
+  [key:string]:ORG
+}
 
 export default async (org: string): Promise<string> => {
   const rcRealPath = resolve(homedir(), rcPath)
   const SETTINGS_FILE_EXIST = existsSync(rcRealPath)
   let SETTINGS
   if (SETTINGS_FILE_EXIST) {
-    SETTINGS = readEnv(rcRealPath)
+    SETTINGS = readEnv<[Orgs]>(rcRealPath)
     if (!SETTINGS[0][org]) {
       const token = await promptToken({org})
 
@@ -21,7 +28,7 @@ export default async (org: string): Promise<string> => {
         }}
       buildEnvContent(rcRealPath, data)
 
-      SETTINGS = readEnv(rcRealPath)
+      SETTINGS = readEnv<[Orgs]>(rcRealPath)
     }
   } else {
     writeFileSync(rcRealPath, 'utf8')
@@ -32,7 +39,7 @@ export default async (org: string): Promise<string> => {
       }}
     buildEnvContent(rcRealPath, data)
 
-    SETTINGS = readEnv(rcRealPath)
+    SETTINGS = readEnv<[Orgs]>(rcRealPath)
   }
 
   const auth = SETTINGS[0][org].GITHUB_TOKEN

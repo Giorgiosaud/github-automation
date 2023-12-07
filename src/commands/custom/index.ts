@@ -1,4 +1,5 @@
 import {Command, Flags} from '@oclif/core'
+
 import SetVars from '../set-vars'
 
 export default class Custom extends Command {
@@ -10,26 +11,26 @@ export default class Custom extends Command {
     `,
   ]
 
-  static usage='custom XXXXXX'
-
-  static strict = false
-  static hidden = true;
   static flags = {
+    owner: Flags.string({
+      char: 'o',
+      description: 'owner',
+      required: true,
+    }),
     repos: Flags.string({
       char: 'r',
       description: 'repositories names',
       multiple: true,
       required: true,
     }),
-    owner: Flags.string({
-      char: 'o',
-      required: true,
-      description: 'owner',
-    }),
   }
 
+  static hidden = true;
+  static strict = false
+  static usage='custom XXXXXX'
+
   async run(): Promise<void> {
-    const {flags: {repos, owner}} = await this.parse(Custom)
+    const {flags: {owner, repos}} = await this.parse(Custom)
     for (const repo of repos) {
       SetVars.run(['-o', owner, '-r', repo, '-s', `WIDGET_NAME:${repo.replace('cfg-co', 'cfg')}`])
     }

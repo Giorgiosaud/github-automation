@@ -1,4 +1,5 @@
 import {Command, Flags} from '@oclif/core'
+
 import {validateRepoNames} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
 export default class RmRepo extends Command {
@@ -12,25 +13,25 @@ export default class RmRepo extends Command {
     `,
   ]
 
-  static usage='rm-repo -o ORG -r REPOS'
-
-  static strict = false
-
   static flags = {
+    help: Flags.help({char: 'h'}),
     organization: Flags.string({
       char: 'o',
       description: 'A single string containing the organization name',
       required: true,
     }),
+
     repositories: Flags.string({
       char: 'r',
       description: 'Can be multiples repositories names',
-      required: true,
       multiple: true,
+      required: true,
     }),
-
-    help: Flags.help({char: 'h'}),
   }
+
+  static strict = false
+
+  static usage='rm-repo -o ORG -r REPOS'
 
   async run(): Promise<void> {
     const {flags: {organization, repositories}} = await this.parse(RmRepo)
