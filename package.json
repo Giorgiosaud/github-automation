@@ -6,6 +6,7 @@
   "bin": {
     "github-automation": "bin/run"
   },
+  "engineStrict": true,
   "homepage": "https://github.com/Giorgiosaud/github-automation",
   "license": "MIT",
   "main": "dist/index.js",
@@ -108,7 +109,7 @@
     "version": "oclif readme && git add README.md"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "bugs": "https://github.com/Giorgiosaud/github-automation/issues",
   "keywords": [
