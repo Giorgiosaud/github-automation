@@ -1,5 +1,5 @@
-import ReplaceInFiles from '../../src/commands/replace-in-files'
-import * as octokitClient from '../../src/repositories/clients/octokit-client'
+import ReplaceInFiles from '../../../src/commands/replace-in-files'
+import * as octokitClient from '../../../src/repositories/clients/octokit-client'
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
 
 const reqFn = jest.fn()

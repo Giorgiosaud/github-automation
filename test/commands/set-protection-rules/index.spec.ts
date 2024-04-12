@@ -1,5 +1,5 @@
-import SetProtectionRules from '../../src/commands/set-protection-rules'
-import * as octokitClient from '../../src/repositories/clients/octokit-client'
+import SetProtectionRules from '../../../src/commands/set-protection-rules'
+import * as octokitClient from '../../../src/repositories/clients/octokit-client'
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
 
 const reqFn = jest.fn()

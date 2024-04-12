@@ -1,5 +1,5 @@
-import RmSecrets from '../../src/commands/rm-secrets'
-import * as octokitClient from '../../src/repositories/clients/octokit-client'
+import RmSecrets from '../../../src/commands/rm-secrets'
+import * as octokitClient from '../../../src/repositories/clients/octokit-client'
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
 
 const reqFn = jest.fn()

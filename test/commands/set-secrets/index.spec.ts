@@ -1,6 +1,6 @@
-import SetSecrets from '../../src/commands/set-secrets'
-import * as octokitClient from '../../src/repositories/clients/octokit-client'
-import * as encryptSecret from '../../src/set-secret-helpers/encrypt-secret'
+import SetSecrets from '../../../src/commands/set-secrets'
+import * as octokitClient from '../../../src/repositories/clients/octokit-client'
+import * as encryptSecret from '../../../src/set-secret-helpers/encrypt-secret'
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
 
 const reqFn = jest.fn()
