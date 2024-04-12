@@ -1,6 +1,6 @@
-import SetVars from '../../src/commands/set-vars'
-import * as octokitClient from '../../src/repositories/clients/octokit-client'
-import * as encryptSecret from '../../src/set-secret-helpers/encrypt-secret'
+import SetVars from '../../../src/commands/set-vars'
+import * as octokitClient from '../../../src/repositories/clients/octokit-client'
+import * as encryptSecret from '../../../src/set-secret-helpers/encrypt-secret'
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
 
 const reqFn = jest.fn()
@@ -65,15 +65,10 @@ describe('set-vars command', () => {
           },
         ],
       }} as any
-    const repoData = {data: {default_branch: 'master', id: 1}} as any
     reqFn.mockImplementation(path => {
       switch (path) {
       case 'GET /repos/{owner}/{repo}/environments': {
         return Promise.resolve(envsData)
-      }
-
-      case 'GET /repos/{owner}/{repo}': {
-        return Promise.resolve(repoData)
       }
 
       default: {
@@ -82,11 +77,9 @@ describe('set-vars command', () => {
       }
     })
     await SetVars.run(['-o', 'org', '-r', 'repo', '-v', 'variable->123', '-e', 'env'])
-    expect(reqFn).toHaveBeenCalledTimes(5)
+    expect(reqFn).toHaveBeenCalledTimes(3)
     expect(reqFn).toHaveBeenNthCalledWith(1,  'GET /repos/{owner}/{repo}/environments', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo'})
-    expect(reqFn).toHaveBeenNthCalledWith(2,  'GET /repos/{owner}/{repo}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo'})
-    expect(reqFn).toHaveBeenNthCalledWith(3,  'GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, environment_name: 'env', name: 'variable', repository_id: repoData.data.id})
-    expect(reqFn).toHaveBeenNthCalledWith(4,  'GET /repos/{owner}/{repo}', {headers: {'X-GitHub-Api-Version': '2022-11-28'}, owner: 'org', repo: 'repo'})
-    expect(reqFn).toHaveBeenNthCalledWith(5,  'PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {environment_name: 'env', headers: {'X-GitHub-Api-Version': '2022-11-28'}, name: 'variable', repository_id: repoData.data.id, value: '123'})
+    expect(reqFn).toHaveBeenNthCalledWith(2,  'GET /repos/{owner}/{repo}/environments/{environment_name}/variables/{name}', {environment_name: 'env', headers: {'X-GitHub-Api-Version': '2022-11-28'}, name: 'variable', owner: 'org',repo:'repo'})
+    expect(reqFn).toHaveBeenNthCalledWith(3,  'PATCH /repos/{owner}/{repo}/environments/{environment_name}/variables/{name}', {environment_name: 'env', headers: {'X-GitHub-Api-Version': '2022-11-28'}, name: 'variable', owner: 'org',repo:'repo',value:'123'})
   })
 })

@@ -1,6 +1,6 @@
 import {ux} from '@oclif/core'
-import Ls from '../../src/commands/ls'
-import * as octokitClient from '../../src/repositories/clients/octokit-client'
+import Ls from '../../../src/commands/ls'
+import * as octokitClient from '../../../src/repositories/clients/octokit-client'
 
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
 const reqFn = jest.fn()

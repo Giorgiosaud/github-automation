@@ -1,5 +1,5 @@
-import RmEnv from '../../src/commands/rm-env'
-import * as octokitClient from '../../src/repositories/clients/octokit-client'
+import RmEnv from '../../../src/commands/rm-env'
+import * as octokitClient from '../../../src/repositories/clients/octokit-client'
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
 
 const reqFn = jest.fn()

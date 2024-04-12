@@ -13,3 +13,4 @@ jobs:
     uses: Giorgiosaud/centralized-workflows/.github/workflows/lint-and-test.yml@main
     with:
       lint-css: false
+      node-version: 20.x

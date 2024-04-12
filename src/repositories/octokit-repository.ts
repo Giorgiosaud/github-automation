@@ -6,9 +6,6 @@ import octokitClient from './clients/octokit-client'
 export type listReposResponse = Endpoints['GET /orgs/{org}/repos']['response'];
 export type getEnvironmentsResponse = Endpoints['GET /repos/{owner}/{repo}/environments']['response'];
 export type setEnvironmentResponse = Endpoints['PUT /repos/{owner}/{repo}/environments/{environment_name}']['response'];
-export type postVariableResponse = Endpoints['POST /repositories/{repository_id}/environments/{environment_name}/variables']['response'];
-export type patchVariableResponse = Endpoints['PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
-export type getVariableResponse = Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
 export type postGlobalVariableResponse = Endpoints['POST /repos/{owner}/{repo}/actions/variables']['response'];
 export type patchGlobalVariableResponse = Endpoints['PATCH /repos/{owner}/{repo}/actions/variables/{name}']['response'];
 export type getGlobalVariableResponse = Endpoints['GET /repos/{owner}/{repo}/actions/variables/{name}']['response'];
@@ -23,9 +20,6 @@ export type addTeamResponse=Endpoints['PUT /orgs/{org}/teams/{team_slug}/repos/{
 export type delTeamParams=Endpoints['DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['parameters'];
 export type delTeamResponse=Endpoints['DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['response'];
 export type removeEnvironmentResponse=Endpoints['DELETE /repos/{owner}/{repo}/environments/{environment_name}']['response'];
-export type getPublicKeyResponse=Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key']['response'];
-export type updateSecretResponse=Endpoints['PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
-export type removeSecretResponse=Endpoints['DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
 export type renameBranchResponse=Endpoints['POST /repos/{owner}/{repo}/branches/{branch}/rename']['response'];
 export type getBranchResponse=Endpoints['GET /repos/{owner}/{repo}/branches/{branch}']['response'];
 export type readFile=Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response'];
@@ -34,6 +28,12 @@ export type createRepoResponse=Endpoints['POST /orgs/{org}/repos']['response'];
 export type createRepoFromTemplateResponse=Endpoints['POST /repos/{template_owner}/{template_repo}/generate']['response'];
 export type DeleteRepoResponse=Endpoints['DELETE /repos/{owner}/{repo}']['response'];
 export type UpdateReposResponse=Endpoints['PATCH /repos/{owner}/{repo}']['response'];
+export type getPublicKeyResponse=Endpoints['GET /repos/{owner}/{repo}/environments/{environment_name}/secrets/public-key']['response'];
+export type updateSecretResponse=Endpoints['PUT /repos/{owner}/{repo}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
+export type removeSecretResponse=Endpoints['DELETE /repos/{owner}/{repo}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
+export type postVariableResponse = Endpoints['POST /repos/{owner}/{repo}/environments/{environment_name}/variables']['response'];
+export type patchVariableResponse = Endpoints['PATCH /repos/{owner}/{repo}/environments/{environment_name}/variables/{name}']['response'];
+export type getVariableResponse = Endpoints['GET /repos/{owner}/{repo}/environments/{environment_name}/variables/{name}']['response'];
 export interface UpdateReposBody{
   name?: string,
   description?: string,
@@ -119,9 +119,9 @@ export default {
   },
   async setEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<postVariableResponse> {
     const octokit = await octokitClient({org: owner})
-    const repository_id = await this.getRepositoryId({owner, repo})
-    return octokit.request('POST /repositories/{repository_id}/environments/{environment_name}/variables', {
-      repository_id,
+    return octokit.request('POST /repos/{owner}/{repo}/environments/{environment_name}/variables', {
+      repo,
+      owner,
       environment_name,
       name,
       value,
@@ -132,9 +132,10 @@ export default {
   },
   async patchEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<patchVariableResponse> {
     const octokit = await octokitClient({org: owner})
-    const repository_id = await this.getRepositoryId({owner, repo})
-    return octokit.request('PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {
-      repository_id,
+    
+    return octokit.request('PATCH /repos/{owner}/{repo}/environments/{environment_name}/variables/{name}', {
+      repo,
+      owner,
       name,
       environment_name,
       value,
@@ -145,9 +146,10 @@ export default {
   },
   async getEnvironmentVariable({owner, repo, name, environment_name}:{owner:string, repo:string, name:string, environment_name:string}):Promise<getVariableResponse> {
     const octokit = await octokitClient({org: owner})
-    const repository_id = await this.getRepositoryId({owner, repo})
-    return octokit.request('GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {
-      repository_id,
+    
+    return octokit.request('GET /repos/{owner}/{repo}/environments/{environment_name}/variables/{name}', {
+      repo,
+      owner,
       environment_name,
       name,
       headers: {
@@ -190,17 +192,7 @@ export default {
       },
     })
   },
-  async getRepositoryId({owner, repo}:{owner:string, repo:string}):Promise<number> {
-    const octokit = await octokitClient({org: owner})
-    const repoResponse = await octokit.request('GET /repos/{owner}/{repo}', {
-      owner,
-      repo,
-      headers: {
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-    }) as getRepositoryId
-    return repoResponse.data.id
-  },
+
   async listRepositories({org, page}:{org:string, page:number}):Promise<listReposResponse> {
     const octokit = await octokitClient({org})
     return octokit.request('GET /orgs/{org}/repos', {
@@ -331,9 +323,9 @@ export default {
         }
       }
 
-      const repoId = await this.getRepositoryId({owner, repo})
-      return octokit.request('GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key', {
-        repository_id: repoId,
+      return octokit.request('GET /repos/{owner}/{repo}/environments/{environment_name}/secrets/public-key', {
+        repo,
+        owner,
         environment_name: environment,
         headers: {
           'X-GitHub-Api-Version': '2022-11-28',
@@ -353,9 +345,9 @@ export default {
     const octokit = await octokitClient({org: owner})
     let params
     if (environment) {
-      const repoId = await this.getRepositoryId({owner, repo})
       params = {
-        repository_id: repoId,
+        repo,
+        owner,
         environment_name: environment,
         secret_name,
         encrypted_value,
@@ -364,7 +356,7 @@ export default {
           'X-GitHub-Api-Version': '2022-11-28',
         },
       }
-      return octokit.request('PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}', params)
+      return octokit.request('PUT /repos/{owner}/{repo}/environments/{environment_name}/secrets/{secret_name}', params)
     }
 
     params = {
@@ -383,16 +375,16 @@ export default {
     const octokit = await octokitClient({org: owner})
     let params
     if (environment) {
-      const repoId = await this.getRepositoryId({owner, repo})
       params = {
-        repository_id: repoId,
+        repo,
+        owner,
         environment_name: environment,
         secret_name,
         headers: {
           'X-GitHub-Api-Version': '2022-11-28',
         },
       }
-      return octokit.request('DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}',
+      return octokit.request('DELETE /repos/{owner}/{repo}/environments/{environment_name}/secrets/{secret_name}',
         params)
     }
 

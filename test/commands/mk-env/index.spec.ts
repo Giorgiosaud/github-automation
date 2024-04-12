@@ -1,5 +1,5 @@
-import MkEnv from '../../src/commands/mk-env'
-import * as octokitClient from '../../src/repositories/clients/octokit-client'
+import MkEnv from '../../../src/commands/mk-env'
+import * as octokitClient from '../../../src/repositories/clients/octokit-client'
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
 
 const reqFn = jest.fn()

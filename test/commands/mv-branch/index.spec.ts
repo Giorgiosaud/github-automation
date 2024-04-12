@@ -1,5 +1,5 @@
-import MvBranch from '../../src/commands/mv-branch'
-import * as octokitClient from '../../src/repositories/clients/octokit-client'
+import MvBranch from '../../../src/commands/mv-branch'
+import * as octokitClient from '../../../src/repositories/clients/octokit-client'
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
 
 const reqFn = jest.fn()
