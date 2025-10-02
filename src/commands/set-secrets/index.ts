@@ -4,6 +4,7 @@ import {validateRepoNames, validateSecrets} from '../../helpers/validations'
 import repositoryFactory from '../../repositories/repository-factory'
 import encryptSecret from '../../set-secret-helpers/encrypt-secret'
 import SecretFlags from '../../helpers/flags/secret-flags'
+import { Endpoints } from '@octokit/types'
 
 export default class SetSecret extends Command {
   static description = 'Set Secrets in repo from org'
@@ -35,7 +36,7 @@ export default class SetSecret extends Command {
       for (const secret of secrets) {
         const [name, value] = secret.split('->')
         console.log(preProcessed(`Generating Key for secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
-        const {data: publicKey} = await octoFactory.getPublicKey({owner: organization, repo, environment, forced})
+        const {data: publicKey} = await octoFactory.getPublicKey({owner: organization, repo, environment, forced}) as Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key']['response']
         console.log(preProcessed(`Encrypting secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
         const encryptedValue = await encryptSecret({value, publicKey})
         console.log(preProcessed(`Updating secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))

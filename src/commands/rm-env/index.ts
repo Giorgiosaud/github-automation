@@ -2,6 +2,7 @@ import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations'
 import {info} from '../../helpers/logger'
 import repositoryFactory from '../../repositories/repository-factory'
+import { Endpoints } from '@octokit/types'
 export default class RmEnv extends Command {
   static description = 'Remove environments if exist'
 
@@ -45,7 +46,7 @@ export default class RmEnv extends Command {
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
       console.log(info(`Listing  environments ${environments} in ${repo}`))
-      const {data: {environments: existentEnvironments}} = await octoFactory.getEnvironments({organization, repository: repo})
+      const {data: {environments: existentEnvironments}} = await octoFactory.getEnvironments({organization, repository: repo}) as Endpoints['GET /repos/{owner}/{repo}/environments']['response']
       const envsToRemove = existentEnvironments?.filter(env => environments.includes(env.name)).map(env => env.name) || []
       console.log(info(`Environments to remove ${envsToRemove} in ${repo} inside ${organization}`))
       for (const env of envsToRemove) {

@@ -71,7 +71,7 @@ export interface UpdateReposBody{
 
 }}
 export default {
-  async updateRepo({organization, repo, data}:{organization: string, repo: string, data:UpdateReposBody}):Promise<UpdateReposResponse> {
+  async updateRepo({organization, repo, data}:{organization: string, repo: string, data:UpdateReposBody}):Promise<unknown> {
     const octokit = await octokitClient({org: organization})
     return octokit.request('PATCH /repos/{owner}/{repo}', {
       owner: organization,
@@ -82,7 +82,7 @@ export default {
       ...data,
     })
   },
-  async createRepoFromTemplate({organization, repo, template, allBranches}:{organization: string, repo: string, template:string, allBranches?:boolean}):Promise<createRepoResponse> {
+  async createRepoFromTemplate({organization, repo, template, allBranches}:{organization: string, repo: string, template:string, allBranches?:boolean}):Promise<unknown> {
     const octokit = await octokitClient({org: organization})
     return octokit.request('POST /repos/{template_owner}/{template_repo}/generate', {
       template_owner: organization,
@@ -95,8 +95,9 @@ export default {
         'X-GitHub-Api-Version': '2022-11-28',
       },
     })
+    // 
   },
-  async createRepo({organization, repo}:{organization: string, repo: string}):Promise<createRepoResponse> {
+  async createRepo({organization, repo}:{organization: string, repo: string}):Promise<unknown> {
     const octokit = await octokitClient({org: organization})
     return octokit.request('POST /orgs/{org}/repos', {
       org: organization,
@@ -107,7 +108,7 @@ export default {
       },
     })
   },
-  async deleteRepo({organization, repo}:{organization: string, repo: string}):Promise<DeleteRepoResponse> {
+  async deleteRepo({organization, repo}:{organization: string, repo: string}):Promise<unknown> {
     const octokit = await octokitClient({org: organization})
     return octokit.request('DELETE /repos/{owner}/{repo}', {
       owner: organization,
@@ -117,7 +118,7 @@ export default {
       },
     })
   },
-  async setEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<postVariableResponse> {
+  async setEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     const repository_id = await this.getRepositoryId({owner, repo})
     return octokit.request('POST /repositories/{repository_id}/environments/{environment_name}/variables', {
@@ -130,7 +131,7 @@ export default {
       },
     })
   },
-  async patchEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<patchVariableResponse> {
+  async patchEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     const repository_id = await this.getRepositoryId({owner, repo})
     return octokit.request('PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {
@@ -143,7 +144,7 @@ export default {
       },
     })
   },
-  async getEnvironmentVariable({owner, repo, name, environment_name}:{owner:string, repo:string, name:string, environment_name:string}):Promise<getVariableResponse> {
+  async getEnvironmentVariable({owner, repo, name, environment_name}:{owner:string, repo:string, name:string, environment_name:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     const repository_id = await this.getRepositoryId({owner, repo})
     return octokit.request('GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {
@@ -155,7 +156,7 @@ export default {
       },
     })
   },
-  async getGlobalVariable({owner, repo, name}:{owner:string, repo:string, name:string}):Promise<getGlobalVariableResponse> {
+  async getGlobalVariable({owner, repo, name}:{owner:string, repo:string, name:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     return octokit.request('GET /repos/{owner}/{repo}/actions/variables/{name}', {
       repo,
@@ -166,7 +167,7 @@ export default {
       },
     })
   },
-  async patchGlobalVariable({owner, repo, name, value}:{owner:string, repo:string, name:string, value:string}):Promise<patchGlobalVariableResponse> {
+  async patchGlobalVariable({owner, repo, name, value}:{owner:string, repo:string, name:string, value:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     return octokit.request('PATCH /repos/{owner}/{repo}/actions/variables/{name}', {
       repo,
@@ -178,7 +179,7 @@ export default {
       },
     })
   },
-  async setGlobalVariable({owner, repo, name, value}:{owner:string, repo:string, name:string, value:string}):Promise<postGlobalVariableResponse> {
+  async setGlobalVariable({owner, repo, name, value}:{owner:string, repo:string, name:string, value:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     return octokit.request('POST /repos/{owner}/{repo}/actions/variables', {
       repo,
@@ -190,7 +191,7 @@ export default {
       },
     })
   },
-  async getRepositoryId({owner, repo}:{owner:string, repo:string}):Promise<number> {
+  async getRepositoryId({owner, repo}:{owner:string, repo:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     const repoResponse = await octokit.request('GET /repos/{owner}/{repo}', {
       owner,
@@ -201,7 +202,7 @@ export default {
     }) as getRepositoryId
     return repoResponse.data.id
   },
-  async listRepositories({org, page}:{org:string, page:number}):Promise<listReposResponse> {
+  async listRepositories({org, page}:{org:string, page:number}):Promise<unknown> {
     const octokit = await octokitClient({org})
     return octokit.request('GET /orgs/{org}/repos', {
       org,
@@ -212,7 +213,7 @@ export default {
       },
     })
   },
-  async getEnvironments({organization, repository}:{organization: string, repository: string}):Promise<getEnvironmentsResponse> {
+  async getEnvironments({organization, repository}:{organization: string, repository: string}):Promise<unknown> {
     const octokit = await octokitClient({org: organization})
 
     return octokit.request('GET /repos/{owner}/{repo}/environments', {
@@ -223,7 +224,7 @@ export default {
       },
     })
   },
-  async defineEnvironment({owner, repo, environment_name}:{owner:string, repo:string, environment_name:string}):Promise<setEnvironmentResponse> {
+  async defineEnvironment({owner, repo, environment_name}:{owner:string, repo:string, environment_name:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     return octokit.request('PUT /repos/{owner}/{repo}/environments/{environment_name}', {
       owner,
@@ -234,7 +235,7 @@ export default {
       },
     })
   },
-  async removeEnvironment({owner, repo, environment_name}:{owner:string, repo:string, environment_name:string}):Promise<removeEnvironmentResponse> {
+  async removeEnvironment({owner, repo, environment_name}:{owner:string, repo:string, environment_name:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     return octokit.request('DELETE /repos/{owner}/{repo}/environments/{environment_name}', {
       owner,
@@ -246,7 +247,7 @@ export default {
     })
   },
   async protectBranch({owner, repo, branch, countReviewers, passingChecks}:{owner:string, repo:string, branch:string, countReviewers:number, passingChecks?:string[]},
-  ):Promise<protectBranchResponse> {
+  ):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     const required_status_checks = passingChecks ? {strict: true, contexts: passingChecks} : null
     return octokit.request('PUT /repos/{owner}/{repo}/branches/{branch}/protection', {
@@ -266,7 +267,7 @@ export default {
       restrictions: null,
     })
   },
-  async removeCollaborator({owner, repo, username}:removeCollaboratorParams):Promise<removeCollaboratorResponse> {
+  async removeCollaborator({owner, repo, username}:removeCollaboratorParams):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
 
     return octokit.request('DELETE /repos/{owner}/{repo}/collaborators/{username}', {
@@ -278,7 +279,7 @@ export default {
       },
     })
   },
-  async addCollaborator({owner, repo, username, permission}:addCollaboratorParams):Promise<addCollaboratorResponse> {
+  async addCollaborator({owner, repo, username, permission}:addCollaboratorParams):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
 
     return octokit.request('PUT /repos/{owner}/{repo}/collaborators/{username}', {
@@ -291,7 +292,7 @@ export default {
       },
     })
   },
-  async addTeam({owner, org, repo, team_slug, permission}:addTeamParams):Promise<addTeamResponse> {
+  async addTeam({owner, org, repo, team_slug, permission}:addTeamParams):Promise<unknown> {
     const octokit = await octokitClient({org})
 
     return octokit.request('PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}', {
@@ -305,7 +306,7 @@ export default {
       },
     })
   },
-  async delTeam({owner, org, repo, team_slug}:delTeamParams):Promise<delTeamResponse> {
+  async delTeam({owner, org, repo, team_slug}:delTeamParams):Promise<unknown> {
     const octokit = await octokitClient({org})
 
     return octokit.request('DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}', {
@@ -318,10 +319,10 @@ export default {
       },
     })
   },
-  async getPublicKey({owner, repo, environment, forced}:{owner:string, repo:string, environment?:string, forced?:boolean}):Promise<getPublicKeyResponse> {
+  async getPublicKey({owner, repo, environment, forced}:{owner:string, repo:string, environment?:string, forced?:boolean}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     if (environment) {
-      const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo})
+      const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo}) as getEnvironmentsResponse
       if (!environments?.find(env => env.name === environment)) {
         const confirm = forced || await ux.confirm('The environment does not exist. Would you like to create it? (yes/no)')
         if (confirm) {
@@ -349,7 +350,7 @@ export default {
       },
     })
   },
-  async updateSecret({owner, repo, secret_name, encrypted_value, key_id, environment}:{owner:string, repo:string, secret_name:string, encrypted_value:string, key_id:string, environment?:string}):Promise<updateSecretResponse> {
+  async updateSecret({owner, repo, secret_name, encrypted_value, key_id, environment}:{owner:string, repo:string, secret_name:string, encrypted_value:string, key_id:string, environment?:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     let params
     if (environment) {
@@ -379,7 +380,7 @@ export default {
     }
     return octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', params)
   },
-  async removeSecret({owner, repo, secret_name, environment}:{owner:string, repo:string, secret_name:string, environment?:string}):Promise<removeSecretResponse> {
+  async removeSecret({owner, repo, secret_name, environment}:{owner:string, repo:string, secret_name:string, environment?:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     let params
     if (environment) {
@@ -407,9 +408,9 @@ export default {
     }
     return octokit.request('DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}', params)
   },
-  async updateVariables({owner, repo, name, value, environment, forced}:{owner:string, repo:string, name:string, value:string, environment?:string, forced?: boolean}):Promise<postVariableResponse|patchVariableResponse> {
+  async updateVariables({owner, repo, name, value, environment, forced}:{owner:string, repo:string, name:string, value:string, environment?:string, forced?: boolean}):Promise<unknown> {
     if (environment) {
-      const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo})
+      const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo}) as getEnvironmentsResponse;
       if (!environments?.find(env => env.name === environment)) {
         const confirm = forced || await ux.confirm('The environment does not exist. Would you like to create it? (yes/no)')
         if (confirm) {
@@ -434,7 +435,7 @@ export default {
       return this.setGlobalVariable({owner, repo, name, value})
     }
   },
-  async getBranch({owner, repo, branch}:{owner:string, repo:string, branch:string}):Promise<getBranchResponse> {
+  async getBranch({owner, repo, branch}:{owner:string, repo:string, branch:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     return octokit.request('GET /repos/{owner}/{repo}/branches/{branch}', {
       owner,
@@ -445,10 +446,10 @@ export default {
       },
     })
   },
-  async renameBranch({owner, repo, branch, new_name}:{owner:string, repo:string, branch:string, new_name:string}):Promise<renameBranchResponse> {
+  async renameBranch({owner, repo, branch, new_name}:{owner:string, repo:string, branch:string, new_name:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
 
-    return octokit.request('POST /repos/{owner}/{repo}/branches/{branch}/rename', {
+    return await octokit.request('POST /repos/{owner}/{repo}/branches/{branch}/rename', {
       owner,
       repo,
       branch,
@@ -458,7 +459,7 @@ export default {
       },
     })
   },
-  async readFile({owner, repo, path, branch: ref}:{owner:string, repo:string, path:string, branch?: string}):Promise<readFile> {
+  async readFile({owner, repo, path, branch: ref}:{owner:string, repo:string, path:string, branch?: string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     if (ref) {
       return octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
@@ -481,7 +482,7 @@ export default {
       },
     })
   },
-  async writeFile({name, email, message, owner, repo, path, content, sha, branch}:{name: string; email: string; message: string; owner:string, repo:string, path:string, content:string, sha:string, branch?: string}):Promise<writeFile> {
+  async writeFile({name, email, message, owner, repo, path, content, sha, branch}:{name: string; email: string; message: string; owner:string, repo:string, path:string, content:string, sha:string, branch?: string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
 
     return octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
