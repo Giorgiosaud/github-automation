@@ -27,10 +27,11 @@
     "axios": "^1.4.0",
     "colorts": "^0.1.63",
     "dotenv": "^16.3.1",
+    "github-automation": "link:../../Library/pnpm/global/5/node_modules/github-automation",
     "i": "^0.3.7",
     "js-nacl": "^1.4.0",
     "js-yaml": "^4.1.0",
-    "octokit": "^3.0.0",
+    "octokit": "^5.0.3",
     "tweetnacl-ts": "^1.0.3"
   },
   "devDependencies": {
