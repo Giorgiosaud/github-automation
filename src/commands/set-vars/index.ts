@@ -1,8 +1,8 @@
 import {Command} from '@oclif/core'
-import {normal, preProcessed, processed} from '../../helpers/logger'
-import {validateRepoNames, validateSecrets} from '../../helpers/validations'
-import repositoryFactory from '../../repositories/repository-factory'
-import VarsFlags from '../../helpers/flags/vars-flags'
+import {normal, preProcessed, processed} from '../../helpers/logger.js'
+import {validateRepoNames, validateSecrets} from '../../helpers/validations.js'
+import repositoryFactory from '../../repositories/repository-factory.js'
+import VarsFlags from '../../helpers/flags/vars-flags.js'
 
 export default class SetVars extends Command {
   static description = 'Set Variables in repo from org'

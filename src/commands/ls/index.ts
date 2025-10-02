@@ -1,5 +1,5 @@
 import {Command, Flags, ux, Args} from '@oclif/core'
-import repositoryFactory from '../../repositories/repository-factory'
+import repositoryFactory from '../../repositories/repository-factory.js'
 import { Endpoints } from '@octokit/types'
 
 export default class Ls extends Command {
@@ -31,7 +31,7 @@ export default class Ls extends Command {
     const {args: {owner}, flags: {page}} = await this.parse(Ls)
     const octoFactory = repositoryFactory.get('octokit')
     const repositories = await octoFactory.listRepositories({org: owner, page}) as Endpoints['GET /orgs/{org}/repos']['response']
-    ux.styledObject({
+    ux.colorizeJson({
       repositories: repositories.data.map(repo => repo.name),
       page: repositories.headers.link,
     })

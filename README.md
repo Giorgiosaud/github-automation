@@ -28,57 +28,102 @@ oclif github-automation CLI:
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g github-automation
-$ github-automation COMMAND
+$ npm install -g base
+$ base COMMAND
 running command...
-$ github-automation (--version)
-github-automation/5.3.3 linux-x64 node-v18.18.2
-$ github-automation --help [COMMAND]
+$ base (--version)
+base/0.0.0 darwin-arm64 node-v24.8.0
+$ base --help [COMMAND]
 USAGE
-  $ github-automation COMMAND
+  $ base COMMAND
 ...
 ```
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`github-automation help [COMMANDS]`](#github-automation-help-commands)
-* [`github-automation plugins`](#github-automation-plugins)
-* [`github-automation plugins:install PLUGIN...`](#github-automation-pluginsinstall-plugin)
-* [`github-automation plugins:inspect PLUGIN...`](#github-automation-pluginsinspect-plugin)
-* [`github-automation plugins:install PLUGIN...`](#github-automation-pluginsinstall-plugin-1)
-* [`github-automation plugins:link PLUGIN`](#github-automation-pluginslink-plugin)
-* [`github-automation plugins:uninstall PLUGIN...`](#github-automation-pluginsuninstall-plugin)
-* [`github-automation plugins:uninstall PLUGIN...`](#github-automation-pluginsuninstall-plugin-1)
-* [`github-automation plugins:uninstall PLUGIN...`](#github-automation-pluginsuninstall-plugin-2)
-* [`github-automation plugins update`](#github-automation-plugins-update)
+* [`base hello PERSON`](#base-hello-person)
+* [`base hello world`](#base-hello-world)
+* [`base help [COMMAND]`](#base-help-command)
+* [`base plugins`](#base-plugins)
+* [`base plugins add PLUGIN`](#base-plugins-add-plugin)
+* [`base plugins:inspect PLUGIN...`](#base-pluginsinspect-plugin)
+* [`base plugins install PLUGIN`](#base-plugins-install-plugin)
+* [`base plugins link PATH`](#base-plugins-link-path)
+* [`base plugins remove [PLUGIN]`](#base-plugins-remove-plugin)
+* [`base plugins reset`](#base-plugins-reset)
+* [`base plugins uninstall [PLUGIN]`](#base-plugins-uninstall-plugin)
+* [`base plugins unlink [PLUGIN]`](#base-plugins-unlink-plugin)
+* [`base plugins update`](#base-plugins-update)
 
-## `github-automation help [COMMANDS]`
+## `base hello PERSON`
 
-Display help for github-automation.
+Say hello
 
 ```
 USAGE
-  $ github-automation help [COMMANDS] [-n]
+  $ base hello PERSON -f <value>
 
 ARGUMENTS
-  COMMANDS  Command to show help for.
+  PERSON  Person to say hello to
+
+FLAGS
+  -f, --from=<value>  (required) Who is saying hello
+
+DESCRIPTION
+  Say hello
+
+EXAMPLES
+  $ base hello friend --from oclif
+  hello friend from oclif! (./src/commands/hello/index.ts)
+```
+
+_See code: [src/commands/hello/index.ts](https://github.com/Giorgiosaud/base/blob/v0.0.0/src/commands/hello/index.ts)_
+
+## `base hello world`
+
+Say hello world
+
+```
+USAGE
+  $ base hello world
+
+DESCRIPTION
+  Say hello world
+
+EXAMPLES
+  $ base hello world
+  hello world! (./src/commands/hello/world.ts)
+```
+
+_See code: [src/commands/hello/world.ts](https://github.com/Giorgiosaud/base/blob/v0.0.0/src/commands/hello/world.ts)_
+
+## `base help [COMMAND]`
+
+Display help for base.
+
+```
+USAGE
+  $ base help [COMMAND...] [-n]
+
+ARGUMENTS
+  COMMAND...  Command to show help for.
 
 FLAGS
   -n, --nested-commands  Include all nested commands in the output.
 
 DESCRIPTION
-  Display help for github-automation.
+  Display help for base.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.12/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.33/src/commands/help.ts)_
 
-## `github-automation plugins`
+## `base plugins`
 
 List installed plugins.
 
 ```
 USAGE
-  $ github-automation plugins [--json] [--core]
+  $ base plugins [--json] [--core]
 
 FLAGS
   --core  Show core plugins.
@@ -90,59 +135,68 @@ DESCRIPTION
   List installed plugins.
 
 EXAMPLES
-  $ github-automation plugins
+  $ base plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.1.6/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.48/src/commands/plugins/index.ts)_
 
-## `github-automation plugins:install PLUGIN...`
+## `base plugins add PLUGIN`
 
-Installs a plugin into the CLI.
+Installs a plugin into base.
 
 ```
 USAGE
-  $ github-automation plugins:install PLUGIN...
+  $ base plugins add PLUGIN... [--json] [-f] [-h] [-s | -v]
 
 ARGUMENTS
-  PLUGIN  Plugin to install.
+  PLUGIN...  Plugin to install.
 
 FLAGS
-  -f, --force    Run yarn install with force flag.
+  -f, --force    Force npm to fetch remote resources even if a local copy exists on disk.
   -h, --help     Show CLI help.
-  -v, --verbose
+  -s, --silent   Silences npm output.
+  -v, --verbose  Show verbose npm output.
+
+GLOBAL FLAGS
+  --json  Format output as json.
 
 DESCRIPTION
-  Installs a plugin into the CLI.
-  Can be installed from npm or a git url.
+  Installs a plugin into base.
+
+  Uses npm to install plugins.
 
   Installation of a user-installed plugin will override a core plugin.
 
-  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
-  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
-  the CLI without the need to patch and update the whole CLI.
-
+  Use the BASE_NPM_LOG_LEVEL environment variable to set the npm loglevel.
+  Use the BASE_NPM_REGISTRY environment variable to set the npm registry.
 
 ALIASES
-  $ github-automation plugins add
+  $ base plugins add
 
 EXAMPLES
-  $ github-automation plugins:install myplugin 
+  Install a plugin from npm registry.
 
-  $ github-automation plugins:install https://github.com/someuser/someplugin
+    $ base plugins add myplugin
 
-  $ github-automation plugins:install someuser/someplugin
+  Install a plugin from a github url.
+
+    $ base plugins add https://github.com/someuser/someplugin
+
+  Install a plugin from a github slug.
+
+    $ base plugins add someuser/someplugin
 ```
 
-## `github-automation plugins:inspect PLUGIN...`
+## `base plugins:inspect PLUGIN...`
 
 Displays installation properties of a plugin.
 
 ```
 USAGE
-  $ github-automation plugins:inspect PLUGIN...
+  $ base plugins inspect PLUGIN...
 
 ARGUMENTS
-  PLUGIN  [default: .] Plugin to inspect.
+  PLUGIN...  [default: .] Plugin to inspect.
 
 FLAGS
   -h, --help     Show CLI help.
@@ -155,64 +209,79 @@ DESCRIPTION
   Displays installation properties of a plugin.
 
 EXAMPLES
-  $ github-automation plugins:inspect myplugin
+  $ base plugins inspect myplugin
 ```
 
-## `github-automation plugins:install PLUGIN...`
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.48/src/commands/plugins/inspect.ts)_
 
-Installs a plugin into the CLI.
+## `base plugins install PLUGIN`
+
+Installs a plugin into base.
 
 ```
 USAGE
-  $ github-automation plugins:install PLUGIN...
+  $ base plugins install PLUGIN... [--json] [-f] [-h] [-s | -v]
 
 ARGUMENTS
-  PLUGIN  Plugin to install.
+  PLUGIN...  Plugin to install.
 
 FLAGS
-  -f, --force    Run yarn install with force flag.
+  -f, --force    Force npm to fetch remote resources even if a local copy exists on disk.
   -h, --help     Show CLI help.
-  -v, --verbose
+  -s, --silent   Silences npm output.
+  -v, --verbose  Show verbose npm output.
+
+GLOBAL FLAGS
+  --json  Format output as json.
 
 DESCRIPTION
-  Installs a plugin into the CLI.
-  Can be installed from npm or a git url.
+  Installs a plugin into base.
+
+  Uses npm to install plugins.
 
   Installation of a user-installed plugin will override a core plugin.
 
-  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
-  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
-  the CLI without the need to patch and update the whole CLI.
-
+  Use the BASE_NPM_LOG_LEVEL environment variable to set the npm loglevel.
+  Use the BASE_NPM_REGISTRY environment variable to set the npm registry.
 
 ALIASES
-  $ github-automation plugins add
+  $ base plugins add
 
 EXAMPLES
-  $ github-automation plugins:install myplugin 
+  Install a plugin from npm registry.
 
-  $ github-automation plugins:install https://github.com/someuser/someplugin
+    $ base plugins install myplugin
 
-  $ github-automation plugins:install someuser/someplugin
+  Install a plugin from a github url.
+
+    $ base plugins install https://github.com/someuser/someplugin
+
+  Install a plugin from a github slug.
+
+    $ base plugins install someuser/someplugin
 ```
 
-## `github-automation plugins:link PLUGIN`
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.48/src/commands/plugins/install.ts)_
+
+## `base plugins link PATH`
 
 Links a plugin into the CLI for development.
 
 ```
 USAGE
-  $ github-automation plugins:link PLUGIN
+  $ base plugins link PATH [-h] [--install] [-v]
 
 ARGUMENTS
   PATH  [default: .] path to plugin
 
 FLAGS
-  -h, --help     Show CLI help.
+  -h, --help          Show CLI help.
   -v, --verbose
+      --[no-]install  Install dependencies after linking the plugin.
 
 DESCRIPTION
   Links a plugin into the CLI for development.
+
   Installation of a linked plugin will override a user-installed or core plugin.
 
   e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
@@ -220,19 +289,21 @@ DESCRIPTION
 
 
 EXAMPLES
-  $ github-automation plugins:link myplugin
+  $ base plugins link myplugin
 ```
 
-## `github-automation plugins:uninstall PLUGIN...`
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.48/src/commands/plugins/link.ts)_
+
+## `base plugins remove [PLUGIN]`
 
 Removes a plugin from the CLI.
 
 ```
 USAGE
-  $ github-automation plugins:uninstall PLUGIN...
+  $ base plugins remove [PLUGIN...] [-h] [-v]
 
 ARGUMENTS
-  PLUGIN  plugin to uninstall
+  PLUGIN...  plugin to uninstall
 
 FLAGS
   -h, --help     Show CLI help.
@@ -242,20 +313,38 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ github-automation plugins unlink
-  $ github-automation plugins remove
+  $ base plugins unlink
+  $ base plugins remove
+
+EXAMPLES
+  $ base plugins remove myplugin
 ```
 
-## `github-automation plugins:uninstall PLUGIN...`
+## `base plugins reset`
+
+Remove all user-installed and linked plugins.
+
+```
+USAGE
+  $ base plugins reset [--hard] [--reinstall]
+
+FLAGS
+  --hard       Delete node_modules and package manager related files in addition to uninstalling plugins.
+  --reinstall  Reinstall all plugins after uninstalling.
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.48/src/commands/plugins/reset.ts)_
+
+## `base plugins uninstall [PLUGIN]`
 
 Removes a plugin from the CLI.
 
 ```
 USAGE
-  $ github-automation plugins:uninstall PLUGIN...
+  $ base plugins uninstall [PLUGIN...] [-h] [-v]
 
 ARGUMENTS
-  PLUGIN  plugin to uninstall
+  PLUGIN...  plugin to uninstall
 
 FLAGS
   -h, --help     Show CLI help.
@@ -265,20 +354,25 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ github-automation plugins unlink
-  $ github-automation plugins remove
+  $ base plugins unlink
+  $ base plugins remove
+
+EXAMPLES
+  $ base plugins uninstall myplugin
 ```
 
-## `github-automation plugins:uninstall PLUGIN...`
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.48/src/commands/plugins/uninstall.ts)_
+
+## `base plugins unlink [PLUGIN]`
 
 Removes a plugin from the CLI.
 
 ```
 USAGE
-  $ github-automation plugins:uninstall PLUGIN...
+  $ base plugins unlink [PLUGIN...] [-h] [-v]
 
 ARGUMENTS
-  PLUGIN  plugin to uninstall
+  PLUGIN...  plugin to uninstall
 
 FLAGS
   -h, --help     Show CLI help.
@@ -288,17 +382,20 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ github-automation plugins unlink
-  $ github-automation plugins remove
+  $ base plugins unlink
+  $ base plugins remove
+
+EXAMPLES
+  $ base plugins unlink myplugin
 ```
 
-## `github-automation plugins update`
+## `base plugins update`
 
 Update installed plugins.
 
 ```
 USAGE
-  $ github-automation plugins update [-h] [-v]
+  $ base plugins update [-h] [-v]
 
 FLAGS
   -h, --help     Show CLI help.
@@ -307,4 +404,6 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.48/src/commands/plugins/update.ts)_
 <!-- commandsstop -->

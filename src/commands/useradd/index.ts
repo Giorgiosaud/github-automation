@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
-import {validateRepoNames} from '../../helpers/validations'
-import repositoryFactory from '../../repositories/repository-factory'
-import {normal, preProcessed, processed} from '../../helpers/logger'
+import {validateRepoNames} from '../../helpers/validations.js'
+import repositoryFactory from '../../repositories/repository-factory.js'
+import {normal, preProcessed, processed} from '../../helpers/logger.js'
 
 export default class Useradd extends Command {
   static description = 'Add user to repos'

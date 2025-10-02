@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
-import {validateRepoNames} from '../../helpers/validations'
-import {info} from '../../helpers/logger'
-import repositoryFactory from '../../repositories/repository-factory'
+import {validateRepoNames} from '../../helpers/validations.js'
+import {info} from '../../helpers/logger.js'
+import repositoryFactory from '../../repositories/repository-factory.js'
 import { Endpoints } from '@octokit/types'
 export default class RmEnv extends Command {
   static description = 'Remove environments if exist'

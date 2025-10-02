@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
+    "skipLibCheck": true,
     "declaration": true,
-    "importHelpers": true,
-    "module": "commonjs",
+    "module": "Node16",
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
-    "skipLibCheck": true,
-    "target": "es2021",
-    "noImplicitAny": true
-
+    "target": "es2022",
+    "moduleResolution": "node16"
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["./src/**/*"],
+  "ts-node": {
+    "esm": true
+  }
 }

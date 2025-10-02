@@ -1,8 +1,8 @@
 import {Command} from '@oclif/core'
-import {normal, preProcessed, processed} from '../../helpers/logger'
-import {validateRepoNames} from '../../helpers/validations'
-import repositoryFactory from '../../repositories/repository-factory'
-import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags'
+import {normal, preProcessed, processed} from '../../helpers/logger.js'
+import {validateRepoNames} from '../../helpers/validations.js'
+import repositoryFactory from '../../repositories/repository-factory.js'
+import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags.js'
 
 export default class RmSecret extends Command {
   static description = 'Rempve Secrets'

@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
-import repositoryFactory from '../../repositories/repository-factory'
-import {normal, preProcessed, processed} from '../../helpers/logger'
-import {validateRepoNames} from '../../helpers/validations'
+import repositoryFactory from '../../repositories/repository-factory.js'
+import {normal, preProcessed, processed} from '../../helpers/logger.js'
+import {validateRepoNames} from '../../helpers/validations.js'
 
 export default class SetPRotectionRules extends Command {
   static description = 'Set Protected Branches and rules'

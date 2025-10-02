@@ -1,6 +1,6 @@
 import {Command, Flags} from '@oclif/core'
-import {validateRepoNames} from '../../helpers/validations'
-import repositoryFactory from '../../repositories/repository-factory'
+import {validateRepoNames} from '../../helpers/validations.js'
+import repositoryFactory from '../../repositories/repository-factory.js'
 export default class MkRepo extends Command {
   static description = 'Create repos'
 

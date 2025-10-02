@@ -1,9 +1,9 @@
 import {homedir} from 'node:os'
-import {readEnv, buildEnvContent} from './file-system'
+import {readEnv, buildEnvContent} from './file-system.js'
 import {writeFileSync, existsSync} from 'node:fs'
 import {resolve} from 'node:path'
-import {promptToken} from './prompt-token'
-import {rcPath} from './config'
+import {promptToken} from './prompt-token.js'
+import {rcPath} from './config.js'
 
 export default async (org: string): Promise<string> => {
   const rcRealPath = resolve(homedir(), rcPath)

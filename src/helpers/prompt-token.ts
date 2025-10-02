@@ -1,4 +1,4 @@
-import {ux} from '@oclif/core'
+import inquirer from 'inquirer';
 import {Octokit} from 'octokit'
 export async function testToken({token, org}:{token:string, org:string}):Promise<boolean> {
   const octokit = new Octokit({
@@ -16,7 +16,8 @@ export async function testToken({token, org}:{token:string, org:string}):Promise
 }
 
 export async function promptToken({org}: { org: string; }): Promise<string> {
-  const token = await ux.prompt('Please add your repository token')
+  // TODO: fix to ask
+  const { token } = {token:''}
   const octokit = new Octokit({
     auth: token,
   })

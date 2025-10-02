@@ -1,5 +1,5 @@
 import {Command, Flags} from '@oclif/core'
-import SetVars from '../set-vars'
+import SetVars from '../set-vars/index.js'
 
 export default class Custom extends Command {
   static description = 'Custom command'
@@ -12,8 +12,8 @@ export default class Custom extends Command {
 
   static usage='custom XXXXXX'
 
-  static strict = false
   static hidden = true;
+  
   static flags = {
     repos: Flags.string({
       char: 'r',

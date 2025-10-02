@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
-import {validateRepoNames} from '../../helpers/validations'
-import repositoryFactory from '../../repositories/repository-factory'
-import {UpdateReposBody} from '../../repositories/octokit-repository'
+import {validateRepoNames} from '../../helpers/validations.js'
+import repositoryFactory from '../../repositories/repository-factory.js'
+import {UpdateReposBody} from '../../repositories/octokit-repository.js'
 export default class MkRepo extends Command {
   static description = 'Update repos'
 

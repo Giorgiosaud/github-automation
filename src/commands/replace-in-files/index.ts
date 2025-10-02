@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
-import {validateRepoNames} from '../../helpers/validations'
-import repositoryFactory from '../../repositories/repository-factory'
-import {info, preProcessed, processed} from '../../helpers/logger'
+import {validateRepoNames} from '../../helpers/validations.js'
+import repositoryFactory from '../../repositories/repository-factory.js'
+import {info, preProcessed, processed} from '../../helpers/logger.js'
 export default class ReplaceInFiles extends Command {
   static description = 'Create environments if not exist'
 

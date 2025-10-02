@@ -1,39 +1,39 @@
-// eslint-disable-next-line node/no-missing-import
 import {Endpoints} from '@octokit/types'
-import {ux} from '@oclif/core'
+import inquirer from 'inquirer';
 
-import octokitClient from './clients/octokit-client'
-export type listReposResponse = Endpoints['GET /orgs/{org}/repos']['response'];
-export type getEnvironmentsResponse = Endpoints['GET /repos/{owner}/{repo}/environments']['response'];
-export type setEnvironmentResponse = Endpoints['PUT /repos/{owner}/{repo}/environments/{environment_name}']['response'];
-export type postVariableResponse = Endpoints['POST /repositories/{repository_id}/environments/{environment_name}/variables']['response'];
-export type patchVariableResponse = Endpoints['PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
-export type getVariableResponse = Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
-export type postGlobalVariableResponse = Endpoints['POST /repos/{owner}/{repo}/actions/variables']['response'];
-export type patchGlobalVariableResponse = Endpoints['PATCH /repos/{owner}/{repo}/actions/variables/{name}']['response'];
-export type getGlobalVariableResponse = Endpoints['GET /repos/{owner}/{repo}/actions/variables/{name}']['response'];
-export type getRepositoryId = Endpoints['GET /repos/{owner}/{repo}']['response'];
-export type protectBranchResponse= Endpoints['PUT /repos/{owner}/{repo}/branches/{branch}/protection']['response'];
-export type removeCollaboratorResponse=Endpoints['DELETE /repos/{owner}/{repo}/collaborators/{username}']['response'];
+import octokitClient from './clients/octokit-client.js'
+
+// export type listReposResponse = Endpoints['GET /orgs/{org}/repos']['response'];
+// export type getEnvironmentsResponse = Endpoints['GET /repos/{owner}/{repo}/environments']['response'];
+// export type setEnvironmentResponse = Endpoints['PUT /repos/{owner}/{repo}/environments/{environment_name}']['response'];
+// export type postVariableResponse = Endpoints['POST /repositories/{repository_id}/environments/{environment_name}/variables']['response'];
+// export type patchVariableResponse = Endpoints['PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
+// export type getVariableResponse = Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}']['response'];
+// export type postGlobalVariableResponse = Endpoints['POST /repos/{owner}/{repo}/actions/variables']['response'];
+// export type patchGlobalVariableResponse = Endpoints['PATCH /repos/{owner}/{repo}/actions/variables/{name}']['response'];
+// export type getGlobalVariableResponse = Endpoints['GET /repos/{owner}/{repo}/actions/variables/{name}']['response'];
+// export type getRepositoryId = Endpoints['GET /repos/{owner}/{repo}']['response'];
+// export type protectBranchResponse= Endpoints['PUT /repos/{owner}/{repo}/branches/{branch}/protection']['response'];
+// export type removeCollaboratorResponse=Endpoints['DELETE /repos/{owner}/{repo}/collaborators/{username}']['response'];
 export type removeCollaboratorParams=Endpoints['DELETE /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
-export type addCollaboratorResponse=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['response'];
+// export type addCollaboratorResponse=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['response'];
 export type addCollaboratorParams=Endpoints['PUT /repos/{owner}/{repo}/collaborators/{username}']['parameters'];
 export type addTeamParams=Endpoints['PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['parameters'];
-export type addTeamResponse=Endpoints['PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['response'];
+// export type addTeamResponse=Endpoints['PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['response'];
 export type delTeamParams=Endpoints['DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['parameters'];
-export type delTeamResponse=Endpoints['DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['response'];
-export type removeEnvironmentResponse=Endpoints['DELETE /repos/{owner}/{repo}/environments/{environment_name}']['response'];
-export type getPublicKeyResponse=Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key']['response'];
-export type updateSecretResponse=Endpoints['PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
-export type removeSecretResponse=Endpoints['DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
-export type renameBranchResponse=Endpoints['POST /repos/{owner}/{repo}/branches/{branch}/rename']['response'];
-export type getBranchResponse=Endpoints['GET /repos/{owner}/{repo}/branches/{branch}']['response'];
-export type readFile=Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response'];
-export type writeFile=Endpoints['PUT /repos/{owner}/{repo}/contents/{path}']['response'];
-export type createRepoResponse=Endpoints['POST /orgs/{org}/repos']['response'];
-export type createRepoFromTemplateResponse=Endpoints['POST /repos/{template_owner}/{template_repo}/generate']['response'];
-export type DeleteRepoResponse=Endpoints['DELETE /repos/{owner}/{repo}']['response'];
-export type UpdateReposResponse=Endpoints['PATCH /repos/{owner}/{repo}']['response'];
+// export type delTeamResponse=Endpoints['DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}']['response'];
+// export type removeEnvironmentResponse=Endpoints['DELETE /repos/{owner}/{repo}/environments/{environment_name}']['response'];
+// export type getPublicKeyResponse=Endpoints['GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key']['response'];
+// export type updateSecretResponse=Endpoints['PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
+// export type removeSecretResponse=Endpoints['DELETE /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}']['response']|Endpoints['DELETE /repos/{owner}/{repo}/actions/secrets/{secret_name}']['response'];
+// export type renameBranchResponse=Endpoints['POST /repos/{owner}/{repo}/branches/{branch}/rename']['response'];
+// export type getBranchResponse=Endpoints['GET /repos/{owner}/{repo}/branches/{branch}']['response'];
+// export type readFile=Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response'];
+// export type writeFile=Endpoints['PUT /repos/{owner}/{repo}/contents/{path}']['response'];
+// export type createRepoResponse=Endpoints['POST /orgs/{org}/repos']['response'];
+// export type createRepoFromTemplateResponse=Endpoints['POST /repos/{template_owner}/{template_repo}/generate']['response'];
+// export type DeleteRepoResponse=Endpoints['DELETE /repos/{owner}/{repo}']['response'];
+// export type UpdateReposResponse=Endpoints['PATCH /repos/{owner}/{repo}']['response'];
 export interface UpdateReposBody{
   name?: string,
   description?: string,
@@ -199,7 +199,7 @@ export default {
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
-    }) as getRepositoryId
+    }) as any
     return repoResponse.data.id
   },
   async listRepositories({org, page}:{org:string, page:number}):Promise<unknown> {
@@ -322,10 +322,11 @@ export default {
   async getPublicKey({owner, repo, environment, forced}:{owner:string, repo:string, environment?:string, forced?:boolean}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
     if (environment) {
-      const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo}) as getEnvironmentsResponse
-      if (!environments?.find(env => env.name === environment)) {
-        const confirm = forced || await ux.confirm('The environment does not exist. Would you like to create it? (yes/no)')
-        if (confirm) {
+      const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo}) as any;
+      if (!environments?.find((env: { name: string; }) => env?.name === environment)) {
+        // TODO: change for confirm
+        const confirmation = true;
+        if (confirmation) {
           await this.defineEnvironment({owner, repo, environment_name: environment})
         } else {
           throw new Error(`Environment ${environment} does not exist`)
@@ -410,10 +411,10 @@ export default {
   },
   async updateVariables({owner, repo, name, value, environment, forced}:{owner:string, repo:string, name:string, value:string, environment?:string, forced?: boolean}):Promise<unknown> {
     if (environment) {
-      const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo}) as getEnvironmentsResponse;
-      if (!environments?.find(env => env.name === environment)) {
-        const confirm = forced || await ux.confirm('The environment does not exist. Would you like to create it? (yes/no)')
-        if (confirm) {
+      const {data: {environments}} = await this.getEnvironments({organization: owner, repository: repo}) as any;
+      if (!environments?.find((env: { name: string; }) => env.name === environment)) {
+        const confirmation = forced || true;
+        if (confirmation) {
           await this.defineEnvironment({owner, repo, environment_name: environment})
         } else {
           throw new Error(`Environment ${environment} does not exist`)
