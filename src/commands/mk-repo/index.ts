@@ -1,6 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations.js'
 import repositoryFactory from '../../repositories/repository-factory.js'
+import { info } from '../../helpers/logger.js'
 export default class MkRepo extends Command {
   static description = 'Create repos'
 
@@ -47,15 +48,15 @@ export default class MkRepo extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log('Creating repo', repo)
+      info('Creating repo', repo)
       if (template) {
         await octoFactory.createRepoFromTemplate({organization, repo, template, allBranches})
-        console.log('Repo created from template', repo)
+        info('Repo created from template', repo)
         continue
       }
 
       await octoFactory.createRepo({organization, repo})
-      console.log('Repo created', repo)
+      info('Repo created', repo)
     }
   }
 }

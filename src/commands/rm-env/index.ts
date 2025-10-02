@@ -45,14 +45,14 @@ export default class RmEnv extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log(info(`Listing  environments ${environments} in ${repo}`))
+      info(`Listing  environments ${environments} in ${repo}`)
       const {data: {environments: existentEnvironments}} = await octoFactory.getEnvironments({organization, repository: repo}) as Endpoints['GET /repos/{owner}/{repo}/environments']['response']
       const envsToRemove = existentEnvironments?.filter(env => environments.includes(env.name)).map(env => env.name) || []
-      console.log(info(`Environments to remove ${envsToRemove} in ${repo} inside ${organization}`))
+      info(`Environments to remove ${envsToRemove} in ${repo} inside ${organization}`)
       for (const env of envsToRemove) {
-        console.log(info(`Remocing environment ${env} in ${repo} inside ${organization}`))
+        info(`Remocing environment ${env} in ${repo} inside ${organization}`)
         await octoFactory.removeEnvironment({owner: organization, repo, environment_name: env})
-        console.log(info(`Environment ${env} removed in ${repo} inside ${organization}`))
+        info(`Environment ${env} removed in ${repo} inside ${organization}`)
       }
     }
   }

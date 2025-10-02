@@ -120,7 +120,7 @@ export default {
   },
   async setEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
-    const repository_id = await this.getRepositoryId({owner, repo})
+    const repository_id = await this.getRepositoryId({owner, repo}) as number;
     return octokit.request('POST /repositories/{repository_id}/environments/{environment_name}/variables', {
       repository_id,
       environment_name,
@@ -133,7 +133,7 @@ export default {
   },
   async patchEnvironmentVariable({owner, repo, name, environment_name, value}:{owner:string, repo:string, name:string, environment_name:string, value: string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
-    const repository_id = await this.getRepositoryId({owner, repo})
+    const repository_id = await this.getRepositoryId({owner, repo}) as number;
     return octokit.request('PATCH /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {
       repository_id,
       name,
@@ -146,7 +146,7 @@ export default {
   },
   async getEnvironmentVariable({owner, repo, name, environment_name}:{owner:string, repo:string, name:string, environment_name:string}):Promise<unknown> {
     const octokit = await octokitClient({org: owner})
-    const repository_id = await this.getRepositoryId({owner, repo})
+    const repository_id = await this.getRepositoryId({owner, repo}) as number;
     return octokit.request('GET /repositories/{repository_id}/environments/{environment_name}/variables/{name}', {
       repository_id,
       environment_name,
@@ -333,7 +333,7 @@ export default {
         }
       }
 
-      const repoId = await this.getRepositoryId({owner, repo})
+      const repoId = await this.getRepositoryId({owner, repo}) as number;
       return octokit.request('GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key', {
         repository_id: repoId,
         environment_name: environment,
@@ -355,7 +355,7 @@ export default {
     const octokit = await octokitClient({org: owner})
     let params
     if (environment) {
-      const repoId = await this.getRepositoryId({owner, repo})
+      const repoId = await this.getRepositoryId({owner, repo}) as number;
       params = {
         repository_id: repoId,
         environment_name: environment,
@@ -385,7 +385,7 @@ export default {
     const octokit = await octokitClient({org: owner})
     let params
     if (environment) {
-      const repoId = await this.getRepositoryId({owner, repo})
+      const repoId = await this.getRepositoryId({owner, repo}) as number;
       params = {
         repository_id: repoId,
         environment_name: environment,

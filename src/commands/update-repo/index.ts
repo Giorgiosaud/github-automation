@@ -2,6 +2,7 @@ import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations.js'
 import repositoryFactory from '../../repositories/repository-factory.js'
 import {UpdateReposBody} from '../../repositories/octokit-repository.js'
+import { info } from '../../helpers/logger.js'
 export default class MkRepo extends Command {
   static description = 'Update repos'
 
@@ -43,9 +44,9 @@ export default class MkRepo extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log('updating repo', repo)
+      info('updating repo', repo)
       await octoFactory.updateRepo({organization, repo, data})
-      console.log('Repo updated with info', repo)
+      info('Repo updated with info', repo)
     }
   }
 }

@@ -1,5 +1,5 @@
-import inquirer from 'inquirer';
 import {Octokit} from 'octokit'
+import log from './logger.js';
 export async function testToken({token, org}:{token:string, org:string}):Promise<boolean> {
   const octokit = new Octokit({
     auth: token,
@@ -28,7 +28,7 @@ export async function promptToken({org}: { org: string; }): Promise<string> {
     })
     return token
   } catch (error) {
-    console.log(error)
+    log.error(error)
     return promptToken({org})
   }
 }

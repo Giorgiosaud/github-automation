@@ -1,5 +1,5 @@
 import {Command} from '@oclif/core'
-import {normal, preProcessed, processed} from '../../helpers/logger.js'
+import {info, preProcessed, processed} from '../../helpers/logger.js'
 import {validateRepoNames, validateSecrets} from '../../helpers/validations.js'
 import repositoryFactory from '../../repositories/repository-factory.js'
 import VarsFlags from '../../helpers/flags/vars-flags.js'
@@ -30,12 +30,12 @@ export default class SetVars extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log(normal(`Updating secrets in org: ${organization} in repo: ${repo}`))
+      info(`Updating secrets in org: ${organization} in repo: ${repo}`)
       for (const variable of variables) {
         const [name, value] = variable.split('->')
-        console.log(preProcessed(`Updating variables ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        preProcessed(`Updating variables ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`)
         await octoFactory.updateVariables({owner: organization, repo, name, value, environment, forced})
-        console.log(processed(`Updated variable ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        processed(`Updated variable ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`)
       }
     }
   }

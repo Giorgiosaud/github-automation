@@ -1,6 +1,7 @@
 import {Command, Flags, ux, Args} from '@oclif/core'
 import repositoryFactory from '../../repositories/repository-factory.js'
 import { Endpoints } from '@octokit/types'
+import { info } from '../../helpers/logger.js';
 
 export default class Ls extends Command {
   static description = 'List Org Repositories if have access'
@@ -31,7 +32,7 @@ export default class Ls extends Command {
     const {args: {owner}, flags: {page}} = await this.parse(Ls)
     const octoFactory = repositoryFactory.get('octokit')
     const repositories = await octoFactory.listRepositories({org: owner, page}) as Endpoints['GET /orgs/{org}/repos']['response']
-    ux.colorizeJson({
+    info({
       repositories: repositories.data.map(repo => repo.name),
       page: repositories.headers.link,
     })

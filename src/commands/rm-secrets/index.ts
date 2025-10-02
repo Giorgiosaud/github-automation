@@ -1,5 +1,5 @@
 import {Command} from '@oclif/core'
-import {normal, preProcessed, processed} from '../../helpers/logger.js'
+import {info, preProcessed, processed} from '../../helpers/logger.js'
 import {validateRepoNames} from '../../helpers/validations.js'
 import repositoryFactory from '../../repositories/repository-factory.js'
 import RmSecretFlags from '../../helpers/rm-secret-helpers/rm-secret-flags.js'
@@ -26,11 +26,11 @@ export default class RmSecret extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log(normal(`Removing secrets in org: ${organization} in repo: ${repo}`))
+      info(`Removing secrets in org: ${organization} in repo: ${repo}`)
       for (const secret of secrets) {
-        console.log(preProcessed(`Removing secret ${secret} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        preProcessed(`Removing secret ${secret} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`)
         await octoFactory.removeSecret({owner: organization, repo, secret_name: secret, environment})
-        console.log(processed(`Updated secret ${secret}  in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        processed(`Updated secret ${secret}  in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`)
       }
     }
   }

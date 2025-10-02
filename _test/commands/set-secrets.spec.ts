@@ -1,4 +1,5 @@
 import SetSecrets from '../../src/commands/set-secrets'
+import { info } from '../../src/helpers/logger'
 import * as octokitClient from '../../src/repositories/clients/octokit-client'
 import * as encryptSecret from '../../src/set-secret-helpers/encrypt-secret'
 const spyOctokitClient = jest.spyOn(octokitClient, 'default')
@@ -53,7 +54,7 @@ describe('set-secrets command', () => {
         ],
       }} as any
     reqFn.mockImplementation(path => {
-      console.log('::::path::::', path)
+      info('::::path::::', path)
       switch (path) {
       case 'GET /repositories/{repository_id}/environments/{environment_name}/secrets/public-key': {
         return Promise.resolve(publicKey)

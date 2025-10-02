@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations.js'
 import repositoryFactory from '../../repositories/repository-factory.js'
-import {normal, preProcessed, processed} from '../../helpers/logger.js'
+import {info, normal, preProcessed, processed} from '../../helpers/logger.js'
 
 export default class Teamdel extends Command {
   static description = 'Add user to repos'
@@ -48,11 +48,11 @@ export default class Teamdel extends Command {
     const octoFactory = repositoryFactory.get('octokit')
 
     for (const repo of repositories) {
-      console.log(normal(`Updating users in ${repo}`))
+      info(`Updating users in ${repo}`)
       for (const team_slug of teamSlugs) {
-        console.log(preProcessed(`Adding team ${team_slug} to ${repo} inside ${organization} as ${permission}}`))
+        preProcessed(`Adding team ${team_slug} to ${repo} inside ${organization} as ${permission}}`)
         await octoFactory.delTeam({owner: organization, org: organization, repo, team_slug})
-        console.log(processed(`User ${team_slug} added to ${repo} inside ${organization} as ${permission}}`))
+        processed(`User ${team_slug} added to ${repo} inside ${organization} as ${permission}}`)
       }
     }
   }

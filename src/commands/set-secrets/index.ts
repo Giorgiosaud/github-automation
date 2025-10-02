@@ -1,5 +1,5 @@
 import {Command} from '@oclif/core'
-import {normal, preProcessed, processed} from '../../helpers/logger.js'
+import {info, preProcessed, processed} from '../../helpers/logger.js'
 import {validateRepoNames, validateSecrets} from '../../helpers/validations.js'
 import repositoryFactory from '../../repositories/repository-factory.js'
 import encryptSecret from '../../set-secret-helpers/encrypt-secret.js'
@@ -31,16 +31,16 @@ export default class SetSecret extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log(normal(`Updating secrets in org: ${organization} in repo: ${repo}`))
+      info(`Updating secrets in org: ${organization} in repo: ${repo}`)
       for (const secret of secrets) {
         const [name, value] = secret.split('->')
-        console.log(preProcessed(`Generating Key for secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        preProcessed(`Generating Key for secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`)
         const {data: publicKey} = await octoFactory.getPublicKey({owner: organization, repo, environment, forced}) as any;
-        console.log(preProcessed(`Encrypting secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        preProcessed(`Encrypting secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`)
         const encryptedValue = await encryptSecret({value, publicKey})
-        console.log(preProcessed(`Updating secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        preProcessed(`Updating secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`)
         await octoFactory.updateSecret({owner: organization, repo, secret_name: name, encrypted_value: encryptedValue, key_id: publicKey.key_id, environment})
-        console.log(processed(`Updated secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`))
+        processed(`Updated secret ${name} with value ${value} in org: ${organization} in repo: ${repo} ${environment ? `in environment: ${environment}` : ''}`)
       }
     }
   }

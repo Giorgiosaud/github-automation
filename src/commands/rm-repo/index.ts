@@ -1,6 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations.js'
 import repositoryFactory from '../../repositories/repository-factory.js'
+import { info } from '../../helpers/logger.js'
 export default class RmRepo extends Command {
   static description = 'Create repos'
 
@@ -37,9 +38,9 @@ export default class RmRepo extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log('Creating repo', repo)
+      info(`Creating repo ${repo}`)
       await octoFactory.deleteRepo({organization, repo})
-      console.log('Repo created', repo)
+      console.info('Repo created', repo)
     }
   }
 }

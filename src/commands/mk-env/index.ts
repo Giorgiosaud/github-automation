@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations.js'
 import repositoryFactory from '../../repositories/repository-factory.js'
-import {normal, preProcessed, processed} from '../../helpers/logger.js'
+import {info, normal, preProcessed, processed} from '../../helpers/logger.js'
 import { Endpoints } from '@octokit/types'
 export default class MkEnv extends Command {
   static description = 'Create environments if not exist'
@@ -45,14 +45,14 @@ export default class MkEnv extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log(normal(`Listing  environments ${environments} in ${repo}`))
+      info(`Listing  environments ${environments} in ${repo}`)
       const {data: {environments: existentEnvironments}} = await octoFactory.getEnvironments({organization, repository: repo}) as Endpoints['GET /repos/{owner}/{repo}/environments']['response']
       const envsToCreate = environments.filter(environment => environment !== existentEnvironments?.find(env => env.name === environment)?.name)
-      console.log(preProcessed(`Environments to create ${envsToCreate} in ${repo} inside ${organization}`))
+      info(`Environments to create ${envsToCreate} in ${repo} inside ${organization}`)
       for (const env of envsToCreate) {
-        console.log(preProcessed(`Creating environment ${env} in ${repo} inside ${organization}`))
+        info(`Creating environment ${env} in ${repo} inside ${organization}`)
         await octoFactory.defineEnvironment({owner: organization, repo, environment_name: env})
-        console.log(processed(`Environment ${env} created in ${repo} inside ${organization}`))
+        info(`Environment ${env} created in ${repo} inside ${organization}`)
       }
     }
   }

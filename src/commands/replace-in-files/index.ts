@@ -74,9 +74,9 @@ export default class ReplaceInFiles extends Command {
     validateRepoNames(repositories)
     const octoFactory = repositoryFactory.get('octokit')
     for (const repo of repositories) {
-      console.log(info(`Replace in files in ${repo}`))
+      info(`Replace in files in ${repo}`)
       for (const path of paths) {
-        console.log(preProcessed(`Read File ${path} in ${repo}`))
+        preProcessed(`Read File ${path} in ${repo}`)
         const response = await octoFactory.readFile({owner: organization, repo, path}) as {
           data: {
             content: string
@@ -88,12 +88,12 @@ export default class ReplaceInFiles extends Command {
         const infonew = data.replaceAll(new RegExp(from, 'g'), to)
         const infonewbase64 = btoa(infonew)
         await octoFactory.writeFile({owner: organization, repo, path, content: infonewbase64, sha, name, email, message,  branch})
-        console.log(processed(`File in ${path}
+        processed(`File in ${path}
         from:
         ${data}
         to:
         ${infonew}
-        in: ${repo}`))
+        in: ${repo}`)
       }
     }
   }

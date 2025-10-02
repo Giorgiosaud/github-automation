@@ -1,16 +1,29 @@
-import colors from 'colorts'
+import pino from "pino"
 
-export const preProcessed = (message: string): string => message
-export const info = (message: string): string => message
-export const processed = (message: string): string => message
-export const warning = (message: string): string => message
-export const normal = (message: string): string => message
-export const error = (message: string): string => message
-export default {
-  info,
-  preProcessed,
-  processed,
-  warning,
-  normal,
-  error,
-}
+const pinoLogger=pino({
+  transport: {
+    target: 'pino-pretty',
+    options: {
+      colorize: true,
+      translateTime: 'SYS:standard',
+      ignore: 'pid,hostname',
+    },
+  },
+})
+export const preProcessed = (...message: any[]): void => pinoLogger.info(message)
+export const info = (...message: any[]): void => pinoLogger.info(message)
+export const processed = (...message: any[]): void => pinoLogger.info(message)
+export const warning = (...message: any[]): void => pinoLogger.warn(message)
+export const normal = (...message: any[]): void => pinoLogger.info(message)
+export const error = (...message: any[]): void => pinoLogger.error(message)
+
+export default pino({
+  transport: {
+    target: 'pino-pretty',
+    options: {
+      colorize: true,
+      translateTime: 'SYS:standard',
+      ignore: 'pid,hostname',
+    },
+  },
+})

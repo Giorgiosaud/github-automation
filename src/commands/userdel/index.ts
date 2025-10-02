@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 import {validateRepoNames} from '../../helpers/validations.js'
 import repositoryFactory from '../../repositories/repository-factory.js'
-import {normal, preProcessed, processed} from '../../helpers/logger.js'
+import {info, normal, preProcessed, processed} from '../../helpers/logger.js'
 
 export default class Userdel extends Command {
   static description = 'Add user to repos'
@@ -48,11 +48,11 @@ export default class Userdel extends Command {
     const octoFactory = repositoryFactory.get('octokit')
 
     for (const repo of repositories) {
-      console.log(normal(`Updating users in ${repo}`))
+      info(`Updating users in ${repo}`)
       for (const username of githubUsers) {
-        console.log(preProcessed(`Removing user ${username} to ${repo} inside ${organization}`))
+        preProcessed(`Removing user ${username} to ${repo} inside ${organization}`)
         await octoFactory.removeCollaborator({owner: organization, repo, username})
-        console.log(processed(`User ${username} removed from ${repo} inside ${organization}`))
+        processed(`User ${username} removed from ${repo} inside ${organization}`)
       }
     }
   }
